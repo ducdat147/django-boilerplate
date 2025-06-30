@@ -23,8 +23,9 @@ repos:
       - id: check-case-conflict
       - id: check-symlinks
       - id: no-commit-to-branch
-        args:
-          [
+        args: [
+            # "--branch",
+            # "main",
             # "--branch",
             # "master",
             "--branch",

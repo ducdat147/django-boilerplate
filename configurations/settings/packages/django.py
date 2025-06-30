@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
-from pathlib import Path
-
-from ..base import env
+from ..base import BASE_DIR, env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = BASE_DIR
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.bool("SECRET_KEY")
+SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
@@ -43,9 +41,11 @@ THIRD_PARTY_LIST = [
     "rest_framework_simplejwt.token_blacklist",
 ]
 
-APPS_LIST = []
+APPS_LIST = [
+    "apps.authentication",
+]
 
-INSTALLED_APPS = DJANGO_APPS_LIST
+INSTALLED_APPS = DJANGO_APPS_LIST + THIRD_PARTY_LIST + APPS_LIST
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -58,6 +58,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "configurations.urls"
+
+AUTH_USER_MODEL = "authentication.User"
 
 TEMPLATES = [
     {
