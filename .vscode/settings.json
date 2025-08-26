@@ -1,0 +1,13 @@
+{
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "file": ".vscode/copilot-commit-message-instructions.md"
+    }
+  ],
+  "files.exclude": {
+    "**/.git": true,
+    "**/.vscode": true,
+    "**/.venv": true,
+    "**/.github": true
+  }
+}
