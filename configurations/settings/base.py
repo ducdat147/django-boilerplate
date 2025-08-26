@@ -59,7 +59,15 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    "corsheaders",
+    "django_celery_beat",
+    "drf_spectacular",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
+]
 
 LOCAL_APPS = ["core.user"]
 

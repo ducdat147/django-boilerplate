@@ -1,5 +1,6 @@
 amqp==5.3.1
 asgiref==3.9.1
+attrs==25.3.0
 billiard==4.2.1
 celery==5.5.3
 cfgv==3.4.0
@@ -12,6 +13,7 @@ distlib==0.4.0
 Django==5.2.5
 django-autoslug==1.9.9
 django-celery-beat==2.8.1
+django-cors-headers==4.7.0
 django-environ==0.12.0
 django-filter==25.1
 django-modeltranslation==0.19.16
@@ -20,8 +22,12 @@ django-timezone-field==7.1
 django-unfold==0.65.0
 djangorestframework==3.16.1
 djangorestframework_simplejwt==5.5.1
+drf-spectacular==0.28.0
 filelock==3.19.1
 identify==2.6.13
+inflection==0.5.1
+jsonschema==4.25.1
+jsonschema-specifications==2025.4.1
 kombu==5.5.4
 nodeenv==1.9.1
 packaging==25.0
@@ -34,9 +40,12 @@ PyJWT==2.10.1
 python-crontab==3.3.0
 python-dateutil==2.9.0.post0
 PyYAML==6.0.2
+referencing==0.36.2
+rpds-py==0.27.0
 six==1.17.0
 sqlparse==0.5.3
 tzdata==2025.2
+uritemplate==4.2.0
 vine==5.1.0
 virtualenv==20.34.0
 wcwidth==0.2.13
