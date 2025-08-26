@@ -14,7 +14,7 @@ staticfiles:
 	python manage.py collectstatic --noinput
 
 migrate:
-	python manage.py migrate
+	python manage.py makemigrations && python manage.py migrate
 
 migrations:
 	python manage.py makemigrations

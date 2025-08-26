@@ -20,7 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Load environment variables from a .env file if it exists
 env = environ.Env()
-env.read_env(str(BASE_DIR / ".env"))
+if env.bool("DJANGO_READ_DOT_ENV_FILE", default=False):
+    env.read_env(str(BASE_DIR / ".env"))
 
 
 # Quick-start development settings - unsuitable for production
@@ -30,14 +31,26 @@ env.read_env(str(BASE_DIR / ".env"))
 SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("DEBUG")
+DEBUG = env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 
 # Application definition
 
-INSTALLED_APPS = [
+UNFOLD_APPS = [
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.inlines",
+    "unfold.contrib.import_export",
+    "unfold.contrib.guardian",
+    "unfold.contrib.simple_history",
+    "unfold.contrib.location_field",
+    "unfold.contrib.constance",
+]
+
+DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -45,6 +58,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
+
+THIRD_PARTY_APPS = []
+
+LOCAL_APPS = ["core.user"]
+
+INSTALLED_APPS = UNFOLD_APPS + DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+AUTH_USER_MODEL = "user.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -126,3 +147,5 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+from .packages import *  # noqa
