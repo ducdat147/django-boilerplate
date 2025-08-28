@@ -221,3 +221,10 @@ __marimo__/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+static/
+
+local/
+!local/**/django.po
+
+node_modules/

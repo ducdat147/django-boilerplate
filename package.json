@@ -1,10 +1,10 @@
 {
   "scripts": {
-    "tailwind:build": "npx @tailwindcss/cli -i statics/resources/css/index.css -o statics/resources/css/styles.css --minify",
-    "tailwind:watch": "npx @tailwindcss/cli -i statics/resources/css/index.css -o statics/resources/css/styles.css --minify --watch"
+    "tailwind:build": "npx @tailwindcss/cli -i style.css -o staticfiles/css/style.css --minify",
+    "tailwind:watch": "npx @tailwindcss/cli -i style.css -o staticfiles/css/style.css --minify --watch"
   },
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.7",
-    "tailwindcss": "^4.1.7"
+    "@tailwindcss/cli": "^4.1.12",
+    "tailwindcss": "^4.1.12"
   }
 }

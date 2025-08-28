@@ -10,6 +10,12 @@ update-package:
 run:
 	python manage.py runserver 0.0.0.0:8000
 
+message:
+	python manage.py makemessages -l en -l vi --no-location --no-wrap
+
+compile:
+	python manage.py compilemessages -l en -l vi
+
 staticfiles:
 	python manage.py collectstatic --noinput
 
@@ -24,6 +30,9 @@ user:
 
 pyc:
 	find . -name "*.pyc" -delete && find . -name "*.pyo" -delete && find . -type d -name "__pycache__" -exec rm -r {} +
+
+css:
+	pnpm tailwind:build
 
 i:
 	pip install $(filter-out $@,$(MAKECMDGOALS)) && pip freeze > requirements.txt
