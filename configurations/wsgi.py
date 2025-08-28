@@ -14,4 +14,17 @@ from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "configurations.settings")
 
+try:
+    from django.conf import settings
+
+    from configurations.telemetry import init_telemetry
+
+    print(f"Inintializing telemetry for {settings.SERVICE_NAME}...")
+    init_telemetry(
+        service_name=settings.SERVICE_NAME,
+    )
+    print("Telemetry initialized successfully.")
+except ImportError as e:
+    print(f"Telemetry initialization failed: {e}")
+
 application = get_wsgi_application()

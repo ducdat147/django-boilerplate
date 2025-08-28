@@ -5,6 +5,10 @@ from django.utils.translation import gettext_lazy as _
 
 # Settings for the unfold package
 # https://unfoldadmin.com/docs/configuration/settings/
+CRISPY_TEMPLATE_PACK = "unfold_crispy"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = ["unfold_crispy"]
+
 UNFOLD = {
     "SITE_TITLE": _("Dashboard"),
     "SITE_HEADER": _("Appears in sidebar at the top"),
@@ -104,6 +108,20 @@ UNFOLD = {
                         "title": _("Groups"),
                         "icon": "groups",
                         "link": reverse_lazy("admin:auth_group_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                ],
+            },
+            {
+                "title": _("Configurations"),
+                "separator": True,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("Constance"),
+                        "icon": "settings",
+                        "link": reverse_lazy("admin:constance_config_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
                     },
                 ],
             },

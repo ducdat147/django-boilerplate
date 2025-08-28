@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 
 import environ
+from django.core.management.utils import get_random_secret_key
 from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
@@ -24,18 +25,29 @@ env = environ.Env()
 if env.bool("DJANGO_READ_DOT_ENV_FILE", default=False):
     env.read_env(str(BASE_DIR / ".env"))
 
+PROJECT_NAME = env.str("PROJECT_NAME", default="No name").capitalize()
+
+SERVICE_NAME = f"{PROJECT_NAME.upper()} SERVICE"
+
+CELERY_SERVICE_NAME = f"{PROJECT_NAME.upper()} CELERY"
+
+DEPLOYMENT_ENVIRONMENT = env.str("DEPLOYMENT_ENVIRONMENT", default="local").lower()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.str("SECRET_KEY")
+SECRET_KEY = env.str("SECRET_KEY", default=get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
+# CORS
+# https://pypi.org/project/django-cors-headers/
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 
@@ -47,6 +59,7 @@ UNFOLD_APPS = [
     "unfold.contrib.import_export",
     "unfold.contrib.guardian",
     "unfold.contrib.simple_history",
+    "unfold.contrib.constance",
 ]
 
 DJANGO_APPS = [
@@ -59,6 +72,7 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    "modeltranslation",
     "corsheaders",
     "django_celery_beat",
     "drf_spectacular",
@@ -67,13 +81,19 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
     "simple_history",
+    "constance",
+    "djmoney",
+    "guardian",
+    "import_export",
+    "crispy_forms",
 ]
 
-LOCAL_APPS = ["core.user"]
+LOCAL_APPS = [
+    "core.unfold_app",
+    "core.user",
+]
 
 INSTALLED_APPS = UNFOLD_APPS + DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
-
-AUTH_USER_MODEL = "user.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -113,8 +133,17 @@ DATABASES = {
     "default": env.db(),
 }
 
+CACHES = {"default": env.cache()}
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = "user.User"
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "guardian.backends.ObjectPermissionBackend",
+)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -152,6 +181,35 @@ LOCALE_PATHS = [
     BASE_DIR / "locale",
 ]
 
+# https://docs.djangoproject.com/en/5.1/ref/settings/#date-input-formats
+DATE_INPUT_FORMATS = [
+    "%d.%m.%Y",  # Custom input
+    "%Y-%m-%d",  # '2006-10-25'
+    "%m/%d/%Y",  # '10/25/2006'
+    "%m/%d/%y",  # '10/25/06'
+    "%b %d %Y",  # 'Oct 25 2006'
+    "%b %d, %Y",  # 'Oct 25, 2006'
+    "%d %b %Y",  # '25 Oct 2006'
+    "%d %b, %Y",  # '25 Oct, 2006'
+    "%B %d %Y",  # 'October 25 2006'
+    "%B %d, %Y",  # 'October 25, 2006'
+    "%d %B %Y",  # '25 October 2006'
+    "%d %B, %Y",  # '25 October, 2006'
+]
+
+# https://docs.djangoproject.com/en/5.1/ref/settings/#datetime-input-formats
+DATETIME_INPUT_FORMATS = [
+    "%d.%m.%Y %H:%M:%S",  # Custom input
+    "%Y-%m-%d %H:%M:%S",  # '2006-10-25 14:30:59'
+    "%Y-%m-%d %H:%M:%S.%f",  # '2006-10-25 14:30:59.000200'
+    "%Y-%m-%d %H:%M",  # '2006-10-25 14:30'
+    "%m/%d/%Y %H:%M:%S",  # '10/25/2006 14:30:59'
+    "%m/%d/%Y %H:%M:%S.%f",  # '10/25/2006 14:30:59.000200'
+    "%m/%d/%Y %H:%M",  # '10/25/2006 14:30'
+    "%m/%d/%y %H:%M:%S",  # '10/25/06 14:30:59'
+    "%m/%d/%y %H:%M:%S.%f",  # '10/25/06 14:30:59.000200'
+    "%m/%d/%y %H:%M",  # '10/25/06 14:30'
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -168,5 +226,17 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Email settings
+# https://docs.djangoproject.com/en/5.2/topics/email/
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_TIMEOUT = 5
+EMAIL_HOST = env.str("EMAIL_HOST")
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
+EMAIL_PORT = env.int("EMAIL_PORT")
+EMAIL_USE_SSL = env.bool("EMAIL_USE_SSL", default=False)
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
+EMAIL_VERIFICATION_CODE_TIMEOUT = env.int("EMAIL_VERIFICATION_CODE_TIMEOUT", default=5)
 
 from .packages import *  # noqa
