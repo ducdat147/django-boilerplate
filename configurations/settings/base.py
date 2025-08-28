@@ -47,8 +47,6 @@ UNFOLD_APPS = [
     "unfold.contrib.import_export",
     "unfold.contrib.guardian",
     "unfold.contrib.simple_history",
-    "unfold.contrib.location_field",
-    "unfold.contrib.constance",
 ]
 
 DJANGO_APPS = [
@@ -68,6 +66,7 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
+    "simple_history",
 ]
 
 LOCAL_APPS = ["core.user"]
