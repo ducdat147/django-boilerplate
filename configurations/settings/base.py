@@ -104,6 +104,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    "configurations.middleware.TracingMiddleware",
 ]
 
 ROOT_URLCONF = "configurations.urls"

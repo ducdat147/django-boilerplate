@@ -22,6 +22,7 @@ try:
     print(f"Inintializing telemetry for {settings.SERVICE_NAME}...")
     init_telemetry(
         service_name=settings.SERVICE_NAME,
+        is_service=True,
     )
     print("Telemetry initialized successfully.")
 except ImportError as e:

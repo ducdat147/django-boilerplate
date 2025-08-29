@@ -10,6 +10,9 @@ update-package:
 run:
 	python manage.py runserver 0.0.0.0:8000
 
+celery:
+	celery -A configurations.celery worker --pool=threads --loglevel=INFO
+
 message:
 	python manage.py makemessages -l en -l vi --no-location --no-wrap
 
