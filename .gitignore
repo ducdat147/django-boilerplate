@@ -62,7 +62,8 @@ db.sqlite3
 db.sqlite3-journal
 .DS_Store
 *.env*
-!.env.example
+!.example.env
+!environments/.docker.env
 media/
 logs/
 

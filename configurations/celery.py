@@ -21,7 +21,7 @@ def worker_init(**kwargs):
     try:
         from configurations.telemetry import init_telemetry
 
-        print(f"Inintializing telemetry for {settings.SERVICE_NAME}...")
+        print(f"Inintializing telemetry for {settings.CELERY_SERVICE_NAME}...")
         init_telemetry(
             service_name=settings.CELERY_SERVICE_NAME,
         )
