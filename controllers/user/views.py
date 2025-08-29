@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveUpdateAPIView
 
 from controllers.user.serializers import MyProfileSerializer
 
 
-class MyProfileView(RetrieveAPIView):
+class MyProfileView(RetrieveUpdateAPIView):
     serializer_class = MyProfileSerializer
 
     def get_object(self):
