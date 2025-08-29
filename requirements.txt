@@ -63,7 +63,7 @@ opentelemetry-util-http==0.57b0
 packaging==25.0
 platformdirs==4.3.8
 pre_commit==4.3.0
-prompt_toolkit==3.0.51
+prompt_toolkit==3.0.52
 protobuf==6.32.0
 psycopg==3.2.9
 psycopg-binary==3.2.9
