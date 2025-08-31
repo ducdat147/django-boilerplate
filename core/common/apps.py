@@ -4,4 +4,4 @@ from django.apps import AppConfig
 
 class UnfoldAppConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "core.unfold_app"
+    name = "core.common"

@@ -89,7 +89,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "core.unfold_app",
+    "core.common",
     "core.user",
 ]
 
@@ -112,7 +112,9 @@ ROOT_URLCONF = "configurations.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -239,5 +241,8 @@ EMAIL_USE_SSL = env.bool("EMAIL_USE_SSL", default=False)
 EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
 EMAIL_VERIFICATION_CODE_TIMEOUT = env.int("EMAIL_VERIFICATION_CODE_TIMEOUT", default=5)
+
+# OTP settings
+OTP_CODE_EXPIRATION_TIME = env.int("OTP_CODE_EXPIRATION_TIME", default=10)  # in minutes
 
 from .packages import *  # noqa

@@ -1,0 +1,22 @@
+{% extends 'emails/base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+  {% trans 'Email Verification' %}
+{% endblock %}
+
+{% block content %}
+  <p class="content">
+    {% trans 'Your verification code is:' %}
+  </p>
+  <p class="otp-code">
+    <b>{{ otp_code }}</b>
+  </p>
+  <p class="content">
+    {% trans 'Please do not share this code with anyone.' %}
+  </p>
+  <p class="note">
+    {% trans 'Note: This code will expire in' %} {{ expiration_time }} {% trans 'minutes' %}.
+  </p>
+{% endblock %}
