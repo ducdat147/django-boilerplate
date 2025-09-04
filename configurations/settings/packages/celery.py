@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from ..base import TIME_ZONE, env
 
 # Celery

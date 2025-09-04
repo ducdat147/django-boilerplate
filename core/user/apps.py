@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
 from django.apps import AppConfig
+from django.conf import settings
 
 
 class UserConfig(AppConfig):
-    default_auto_field = "django.db.models.BigAutoField"
+    default_auto_field = settings.DEFAULT_AUTO_FIELD
     name = "core.user"

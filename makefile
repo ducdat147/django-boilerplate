@@ -1,5 +1,6 @@
 install:
-	pip install --upgrade pip && pip install -r requirements.txt
+	pip install --upgrade pip
+	pip install -r requirements.txt
 
 freeze:
 	pip freeze > requirements.txt
@@ -23,7 +24,8 @@ staticfiles:
 	python manage.py collectstatic --noinput
 
 migrate:
-	python manage.py makemigrations && python manage.py migrate
+	python manage.py makemigrations
+	python manage.py migrate
 
 migrations:
 	python manage.py makemigrations
@@ -32,16 +34,30 @@ user:
 	python manage.py createsuperuser --username admin --email admin@admin.com
 
 pyc:
-	find . -name "*.pyc" -delete && find . -name "*.pyo" -delete && find . -type d -name "__pycache__" -exec rm -r {} +
+	find . -name "*.pyc" -delete
+	find . -name "*.pyo" -delete
+	find . -type d -name "__pycache__" -exec rm -r {} +
+
+clear-migrations:
+	find ./core/**/migrations -name "0*.py" -delete
+	python manage.py makemigrations
 
 css:
 	pnpm tailwind:build
 
 i:
-	pip install $(filter-out $@,$(MAKECMDGOALS)) && pip freeze > requirements.txt
+	pip install $(filter-out $@,$(MAKECMDGOALS))
+	pip freeze > requirements.txt
 
 app:
-	python manage.py startapp $(filter-out $@,$(MAKECMDGOALS)) ./apps/$(filter-out $@,$(MAKECMDGOALS))
+	mkdir core/$(filter-out $@,$(MAKECMDGOALS))
+	python manage.py startapp $(filter-out $@,$(MAKECMDGOALS)) core/$(filter-out $@,$(MAKECMDGOALS))
+	mkdir controllers/$(filter-out $@,$(MAKECMDGOALS))
+	touch controllers/$(filter-out $@,$(MAKECMDGOALS))/__init__.py
+	touch controllers/$(filter-out $@,$(MAKECMDGOALS))/urls.py
+	touch controllers/$(filter-out $@,$(MAKECMDGOALS))/views.py
+	touch controllers/$(filter-out $@,$(MAKECMDGOALS))/serializers.py
+	echo "from django.apps import AppConfig\n\n\nfrom django.conf import settings\nclass UnfoldAppConfig(AppConfig):\n\tdefault_auto_field = settings.DEFAULT_AUTO_FIELD\n\tname = \"core.$(filter-out $@,$(MAKECMDGOALS))\"" > core/$(filter-out $@,$(MAKECMDGOALS))/apps.py
 
 %:
 	@:

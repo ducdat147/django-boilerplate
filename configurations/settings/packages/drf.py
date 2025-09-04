@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from datetime import timedelta
 
 from ..base import PROJECT_NAME, SECRET_KEY, env

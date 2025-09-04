@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from .celery import *  # noqa
 from .constance import *  # noqa
 from .djmoney import *  # noqa

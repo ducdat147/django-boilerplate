@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Django Money
 # https://github.com/django-money/django-money?tab=readme-ov-file#django-money
 DEFAULT_CURRENCY = "VND"

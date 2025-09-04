@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.urls import include, path
 from drf_spectacular.views import (
     SpectacularAPIView,

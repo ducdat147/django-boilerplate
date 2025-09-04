@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.contrib import admin
 from django_celery_beat.admin import ClockedScheduleAdmin as BaseClockedScheduleAdmin
 from django_celery_beat.admin import CrontabScheduleAdmin as BaseCrontabScheduleAdmin

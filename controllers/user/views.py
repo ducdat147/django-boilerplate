@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from rest_framework.generics import RetrieveUpdateAPIView
 
 from controllers.user.serializers import MyProfileSerializer
