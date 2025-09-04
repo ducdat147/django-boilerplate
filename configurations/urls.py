@@ -18,15 +18,22 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
-from django.contrib import admin
 from django.urls import include, path
+
+from core.sites import admin_site
+
 
 urlpatterns = [
     path("api/", include("controllers.urls")),
     path("i18n/", include("django.conf.urls.i18n")),
 ] + i18n_patterns(
-    path("admin/", admin.site.urls),
+    path("admin/", admin_site.urls),
 )
 
 urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+handler500 = admin_site.server_error
+handler404 = admin_site.not_found
+handler403 = admin_site.permission_denied
+handler400 = admin_site.bad_request

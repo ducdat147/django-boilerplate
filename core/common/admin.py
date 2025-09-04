@@ -19,8 +19,12 @@ from rest_framework_simplejwt.token_blacklist.models import (
     BlacklistedToken,
     OutstandingToken,
 )
+from constance.admin import Config
+from constance.admin import ConstanceAdmin as BaseConstanceAdmin
 from unfold.admin import ModelAdmin
 from unfold.widgets import UnfoldAdminSelectWidget, UnfoldAdminTextInputWidget
+
+from core.sites import admin_site
 
 admin.site.unregister(PeriodicTask)
 admin.site.unregister(IntervalSchedule)
@@ -30,6 +34,7 @@ admin.site.unregister(ClockedSchedule)
 admin.site.unregister(TokenProxy)
 admin.site.unregister(BlacklistedToken)
 admin.site.unregister(OutstandingToken)
+admin.site.unregister([Config])
 
 
 class UnfoldTaskSelectWidget(UnfoldAdminSelectWidget, TaskSelectWidget):
@@ -43,36 +48,43 @@ class UnfoldPeriodicTaskForm(PeriodicTaskForm):
         self.fields["regtask"].widget = UnfoldTaskSelectWidget()
 
 
-@admin.register(PeriodicTask)
+class ConstanceAdmin(BaseConstanceAdmin, ModelAdmin):
+    pass
+
+
 class PeriodicTaskAdmin(BasePeriodicTaskAdmin, ModelAdmin):
     form = UnfoldPeriodicTaskForm
 
 
-@admin.register(IntervalSchedule)
 class IntervalScheduleAdmin(ModelAdmin):
     pass
 
 
-@admin.register(CrontabSchedule)
 class CrontabScheduleAdmin(BaseCrontabScheduleAdmin, ModelAdmin):
     pass
 
 
-@admin.register(SolarSchedule)
 class SolarScheduleAdmin(ModelAdmin):
     pass
 
 
-@admin.register(ClockedSchedule)
 class ClockedScheduleAdmin(BaseClockedScheduleAdmin, ModelAdmin):
     pass
 
 
-@admin.register(BlacklistedToken)
 class CustomBlacklistedTokenAdmin(BlacklistedTokenAdmin, ModelAdmin):
     pass
 
 
-@admin.register(OutstandingToken)
 class CustomOutstandingTokenAdmin(OutstandingTokenAdmin, ModelAdmin):
     pass
+
+
+admin_site.register([Config], ConstanceAdmin)
+admin_site.register(PeriodicTask, PeriodicTaskAdmin)
+admin_site.register(IntervalSchedule, IntervalScheduleAdmin)
+admin_site.register(CrontabSchedule, CrontabScheduleAdmin)
+admin_site.register(SolarSchedule, SolarScheduleAdmin)
+admin_site.register(ClockedSchedule, ClockedScheduleAdmin)
+admin_site.register(BlacklistedToken, CustomBlacklistedTokenAdmin)
+admin_site.register(OutstandingToken, CustomOutstandingTokenAdmin)

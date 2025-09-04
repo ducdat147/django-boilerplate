@@ -1,0 +1,23 @@
+{% extends 'emails/base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+  {% trans 'Password Reset' %}
+{% endblock %}
+
+{% block content %}
+  <p class="content">
+    {% trans 'You’re receiving this email because you requested a password reset for your user account at ' %} {{ site_name }}.
+  </p>
+  <p class="content">
+    {% trans 'Please go to the following page and choose a new password:' %}
+    <a href="{{ protocol }}://{{ domain }}{% url 'admin:password_reset_confirm' uidb64=uid token=token %}">{% trans 'Reset Password' %}</a>
+  </p>
+  <p class="content">
+    {% trans 'Your username, in case you’ve forgotten:' %} <b>{{ user.get_username }}</b>
+  </p>
+  <p class="content">
+    {% trans 'Thanks for using our site!' %}
+  </p>
+{% endblock %}

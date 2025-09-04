@@ -1,0 +1,37 @@
+{% extends 'unfold/layouts/unauthenticated.html' %}
+
+{% load i18n unfold %}
+
+{% block content %}
+  {% if validlink %}
+    <h1 class="font-semibold mb-10">
+      <span class="block text-primary-600 text-xl dark:text-primary-500 mb-2">{% trans 'Forgotten password' %}</span>
+      <span class="block text-font-important-light dark:text-font-important-dark">{% trans 'Forgotten your password?' %}</span>
+      <span class="block text-font-important-light dark:text-font-important-dark">{% trans 'Enter your email address below, and we’ll email instructions for setting a new one.' %}</span>
+    </h1>
+    {% include 'unfold/helpers/messages.html' %}
+    {% include 'unfold/helpers/messages/errornote.html' with errors=form.errors %}
+    {% include 'unfold/helpers/messages/error.html' with errors=form.email.errors %}
+    <form method="post">
+      {% csrf_token %}
+      <input class="hidden" autocomplete="username" value="{{ form.user.get_username }}" />
+      {% include 'unfold/helpers/field.html' with field=form.new_password1 %}
+      {% include 'unfold/helpers/field.html' with field=form.new_password2 %}
+      <div class="submit-row">
+        {% component 'unfold/components/button.html' with submit=1 class='flex flex-row font-semibold group items-center justify-center py-2 rounded text-sm text-white w-full' %}
+        {% translate 'Change my password' %}
+        {% endcomponent %}
+      </div>
+    </form>
+  {% else %}
+    <h1 class="font-semibold mb-10">
+      <span class="block text-primary-600 text-xl dark:text-primary-500 mb-2">{% trans 'Forgotten password' %}</span>
+      <span class="block text-font-important-light dark:text-font-important-dark">{% trans 'The password reset link was invalid, possibly because it has already been used. Please request a new password reset.' %}</span>
+    </h1>
+
+    <a href="{% url 'admin:admin_password_reset' %}" class="bg-primary-600 border border-transparent flex flex-row font-semibold group items-center justify-center py-2 rounded text-sm text-white w-full">
+      <i class="material-symbols-outlined mr-2 relative left-0-0 text-lg transition-all group-hover:-right-1">arrow_back</i>
+      {% translate 'Reset my password' %}
+    </a>
+  {% endif %}
+{% endblock %}

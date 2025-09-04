@@ -13,7 +13,7 @@ UNFOLD = {
     "SITE_HEADER": _("Appears in sidebar at the top"),
     "SITE_SUBHEADER": _("Appears under SITE_HEADER"),
     "SHOW_LANGUAGES": True,
-    "SITE_URL": "/",
+    "SITE_URL": reverse_lazy("admin:index"),
     # "SITE_ICON": lambda request: static("icon.svg"),  # both modes, optimise for 32px height
     # "SITE_ICON": {
     #     "light": lambda request: static("icon-light.svg"),  # light mode
@@ -30,7 +30,8 @@ UNFOLD = {
     # show/hide "Back" button on changeform in header, default: False
     "SHOW_BACK_BUTTON": False,
     "LOGIN": {
-        "image": lambda request: static("sample/login-bg.jpg"),
+        # "image": lambda request: static("sample/login-bg.jpg"),
+        "image": "https://demo.unfoldadmin.com/static/images/login-bg.jpg",
         "redirect_after": lambda request: reverse_lazy("admin:APP_MODEL_changelist"),
     },
     "STYLES": [

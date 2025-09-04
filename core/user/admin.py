@@ -12,36 +12,32 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 
 from core.user.models import OtpCode, TwoFactorAuthenticationOTP, User, UserSettings
+from core.sites import admin_site
 
 admin.site.unregister(Group)
 
 
-@admin.register(User)
 class UserAdmin(BaseUserAdmin, ModelAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm
 
 
-@admin.register(Group)
 class GroupAdmin(BaseGroupAdmin, ModelAdmin):
     pass
 
 
-@admin.register(OtpCode)
 class OtpCodeAdmin(ModelAdmin):
     list_display = ["user", "created_at"]
     autocomplete_fields = ["user"]
 
 
-@admin.register(UserSettings)
 class UserSettingsAdmin(ModelAdmin):
     list_display = ["user", "is_email_verified"]
     list_filter = ["is_email_verified"]
     autocomplete_fields = ["user"]
 
 
-@admin.register(TwoFactorAuthenticationOTP)
 class TwoFactorAuthenticationOTPAdmin(ModelAdmin):
     list_display = ("user", "is_active")
     list_filter = ("is_active",)
@@ -80,3 +76,10 @@ class TwoFactorAuthenticationOTPAdmin(ModelAdmin):
             ),
         )
         return fieldsets
+
+
+admin_site.register(User, UserAdmin)
+admin_site.register(Group, GroupAdmin)
+admin_site.register(OtpCode, OtpCodeAdmin)
+admin_site.register(UserSettings, UserSettingsAdmin)
+admin_site.register(TwoFactorAuthenticationOTP, TwoFactorAuthenticationOTPAdmin)
