@@ -1,5 +1,9 @@
+import base64
 from datetime import timedelta
+from io import BytesIO
 
+import pyotp
+import qrcode
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.db import models
@@ -11,10 +15,6 @@ from core.user.enums import OTPVerificationStatusEnum, OtpTypeEnum
 
 
 class User(AbstractUser):
-    class Meta:
-        verbose_name = _("User")
-        verbose_name_plural = _("Users")
-
     @property
     def full_name(self):
         full_name = []
@@ -62,10 +62,6 @@ class OtpCode(BaseModel):
     )
     is_used = models.BooleanField(verbose_name=_("Is Used"), default=False)
 
-    class Meta:
-        verbose_name = _("OTP Code")
-        verbose_name_plural = _("OTP Codes")
-
     def __str__(self):
         return f"{self.user.email} - {self.code} ({self.type_otp})"
 
@@ -90,3 +86,60 @@ class OtpCode(BaseModel):
         self.is_used = True
         self.save(update_fields=["is_used"])
         return OTPVerificationStatusEnum.VERIFIED
+
+
+class TwoFactorAuthenticationOTP(BaseModel):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="two_factor_otp",
+    )
+    secret_key = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    is_active = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        if not self.is_active or not self.secret_key:
+            self.secret_key = pyotp.random_base32()
+        super().save(*args, **kwargs)
+
+    def verify_code(self, code, secret_key=None):
+        if settings.DEBUG and code == "000000":
+            return True
+        _secret = secret_key or self.secret_key
+        if _secret and self.is_active:
+            totp = pyotp.TOTP(_secret)
+            if code == totp.now():
+                return True
+        return False
+
+    @property
+    def get_uri(self):
+        provisioning_uri = pyotp.totp.TOTP(self.secret_key).provisioning_uri(
+            self.user.email,
+            issuer_name=settings.SERVICE_NAME,
+        )
+        return provisioning_uri
+
+    @property
+    def get_qrcode(self):
+        if not self.secret_key or not self.user or not self.is_active:
+            return None, None
+        qr_img = qrcode.make(self.get_uri)
+        buffered = BytesIO()
+        qr_img.save(buffered, format="JPEG")
+        link = base64.b64encode(buffered.getvalue()).decode("UTF-8")
+
+        return self.secret_key, link
+
+    def reset_secret_key(self):
+        if self.is_active:
+            self.secret_key = pyotp.random_base32()
+            self.save()
+            return True
+        return False

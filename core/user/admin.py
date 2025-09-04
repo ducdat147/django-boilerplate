@@ -8,8 +8,10 @@ from unfold.forms import (
     UserChangeForm,
     UserCreationForm,
 )
+from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
 
-from core.user.models import User
+from core.user.models import OtpCode, TwoFactorAuthenticationOTP, User, UserSettings
 
 admin.site.unregister(Group)
 
@@ -24,3 +26,57 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
 @admin.register(Group)
 class GroupAdmin(BaseGroupAdmin, ModelAdmin):
     pass
+
+
+@admin.register(OtpCode)
+class OtpCodeAdmin(ModelAdmin):
+    list_display = ["user", "created_at"]
+    autocomplete_fields = ["user"]
+
+
+@admin.register(UserSettings)
+class UserSettingsAdmin(ModelAdmin):
+    list_display = ["user", "is_email_verified"]
+    list_filter = ["is_email_verified"]
+    autocomplete_fields = ["user"]
+
+
+@admin.register(TwoFactorAuthenticationOTP)
+class TwoFactorAuthenticationOTPAdmin(ModelAdmin):
+    list_display = ("user", "is_active")
+    list_filter = ("is_active",)
+    ordering = ["is_active"]
+    autocomplete_fields = ["user"]
+
+    def qrcode(self, obj: TwoFactorAuthenticationOTP):
+        secret_key, qrcode = obj.get_qrcode
+        if qrcode:
+            return render_to_string("admin/qrcode.html", {"qrcode": qrcode})
+
+    qrcode.short_description = _("Two Step QR Code")
+
+    def get_readonly_fields(self, request, obj=None):
+        if not obj or not obj.user:
+            return []
+        return ["user", "secret_key", "qrcode"]
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = self.fieldsets
+        if not obj:
+            fields = ["user"]
+        elif obj and obj.secret_key:
+            fields = [
+                "user",
+                "is_active",
+            ]
+            if obj.is_active:
+                fields.extend(["secret_key", "qrcode"])
+        fieldsets = (
+            (
+                "",
+                {
+                    "fields": fields,
+                },
+            ),
+        )
+        return fieldsets
