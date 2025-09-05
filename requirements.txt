@@ -43,7 +43,7 @@ inflection==0.5.1
 jsonschema==4.25.1
 jsonschema-specifications==2025.4.1
 kombu==5.5.4
-Markdown==3.8.2
+Markdown==3.9
 nodeenv==1.9.1
 opentelemetry-api==1.36.0
 opentelemetry-exporter-otlp==1.36.0
