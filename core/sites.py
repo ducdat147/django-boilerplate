@@ -1,5 +1,6 @@
 from typing import Any, Dict, List, Optional
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_not_required
 from django.contrib.auth.views import (
     PasswordResetCompleteView,
@@ -60,11 +61,58 @@ CONFIG_NAME = [
     "site_subheader",
     "login_image",
     "site_logo",
+    "site_logo__light",
+    "site_logo__dark",
     "site_icon",
+    "site_icon__light",
+    "site_icon__dark",
     "site_symbol",
     "border_radius",
     "theme",
 ]
+
+
+def convert_to_dict(
+    key,
+    child_key,
+    value,
+    result,
+    full_key: str = "",
+):
+    if child_key:
+        if key not in result or not isinstance(result[key], dict):
+            result[key] = {}
+        convert_to_dict(
+            key=child_key[0],
+            child_key=child_key[1:],
+            value=value,
+            result=result[key],
+            full_key=full_key,
+        )
+    else:
+        if key in result and isinstance(result[key], dict):
+            return
+        result[key] = value
+
+
+def convert_config(config, config_names: list):
+    result = {}
+
+    for key in config_names:
+        attr_name = key.upper()
+        if hasattr(config, attr_name):
+            value = getattr(config, attr_name)
+            if value not in EMPTY_VALUES and value != settings.CONSTANCE_DEFAULT_VALUE:
+                parts = key.split("__")
+                convert_to_dict(
+                    key=parts[0],
+                    child_key=parts[1:],
+                    value=value,
+                    result=result,
+                    full_key=key,
+                )
+
+    return result
 
 
 class AdminSite(UnfoldAdminSite):
@@ -78,12 +126,7 @@ class AdminSite(UnfoldAdminSite):
 
     def each_context(self, request):
         context = super().each_context(request)
-        update_context = {}
-        for key in CONFIG_NAME:
-            if hasattr(config, key.upper()):
-                value = getattr(config, key.upper())
-                if value not in EMPTY_VALUES and value != "#":
-                    update_context[key.lower()] = value
+        update_context = convert_config(config, CONFIG_NAME)
         if bool(update_context):
             context.update(update_context)
         return context

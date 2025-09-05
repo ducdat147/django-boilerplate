@@ -10,16 +10,6 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = ["unfold_crispy"]
 
 UNFOLD = {
     "SHOW_LANGUAGES": True,
-    # "SITE_ICON": lambda request: static("icon.svg"),  # both modes, optimise for 32px height
-    # "SITE_ICON": {
-    #     "light": lambda request: static("icon-light.svg"),  # light mode
-    #     "dark": lambda request: static("icon-dark.svg"),  # dark mode
-    # },
-    # "SITE_LOGO": lambda request: static("logo.svg"),  # both modes, optimise for 32px height
-    # "SITE_LOGO": {
-    #     "light": lambda request: static("logo-light.svg"),  # light mode
-    #     "dark": lambda request: static("logo-dark.svg"),  # dark mode
-    # },
     "SHOW_HISTORY": True,  # show/hide "History" button, default: True
     "SHOW_VIEW_ON_SITE": True,  # show/hide "View on site" button, default: True
     # show/hide "Back" button on changeform in header, default: False
