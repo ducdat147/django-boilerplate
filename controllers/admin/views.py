@@ -17,7 +17,11 @@ def dashboard_callback(request, context):
 
 def navigation_component(request):
     return [
-        {"title": _("Dashboard"), "link": reverse_lazy("admin:index"), "active": True},
+        {
+            "title": _("Dashboard"),
+            "link": reverse_lazy("admin:index"),
+            "active": True,
+        },
         {"title": _("Analytics"), "link": "#"},
         {"title": _("Settings"), "link": "#"},
     ]
@@ -53,16 +57,10 @@ def cohort_random_data():
                 col_classes.append("dark:text-base-800")
 
             value = random.randint(
-                4000 - (col_index * row_index * 225),
-                5000 - (col_index * row_index * 225),
+                10,
+                10000,
             )
-
-            subtitle = f"{random.randint(10, 100)}%"
-
-            if value <= 0:
-                value = 0
-                subtitle = None
-
+            subtitle = ""
             cols.append(
                 {
                     "value": value,

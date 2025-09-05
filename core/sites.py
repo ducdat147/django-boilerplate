@@ -12,7 +12,6 @@ from django.http import (
     HttpRequest,
     HttpResponse,
     HttpResponseRedirect,
-    JsonResponse,
 )
 from django.shortcuts import render
 from django.urls import URLPattern, path, reverse
@@ -20,10 +19,52 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from rest_framework import status
+from rest_framework.exceptions import PermissionDenied, ParseError, NotFound
 from unfold.settings import get_config
 from unfold.sites import UnfoldAdminSite
 
+from common.exceptions import DefaultException, exception_handler
 from controllers.admin.forms import AdminPasswordResetForm, AdminSetPasswordForm
+from constance import config
+
+
+MESSAGE_ERROR = {
+    status.HTTP_400_BAD_REQUEST: _(
+        "The server could not understand the request due to invalid syntax."
+        " Please do not repeat this request without modification."
+    ),
+    status.HTTP_403_FORBIDDEN: _(
+        "You do not have permission to access this resource."
+        " Please contact the administrator if you believe this is an error."
+    ),
+    status.HTTP_404_NOT_FOUND: _("Sorry, we can't find that path. Please try again."),
+    status.HTTP_500_INTERNAL_SERVER_ERROR: _(
+        "The server encountered an internal error or misconfiguration and was unable to complete your request."
+    ),
+}
+TITLE_ERROR = {
+    status.HTTP_400_BAD_REQUEST: _("Bad request"),
+    status.HTTP_403_FORBIDDEN: _("Permission denied"),
+    status.HTTP_404_NOT_FOUND: _("Something's missing"),
+    status.HTTP_500_INTERNAL_SERVER_ERROR: _("Server error"),
+}
+EXCEPTION_CLASS = {
+    status.HTTP_400_BAD_REQUEST: ParseError(),
+    status.HTTP_403_FORBIDDEN: PermissionDenied(),
+    status.HTTP_404_NOT_FOUND: NotFound(),
+}
+CONFIG_NAME = [
+    "site_url",
+    "site_title",
+    "site_header",
+    "site_subheader",
+    "login_image",
+    "site_logo",
+    "site_icon",
+    "site_symbol",
+    "border_radius",
+    "theme",
+]
 
 
 class AdminSite(UnfoldAdminSite):
@@ -34,28 +75,18 @@ class AdminSite(UnfoldAdminSite):
     password_reset_complete_template = "admin/password_reset/complete.html"
     password_reset_subject_template = "admin/password_reset/subject.html"
     error_templates = "admin/handlers/error.html"
-    MESSAGE_ERROR = {
-        status.HTTP_400_BAD_REQUEST: _(
-            "The server could not understand the request due to invalid syntax."
-            " Please do not repeat this request without modification."
-        ),
-        status.HTTP_403_FORBIDDEN: _(
-            "You do not have permission to access this resource."
-            " Please contact the administrator if you believe this is an error."
-        ),
-        status.HTTP_404_NOT_FOUND: _(
-            "Sorry, we can't find that path. Please try again."
-        ),
-        status.HTTP_500_INTERNAL_SERVER_ERROR: _(
-            "The server encountered an internal error or misconfiguration and was unable to complete your request."
-        ),
-    }
-    TITLE_ERROR = {
-        status.HTTP_400_BAD_REQUEST: _("Bad request"),
-        status.HTTP_403_FORBIDDEN: _("Permission denied"),
-        status.HTTP_404_NOT_FOUND: _("Something's missing"),
-        status.HTTP_500_INTERNAL_SERVER_ERROR: _("Server error"),
-    }
+
+    def each_context(self, request):
+        context = super().each_context(request)
+        update_context = {}
+        for key in CONFIG_NAME:
+            if hasattr(config, key.upper()):
+                value = getattr(config, key.upper())
+                if value not in EMPTY_VALUES and value != "#":
+                    update_context[key.lower()] = value
+        if bool(update_context):
+            context.update(update_context)
+        return context
 
     def get_urls(self) -> List[URLPattern]:
         urlpatterns = [
@@ -85,16 +116,17 @@ class AdminSite(UnfoldAdminSite):
     def _render_handler(self, request, status_code, *args, **kwargs):
         content_type = request.META.get("CONTENT_TYPE")
         path = request.META.get("PATH_INFO", "")
-        message = self.MESSAGE_ERROR.get(status_code, "")
+        message = MESSAGE_ERROR.get(status_code, "")
         if content_type == "application/json" or path.startswith("/api/"):
-            return JsonResponse({"detail": message}, status=status_code)
+            exc = EXCEPTION_CLASS.get(status_code, DefaultException(message))
+            return exception_handler(exc, None)
         context = self.each_context(request)
         context.update(
             {
-                "title": self.TITLE_ERROR.get(status_code, ""),
+                "title": TITLE_ERROR.get(status_code, ""),
                 "content": {
-                    "title": self.TITLE_ERROR.get(status_code, ""),
-                    "message": self.MESSAGE_ERROR.get(status_code, ""),
+                    "title": TITLE_ERROR.get(status_code, ""),
+                    "message": MESSAGE_ERROR.get(status_code, ""),
                     "status_code": status_code,
                 },
                 "cta": {

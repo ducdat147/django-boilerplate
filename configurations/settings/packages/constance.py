@@ -8,29 +8,35 @@ CONSTANCE_SUPERUSER_ONLY = True
 CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 
 CONSTANCE_CONFIG = {
-    "SITE_NAME": ("My Title", _("Website title")),
-    "SITE_DESCRIPTION": ("Test", _("Website description")),
-    "THEME": ("light-blue", _("Website theme"), "choice_field"),
     "SITE_URL": ("#", _("Website URL")),
-    "SITE_BACKGROUND_COLOR": ("#FFFFFF", _("Website background color")),
-    "SITE_FONT_SIZE": (16, _("Base font size in pixels")),
+    "SITE_TITLE": ("Dashboard Site Title", _("Website title")),
+    "SITE_HEADER": ("Appears in sidebar at the top", _("Website header")),
+    "SITE_SUBHEADER": ("Appears under SITE_HEADER", _("Website subheader")),
+    "LOGIN_IMAGE": (
+        "https://demo.unfoldadmin.com/static/images/login-bg.jpg",
+        _("Login page background image URL"),
+    ),
+    "SITE_SYMBOL": ("home", _("Website symbol")),
+    "BORDER_RADIUS": ("6px", _("Border radius")),
+    "SITE_LOGO": ("#", _("Website logo")),
+    "SITE_ICON": ("#", _("Website icon")),
+    "THEME": ("#", _("Website theme"), "theme_choice_field"),
 }
 
 CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
     {
         "General Settings": {
             "fields": (
-                "SITE_NAME",
-                "SITE_DESCRIPTION",
                 "SITE_URL",
-            ),
-            "collapse": False,
-        },
-        "Theme & Design": {
-            "fields": (
+                "SITE_TITLE",
+                "SITE_HEADER",
+                "SITE_SUBHEADER",
+                "LOGIN_IMAGE",
+                "SITE_SYMBOL",
+                "BORDER_RADIUS",
+                "SITE_LOGO",
+                "SITE_ICON",
                 "THEME",
-                "SITE_FONT_SIZE",
-                "SITE_BACKGROUND_COLOR",
             ),
             "collapse": False,
         },
@@ -40,13 +46,14 @@ CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
 CONSTANCE_ADDITIONAL_FIELDS = {
     **UNFOLD_CONSTANCE_ADDITIONAL_FIELDS,
     # Example field configuration for select with choices. Not needed.
-    "choice_field": [
+    "theme_choice_field": [
         "django.forms.fields.ChoiceField",
         {
             "widget": "unfold.widgets.UnfoldAdminSelectWidget",
             "choices": (
-                ("light-blue", "Light blue"),
-                ("dark-blue", "Dark blue"),
+                ("#", "Auto"),
+                ("light", "Light"),
+                ("dark", "Dark"),
             ),
         },
     ],

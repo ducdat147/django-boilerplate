@@ -9,11 +9,7 @@ CRISPY_TEMPLATE_PACK = "unfold_crispy"
 CRISPY_ALLOWED_TEMPLATE_PACKS = ["unfold_crispy"]
 
 UNFOLD = {
-    "SITE_TITLE": _("Dashboard Site Title"),
-    "SITE_HEADER": _("Appears in sidebar at the top"),
-    "SITE_SUBHEADER": _("Appears under SITE_HEADER"),
     "SHOW_LANGUAGES": True,
-    "SITE_URL": reverse_lazy("admin:index"),
     # "SITE_ICON": lambda request: static("icon.svg"),  # both modes, optimise for 32px height
     # "SITE_ICON": {
     #     "light": lambda request: static("icon-light.svg"),  # light mode
@@ -24,7 +20,6 @@ UNFOLD = {
     #     "light": lambda request: static("logo-light.svg"),  # light mode
     #     "dark": lambda request: static("logo-dark.svg"),  # dark mode
     # },
-    "SITE_SYMBOL": "home",  # symbol from icon set
     "SHOW_HISTORY": True,  # show/hide "History" button, default: True
     "SHOW_VIEW_ON_SITE": True,  # show/hide "View on site" button, default: True
     # show/hide "Back" button on changeform in header, default: False
@@ -41,7 +36,6 @@ UNFOLD = {
         lambda request: static("js/script.js"),
     ],
     "DASHBOARD_CALLBACK": "controllers.admin.views.dashboard_callback",
-    "BORDER_RADIUS": "6px",
     "COLORS": {
         "base": {
             "50": "249, 250, 251",

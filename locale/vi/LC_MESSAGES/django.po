@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-28 06:38+0000\n"
+"POT-Creation-Date: 2025-09-05 14:47+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,44 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
 msgid "English"
 msgstr ""
 
 msgid "Vietnamese"
 msgstr ""
 
-msgid "Dashboard"
+msgid "Website title"
+msgstr ""
+
+msgid "Website description"
+msgstr ""
+
+msgid "Website theme"
+msgstr ""
+
+msgid "Website URL"
+msgstr ""
+
+msgid "Website background color"
+msgstr ""
+
+msgid "Base font size in pixels"
+msgstr ""
+
+msgid "Dashboard Site Title"
 msgstr ""
 
 msgid "Appears in sidebar at the top"
 msgstr ""
 
 msgid "Appears under SITE_HEADER"
+msgstr ""
+
+msgid "Navigation"
+msgstr ""
+
+msgid "Dashboard"
 msgstr ""
 
 msgid "Accounts & Authentication"
@@ -39,4 +64,246 @@ msgid "Users"
 msgstr ""
 
 msgid "Groups"
+msgstr ""
+
+msgid "Configurations"
+msgstr ""
+
+msgid "Constance"
+msgstr ""
+
+msgid "Username or email"
+msgstr ""
+
+msgid "Enter your username or email"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Enter your new password"
+msgstr ""
+
+msgid "Password confirmation"
+msgstr ""
+
+msgid "Enter the same password as before, for verification."
+msgstr ""
+
+msgid "Confirm your new password"
+msgstr ""
+
+msgid "Analytics"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "New"
+msgstr ""
+
+msgid "Last week revenue"
+msgstr ""
+
+msgid "Last week expenses"
+msgstr ""
+
+msgid "Day"
+msgstr ""
+
+msgid "Income"
+msgstr ""
+
+msgid "Expenses"
+msgstr ""
+
+msgid "Email is required for email verification."
+msgstr ""
+
+msgid "Invalid email address."
+msgstr ""
+
+msgid "Email already verified."
+msgstr ""
+
+msgid "Invalid verification"
+msgstr ""
+
+msgid "The server could not understand the request due to invalid syntax. Please do not repeat this request without modification."
+msgstr ""
+
+msgid "You do not have permission to access this resource. Please contact the administrator if you believe this is an error."
+msgstr ""
+
+msgid "Sorry, we can't find that path. Please try again."
+msgstr ""
+
+msgid "The server encountered an internal error or misconfiguration and was unable to complete your request."
+msgstr ""
+
+msgid "Bad request"
+msgstr ""
+
+msgid "Permission denied"
+msgstr ""
+
+msgid "Something's missing"
+msgstr ""
+
+msgid "Server error"
+msgstr ""
+
+msgid "Back to homepage"
+msgstr ""
+
+msgid "Two Step QR Code"
+msgstr ""
+
+msgid "Email Verification"
+msgstr ""
+
+msgid "Password Reset"
+msgstr ""
+
+msgid "Two Factor Authentication"
+msgstr ""
+
+msgid "Verified"
+msgstr ""
+
+msgid "Expired"
+msgstr ""
+
+msgid "Invalid"
+msgstr ""
+
+msgid "Used"
+msgstr ""
+
+msgid "Email Verified"
+msgstr ""
+
+msgid "If the email is verified, the user can login with the email."
+msgstr ""
+
+msgid "Config"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "OTP Code"
+msgstr ""
+
+msgid "OTP Type"
+msgstr ""
+
+msgid "Expires At"
+msgstr ""
+
+msgid "Is Used"
+msgstr ""
+
+msgid "Django site admin"
+msgstr ""
+
+msgid "Last 7 days"
+msgstr ""
+
+msgid "Product performance in last 28 days"
+msgstr ""
+
+msgid "Top earnings"
+msgstr ""
+
+msgid "The most trending products in last 2 weeks"
+msgstr ""
+
+#, python-format
+msgid "Total revenue between <strong class=\"font-semibold text-font-important-light dark:text-font-important-dark dark:text-white\">1 - 31 October</strong>. Increase <span class=\"text-green-700 font-semibold dark:text-green-400\">+3.14%%</span> comparing to previous month <strong class=\"font-semibold text-font-important-light dark:text-font-important-dark dark:text-white\">1 - 30 September</strong>."
+msgstr ""
+
+msgid "View detailed analytics"
+msgstr ""
+
+msgid "Current system health"
+msgstr ""
+
+msgid "Password reset complete"
+msgstr ""
+
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr ""
+
+msgid "Log in"
+msgstr ""
+
+msgid "Forgotten password"
+msgstr ""
+
+msgid "Forgotten your password?"
+msgstr ""
+
+msgid "Enter your email address below, and we’ll email instructions for setting a new one."
+msgstr ""
+
+msgid "Change my password"
+msgstr ""
+
+msgid "The password reset link was invalid, possibly because it has already been used. Please request a new password reset."
+msgstr ""
+
+msgid "Reset my password"
+msgstr ""
+
+msgid "Success!"
+msgstr ""
+
+msgid "We’ve emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly."
+msgstr ""
+
+msgid "If you don’t receive an email, please make sure you’ve entered the address you registered with, and check your spam folder."
+msgstr ""
+
+msgid "You’re receiving this email because you requested a password reset for your user account at "
+msgstr ""
+
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+msgid "Reset Password"
+msgstr ""
+
+msgid "Your username, in case you’ve forgotten:"
+msgstr ""
+
+msgid "Thanks for using our site!"
+msgstr ""
+
+#, python-format
+msgid "Password reset on %(site_name)s"
+msgstr ""
+
+msgid "Scan the following barcode with your phone’s OTP app (e.g. Google Authenticator)."
+msgstr ""
+
+msgid "Install Google Authenticator?"
+msgstr ""
+
+msgid "Dear"
+msgstr ""
+
+msgid "Your verification code is:"
+msgstr ""
+
+msgid "Please do not share this code with anyone."
+msgstr ""
+
+msgid "Note: This code will expire in"
+msgstr ""
+
+msgid "minutes"
 msgstr ""
