@@ -229,3 +229,4 @@ local/
 !local/**/django.po
 
 node_modules/
+*-lock.yaml
