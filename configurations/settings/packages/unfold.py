@@ -9,7 +9,7 @@ CRISPY_TEMPLATE_PACK = "unfold_crispy"
 CRISPY_ALLOWED_TEMPLATE_PACKS = ["unfold_crispy"]
 
 UNFOLD = {
-    "SITE_TITLE": _("Dashboard"),
+    "SITE_TITLE": _("Dashboard Site Title"),
     "SITE_HEADER": _("Appears in sidebar at the top"),
     "SITE_SUBHEADER": _("Appears under SITE_HEADER"),
     "SHOW_LANGUAGES": True,
@@ -40,6 +40,7 @@ UNFOLD = {
     "SCRIPTS": [
         lambda request: static("js/script.js"),
     ],
+    "DASHBOARD_CALLBACK": "controllers.admin.views.dashboard_callback",
     "BORDER_RADIUS": "6px",
     "COLORS": {
         "base": {
@@ -94,6 +95,16 @@ UNFOLD = {
         "command_search": False,  # Replace the sidebar search with the command search
         "show_all_applications": False,  # Dropdown with all applications and models
         "navigation": [
+            {
+                "title": _("Navigation"),
+                "items": [
+                    {
+                        "title": _("Dashboard"),
+                        "icon": "dashboard",
+                        "link": reverse_lazy("admin:index"),
+                    },
+                ],
+            },
             {
                 "title": _("Accounts & Authentication"),
                 "separator": True,  # Top border

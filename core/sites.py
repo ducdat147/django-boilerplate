@@ -33,10 +33,29 @@ class AdminSite(UnfoldAdminSite):
     password_reset_confirm_template = "admin/password_reset/confirm.html"
     password_reset_complete_template = "admin/password_reset/complete.html"
     password_reset_subject_template = "admin/password_reset/subject.html"
-    bad_request_template = "admin/handlers/400.html"
-    permission_denied_template = "admin/handlers/403.html"
-    not_found_template = "admin/handlers/404.html"
-    server_error_template = "admin/handlers/500.html"
+    error_templates = "admin/handlers/error.html"
+    MESSAGE_ERROR = {
+        status.HTTP_400_BAD_REQUEST: _(
+            "The server could not understand the request due to invalid syntax."
+            " Please do not repeat this request without modification."
+        ),
+        status.HTTP_403_FORBIDDEN: _(
+            "You do not have permission to access this resource."
+            " Please contact the administrator if you believe this is an error."
+        ),
+        status.HTTP_404_NOT_FOUND: _(
+            "Sorry, we can't find that path. Please try again."
+        ),
+        status.HTTP_500_INTERNAL_SERVER_ERROR: _(
+            "The server encountered an internal error or misconfiguration and was unable to complete your request."
+        ),
+    }
+    TITLE_ERROR = {
+        status.HTTP_400_BAD_REQUEST: _("Bad request"),
+        status.HTTP_403_FORBIDDEN: _("Permission denied"),
+        status.HTTP_404_NOT_FOUND: _("Something's missing"),
+        status.HTTP_500_INTERNAL_SERVER_ERROR: _("Server error"),
+    }
 
     def get_urls(self) -> List[URLPattern]:
         urlpatterns = [
@@ -63,15 +82,30 @@ class AdminSite(UnfoldAdminSite):
         ] + super().get_urls()
         return urlpatterns
 
-    def _render_handler(self, request, template, status_code, message, *args, **kwargs):
+    def _render_handler(self, request, status_code, *args, **kwargs):
         content_type = request.META.get("CONTENT_TYPE")
-        if content_type == "application/json":
+        path = request.META.get("PATH_INFO", "")
+        message = self.MESSAGE_ERROR.get(status_code, "")
+        if content_type == "application/json" or path.startswith("/api/"):
             return JsonResponse({"detail": message}, status=status_code)
         context = self.each_context(request)
-        context.update({"title": message})
+        context.update(
+            {
+                "title": self.TITLE_ERROR.get(status_code, ""),
+                "content": {
+                    "title": self.TITLE_ERROR.get(status_code, ""),
+                    "message": self.MESSAGE_ERROR.get(status_code, ""),
+                    "status_code": status_code,
+                },
+                "cta": {
+                    "url": reverse("admin:index", current_app=self.name),
+                    "label": _("Back to homepage"),
+                },
+            }
+        )
         return render(
             request,
-            template,
+            self.error_templates,
             context=context,
             status=status_code,
         )
@@ -82,9 +116,7 @@ class AdminSite(UnfoldAdminSite):
         status_code = status.HTTP_400_BAD_REQUEST
         return self._render_handler(
             request=request,
-            template=self.bad_request_template,
             status_code=status_code,
-            message=_("Bad request"),
             exception=exception,
         )
 
@@ -94,9 +126,7 @@ class AdminSite(UnfoldAdminSite):
         status_code = status.HTTP_403_FORBIDDEN
         return self._render_handler(
             request=request,
-            template=self.permission_denied_template,
             status_code=status_code,
-            message=_("Permission denied"),
             exception=exception,
         )
 
@@ -106,9 +136,7 @@ class AdminSite(UnfoldAdminSite):
         status_code = status.HTTP_404_NOT_FOUND
         return self._render_handler(
             request=request,
-            template=self.not_found_template,
             status_code=status_code,
-            message=_("Not found"),
             exception=exception,
         )
 
@@ -118,9 +146,7 @@ class AdminSite(UnfoldAdminSite):
         status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return self._render_handler(
             request=request,
-            template=self.server_error_template,
             status_code=status_code,
-            message=_("Server error"),
             exception=exception,
         )
 
