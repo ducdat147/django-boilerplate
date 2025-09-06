@@ -78,3 +78,20 @@ CONSTANCE_ADDITIONAL_FIELDS = {
         },
     ],
 }
+
+CONSTANCE_CONFIG_FOR_UNFOLD = [
+    "site_url",
+    "site_title",
+    "site_header",
+    "site_subheader",
+    "login_image",
+    "site_logo",
+    "site_logo__light",
+    "site_logo__dark",
+    "site_icon",
+    "site_icon__light",
+    "site_icon__dark",
+    "site_symbol",
+    "border_radius",
+    "theme",
+]
