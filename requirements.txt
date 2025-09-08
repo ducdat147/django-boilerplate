@@ -66,7 +66,7 @@ platformdirs==4.4.0
 pre_commit==4.3.0
 prompt_toolkit==3.0.52
 protobuf==6.32.0
-psycopg==3.2.9
+psycopg==3.2.10
 psycopg-binary==3.2.9
 py-moneyed==3.0
 PyJWT==2.10.1
