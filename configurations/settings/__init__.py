@@ -1,3 +1,4 @@
-# -*- coding: utf-8 -*-
-from .environments import *  # noqa
-from .packages import *  # noqa
+try:
+    from .local import *  # noqa
+except ImportError:
+    from .production import *  # noqa

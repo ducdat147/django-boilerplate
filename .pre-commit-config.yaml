@@ -3,10 +3,10 @@ exclude: ^venv/
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-docstring-first
-      - id: fix-encoding-pragma
+      # - id: fix-encoding-pragma
       - id: trailing-whitespace
         exclude: CHANGELOG.md
       - id: end-of-file-fixer
@@ -39,12 +39,8 @@ repos:
     rev: 25.1.0
     hooks:
       - id: black
-  - repo: https://github.com/PyCQA/isort
-    rev: 6.0.1
-    hooks:
-      - id: isort
   - repo: https://github.com/PyCQA/flake8
-    rev: 7.2.0
+    rev: 7.3.0
     hooks:
       - id: flake8
   - repo: https://github.com/pycqa/autoflake
@@ -52,8 +48,12 @@ repos:
     hooks:
       - id: autoflake
   - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v4.1.0
+    rev: v4.2.0
     hooks:
       - id: conventional-pre-commit
         stages: [commit-msg]
         args: []
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.20.0
+    hooks:
+    -   id: pyupgrade

@@ -1,0 +1,13 @@
+from ..base import TIME_ZONE, env
+
+# Celery
+# https://docs.celeryq.dev/en/stable/getting-started/introduction.html
+CELERY_BROKER_URL = env.str("CELERY_BROKER")
+CELERY_RESULT_BACKEND = env.str("CELERY_BACKEND")
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_TASK_SOFT_TIME_LIMIT = 20 * 60

@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "configurations": [
+    {
+      "name": "Python Debugger: Django",
+      "type": "debugpy",
+      "request": "launch",
+      "env": {
+        "DJANGO_SETTINGS_MODULE": "configurations.settings",
+        "PYTHONPATH": "${workspaceFolder}",
+        "PYTHONUNBUFFERED": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "DJANGO_READ_DOT_ENV_FILE": "1"
+      },
+      "args": ["runserver", "8000"],
+      "django": true,
+      "autoStartBrowser": false,
+      "program": "${workspaceFolder}/manage.py"
+    }
+  ]
+}
