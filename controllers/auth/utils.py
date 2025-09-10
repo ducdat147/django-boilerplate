@@ -1,10 +1,10 @@
 import random
 import string
 
+from constance import config
 from django.template.loader import render_to_string
-from django.conf import settings
 from django.utils.translation import gettext_lazy as _
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import ParseError
 
 from core.common.tasks import send_email_task
 from core.user.enums import OtpTypeEnum
@@ -18,15 +18,13 @@ def check_valid_verification(
 ) -> OtpTypeEnum:
     if verification_type == OtpTypeEnum.EMAIL:
         if not to:
-            raise ValidationError(
-                {"error": _("Email is required for email verification.")}
-            )
+            raise ParseError(_("Email is required for email verification."))
         elif user.email != to:
-            raise ValidationError({"error": _("Invalid email address.")})
+            raise ParseError(_("Invalid email address."))
         elif user.settings.is_email_verified:
-            raise ValidationError({"error": _("Email already verified.")})
+            raise ParseError(_("Email already verified."))
     else:
-        raise ValidationError({"error": _("Invalid verification")})
+        raise ParseError(_("Invalid verification"))
     return OtpTypeEnum(verification_type)
 
 
@@ -38,7 +36,7 @@ def generate_otp():
 def send_verification_email(email, otp_code, name):
     """Send verification email with OTP code"""
     subject = "Email Verification"
-    expiration_time = settings.OTP_CODE_EXPIRATION_TIME
+    expiration_time = config.OTP_CODE_EXPIRATION_TIME
     html_message = render_to_string(
         "emails/verify_email.html",
         {

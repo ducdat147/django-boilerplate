@@ -186,31 +186,31 @@ LOCALE_PATHS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#date-input-formats
 DATE_INPUT_FORMATS = [
     "%d.%m.%Y",  # Custom input
-    "%Y-%m-%d",  # '2006-10-25'
-    "%m/%d/%Y",  # '10/25/2006'
-    "%m/%d/%y",  # '10/25/06'
-    "%b %d %Y",  # 'Oct 25 2006'
-    "%b %d, %Y",  # 'Oct 25, 2006'
-    "%d %b %Y",  # '25 Oct 2006'
-    "%d %b, %Y",  # '25 Oct, 2006'
-    "%B %d %Y",  # 'October 25 2006'
-    "%B %d, %Y",  # 'October 25, 2006'
-    "%d %B %Y",  # '25 October 2006'
-    "%d %B, %Y",  # '25 October, 2006'
+    "%Y-%m-%d",  # "2006-10-25"
+    "%m/%d/%Y",  # "10/25/2006"
+    "%m/%d/%y",  # "10/25/06"
+    "%b %d %Y",  # "Oct 25 2006"
+    "%b %d, %Y",  # "Oct 25, 2006"
+    "%d %b %Y",  # "25 Oct 2006"
+    "%d %b, %Y",  # "25 Oct, 2006"
+    "%B %d %Y",  # "October 25 2006"
+    "%B %d, %Y",  # "October 25, 2006"
+    "%d %B %Y",  # "25 October 2006"
+    "%d %B, %Y",  # "25 October, 2006"
 ]
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#datetime-input-formats
 DATETIME_INPUT_FORMATS = [
     "%d.%m.%Y %H:%M:%S",  # Custom input
-    "%Y-%m-%d %H:%M:%S",  # '2006-10-25 14:30:59'
-    "%Y-%m-%d %H:%M:%S.%f",  # '2006-10-25 14:30:59.000200'
-    "%Y-%m-%d %H:%M",  # '2006-10-25 14:30'
-    "%m/%d/%Y %H:%M:%S",  # '10/25/2006 14:30:59'
-    "%m/%d/%Y %H:%M:%S.%f",  # '10/25/2006 14:30:59.000200'
-    "%m/%d/%Y %H:%M",  # '10/25/2006 14:30'
-    "%m/%d/%y %H:%M:%S",  # '10/25/06 14:30:59'
-    "%m/%d/%y %H:%M:%S.%f",  # '10/25/06 14:30:59.000200'
-    "%m/%d/%y %H:%M",  # '10/25/06 14:30'
+    "%Y-%m-%d %H:%M:%S",  # "2006-10-25 14:30:59"
+    "%Y-%m-%d %H:%M:%S.%f",  # "2006-10-25 14:30:59.000200"
+    "%Y-%m-%d %H:%M",  # "2006-10-25 14:30"
+    "%m/%d/%Y %H:%M:%S",  # "10/25/2006 14:30:59"
+    "%m/%d/%Y %H:%M:%S.%f",  # "10/25/2006 14:30:59.000200"
+    "%m/%d/%Y %H:%M",  # "10/25/2006 14:30"
+    "%m/%d/%y %H:%M:%S",  # "10/25/06 14:30:59"
+    "%m/%d/%y %H:%M:%S.%f",  # "10/25/06 14:30:59.000200"
+    "%m/%d/%y %H:%M",  # "10/25/06 14:30"
 ]
 
 # Static files (CSS, JavaScript, Images)
@@ -240,8 +240,5 @@ EMAIL_USE_SSL = env.bool("EMAIL_USE_SSL", default=False)
 EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
 EMAIL_VERIFICATION_CODE_TIMEOUT = env.int("EMAIL_VERIFICATION_CODE_TIMEOUT", default=5)
-
-# OTP settings
-OTP_CODE_EXPIRATION_TIME = env.int("OTP_CODE_EXPIRATION_TIME", default=10)  # in minutes
 
 from .packages import *  # noqa

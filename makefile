@@ -1,3 +1,8 @@
+init:
+	mkdir -p logs
+	touch logs/query.log
+	touch logs/system.log
+
 install:
 	pip install --upgrade pip
 	pip install -r requirements.txt
@@ -9,7 +14,7 @@ update-package:
 	pip install -r requirements.txt --upgrade
 
 run:
-	python manage.py runserver 0.0.0.0:8000
+	python manage.py runserver 0.0.0.0:80
 
 celery:
 	celery -A configurations.celery worker --pool=threads --loglevel=INFO
@@ -25,6 +30,7 @@ staticfiles:
 
 migrate:
 	python manage.py makemigrations
+# 	python manage.py migrate constance --database="constance"
 	python manage.py migrate
 
 migrations:
