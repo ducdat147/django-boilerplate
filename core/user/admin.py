@@ -28,7 +28,8 @@ class GroupAdmin(BaseGroupAdmin, ModelAdmin):
 
 
 class OtpCodeAdmin(ModelAdmin):
-    list_display = ["user", "created_at"]
+    list_display = ["user", "type_otp", "created_at"]
+    list_filter = ["type_otp"]
     autocomplete_fields = ["user"]
 
 

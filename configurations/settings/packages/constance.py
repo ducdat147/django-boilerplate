@@ -3,9 +3,12 @@ from collections import OrderedDict
 from django.utils.translation import gettext_lazy as _
 from unfold.contrib.constance.settings import UNFOLD_CONSTANCE_ADDITIONAL_FIELDS
 
+from configurations.settings.base import env
+
 CONSTANCE_SUPERUSER_ONLY = True
 
-CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
+CONSTANCE_BACKEND = "constance.backends.redisd.RedisBackend"
+CONSTANCE_REDIS_CONNECTION = env.str("CACHE_URL")
 
 CONSTANCE_DEFAULT_VALUE = "-"
 
@@ -27,10 +30,15 @@ CONSTANCE_CONFIG = {
     "SITE_ICON__LIGHT": [CONSTANCE_DEFAULT_VALUE, _("Website icon for light mode")],
     "SITE_ICON__DARK": [CONSTANCE_DEFAULT_VALUE, _("Website icon for dark mode")],
     "THEME": [CONSTANCE_DEFAULT_VALUE, _("Website theme"), "theme_choice_field"],
+    "OTP_CODE_EXPIRATION_TIME": [10, _("Expiration time in minutes")],
 }
 
 CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
     {
+        "Service": {
+            "fields": ("OTP_CODE_EXPIRATION_TIME",),
+            "collapse": False,
+        },
         "General Settings": {
             "fields": (
                 "SITE_TITLE",

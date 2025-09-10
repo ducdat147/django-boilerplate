@@ -4,6 +4,7 @@ from io import BytesIO
 
 import pyotp
 import qrcode
+from constance import config
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.db import models
@@ -68,7 +69,7 @@ class OtpCode(BaseModel):
     def save(self, *args, **kwargs):
         if not self.expires_at:
             self.expires_at = timezone.now() + timedelta(
-                minutes=settings.OTP_CODE_EXPIRATION_TIME
+                minutes=config.OTP_CODE_EXPIRATION_TIME
             )
         super().save(*args, **kwargs)
 

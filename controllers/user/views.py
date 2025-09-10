@@ -1,6 +1,6 @@
 from rest_framework.generics import RetrieveUpdateAPIView
 
-from controllers.user.serializers import MyProfileSerializer
+from .serializers import MyProfileSerializer
 
 
 class MyProfileView(RetrieveUpdateAPIView):
