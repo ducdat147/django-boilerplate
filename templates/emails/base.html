@@ -1,0 +1,63 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+      .container {
+        background-color: #f0f0f0;
+        font-family: Arial, sans-serif;
+        font-size: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 1.75rem;
+      }
+
+      .card {
+        margin: 0 auto;
+        padding: 1.75rem;
+        border-radius: 0.5rem;
+        min-width: 28rem;
+        max-width: 40rem;
+        background-color: #fff;
+        box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1);
+      }
+
+      .otp-code {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #000;
+        letter-spacing: 0.25rem;
+        text-align: center;
+      }
+
+      .header {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #000;
+      }
+
+      .content {
+        font-size: 1.2rem;
+        color: #000;
+      }
+
+      .note {
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        color: #888;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <p class="header">{% trans 'Dear' %} {{ name }},</p>
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </body>
+</html>

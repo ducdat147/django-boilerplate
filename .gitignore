@@ -57,12 +57,13 @@ cover/
 
 # Django stuff:
 *.log
-local_settings.py
-db.sqlite3
+local.py
+*.sqlite3
 db.sqlite3-journal
 .DS_Store
 *.env*
-!.env.example
+!.example.env
+!environments/.docker.env
 media/
 logs/
 
@@ -212,6 +213,20 @@ marimo/_lsp/
 __marimo__/
 
 # IDEs
-.vscode/
 .idea/
 .cursor/
+
+### VisualStudioCode template
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+static/
+
+local/
+!local/**/django.po
+
+node_modules/
+*-lock.yaml

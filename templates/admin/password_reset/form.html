@@ -1,0 +1,24 @@
+{% extends 'unfold/layouts/unauthenticated.html' %}
+
+{% load i18n unfold %}
+
+{% block content %}
+  <h1 class="font-semibold mb-10">
+    <span class="block text-primary-600 text-xl dark:text-primary-500 mb-2">{% trans 'Forgotten password' %}</span>
+    <span class="block text-font-important-light dark:text-font-important-dark">{% trans 'Forgotten your password?' %}</span>
+    <span class="block text-font-important-light dark:text-font-important-dark">{% trans 'Enter your email address below, and we’ll email instructions for setting a new one.' %}</span>
+  </h1>
+  {% include 'unfold/helpers/messages.html' %}
+  {% include 'unfold/helpers/messages/errornote.html' with errors=form.errors %}
+  {% include 'unfold/helpers/messages/error.html' with errors=form.username.errors %}
+  <form method="post">
+    {% csrf_token %}
+    {% include 'unfold/helpers/field.html' with field=form.username %}
+    <div class="submit-row">
+      {% component 'unfold/components/button.html' with submit=1 class='flex flex-row font-semibold group items-center justify-center py-2 rounded text-sm text-white w-full' %}
+      {% translate 'Reset my password' %}
+      <i class="material-symbols-outlined ml-2 relative right-0 text-lg transition-all group-hover:-right-1">arrow_forward</i>
+      {% endcomponent %}
+    </div>
+  </form>
+{% endblock %}
