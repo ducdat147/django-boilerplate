@@ -24,16 +24,14 @@ repos:
       - id: check-symlinks
       - id: no-commit-to-branch
         args: [
-            # "--branch",
-            # "main",
-            # "--branch",
-            # "master",
             "--branch",
-            "development",
+            "master",
+            "--branch",
+            "develop",
             "--branch",
             "staging",
             "--branch",
-            "production",
+            "release",
           ]
   - repo: https://github.com/psf/black
     rev: 25.1.0
@@ -56,4 +54,4 @@ repos:
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.20.0
     hooks:
-    -   id: pyupgrade
+      - id: pyupgrade
