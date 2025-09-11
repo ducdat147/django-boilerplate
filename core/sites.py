@@ -98,6 +98,40 @@ def convert_config(config, config_names: list):
     return result
 
 
+def callback_constance(config) -> dict:
+    from utils.performs import get_class_from_string
+
+    result = {}
+    for item in settings.CONSTANCE_CALLBACKS_UNFOLD:
+        callback = item.get("callback")
+        Subclass = get_class_from_string(callback)
+        if not isinstance(item.get("field"), str):
+            continue
+        key = item["field"].lower()
+        attr_name = item["field"].upper()
+
+        if not hasattr(config, attr_name):
+            continue
+        data_of_field = getattr(config, attr_name)
+
+        value = Subclass(
+            field=item["field"].upper(),
+            meta_data=item.get("meta_data", {}),
+        ).value(data_of_field)
+
+        parts = key.split("__")
+
+        convert_to_dict(
+            key=parts[0],
+            child_key=parts[1:],
+            value=value,
+            result=result,
+            full_key=key,
+        )
+
+    return result
+
+
 class AdminSite(UnfoldAdminSite):
     password_reset_form_template = "admin/password_reset/form.html"
     password_reset_email_template = "admin/password_reset/email.html"
@@ -110,8 +144,11 @@ class AdminSite(UnfoldAdminSite):
     def each_context(self, request: HttpRequest) -> dict[str, Any]:
         context = super().each_context(request)
         update_context = convert_config(config, settings.CONSTANCE_CONFIG_FOR_UNFOLD)
+        update_context_callback = callback_constance(config)
         if bool(update_context):
-            context.update(update_context)
+            context = {**context, **update_context}
+        if bool(update_context_callback):
+            context = {**context, **update_context_callback}
         return context
 
     def get_urls(self) -> List[URLPattern]:
