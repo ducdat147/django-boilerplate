@@ -24,16 +24,16 @@ repos:
       - id: check-symlinks
       - id: no-commit-to-branch
         args: [
-            # "--branch",
-            # "main",
+            "--branch",
+            "main",
             # "--branch",
             # "master",
             "--branch",
-            "development",
+            "develop",
             "--branch",
             "staging",
             "--branch",
-            "production",
+            "release",
           ]
   - repo: https://github.com/psf/black
     rev: 25.1.0
