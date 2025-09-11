@@ -71,6 +71,10 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
     "modeltranslation",
     "corsheaders",
     "django_celery_beat",
@@ -104,6 +108,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "configurations.middleware.TracingMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "configurations.urls"
@@ -144,6 +149,7 @@ AUTH_USER_MODEL = "user.User"
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
     "guardian.backends.ObjectPermissionBackend",
 )
 

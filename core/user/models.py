@@ -28,7 +28,8 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if not hasattr(self, "settings"):
-            self.settings = UserSettings.objects.create(user=self)
+            UserSettings.objects.create(user=self)
+            TwoFactorAuthenticationOTP.objects.create(user=self, is_active=False)
 
 
 class UserSettings(models.Model):

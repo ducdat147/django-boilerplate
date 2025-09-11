@@ -25,6 +25,7 @@ from core.sites import admin_site
 
 urlpatterns = [
     path("api/", include("controllers.urls")),
+    path("accounts/", include("allauth.urls")),
     path("i18n/", include("django.conf.urls.i18n")),
     re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
     re_path(r"^static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT}),
