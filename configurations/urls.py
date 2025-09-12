@@ -17,13 +17,19 @@ Including another URLconf
 
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
+from django.shortcuts import redirect
 from django.views.static import serve
 from django.urls import include, path, re_path
 
 from core.sites import admin_site
 
 
+def index(request):
+    return redirect("admin:index")
+
+
 urlpatterns = [
+    path("", index),
     path("api/", include("controllers.urls")),
     path("i18n/", include("django.conf.urls.i18n")),
     re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
