@@ -103,7 +103,7 @@ def callback_constance(config) -> dict:
 
     result = {}
     for item in settings.CONSTANCE_CALLBACKS_UNFOLD:
-        callback = item.get("callback")
+        callback = item.get("callback", "utils.performs.ConstanceValue")
         Subclass = get_class_from_string(callback)
         if not isinstance(item.get("field"), str):
             continue
@@ -143,6 +143,7 @@ class AdminSite(UnfoldAdminSite):
 
     def each_context(self, request: HttpRequest) -> dict[str, Any]:
         context = super().each_context(request)
+        print("context before: ", context)
         update_context = convert_config(config, settings.CONSTANCE_CONFIG_FOR_UNFOLD)
         update_context_callback = callback_constance(config)
         if bool(update_context):
