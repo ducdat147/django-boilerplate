@@ -143,7 +143,6 @@ class AdminSite(UnfoldAdminSite):
 
     def each_context(self, request: HttpRequest) -> dict[str, Any]:
         context = super().each_context(request)
-        print("context before: ", context)
         update_context = convert_config(config, settings.CONSTANCE_CONFIG_FOR_UNFOLD)
         update_context_callback = callback_constance(config)
         if bool(update_context):

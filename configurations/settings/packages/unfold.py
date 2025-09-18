@@ -17,7 +17,7 @@ UNFOLD = {
     "LOGIN": {
         # "image": lambda request: static("sample/login-bg.jpg"),
         "image": "https://demo.unfoldadmin.com/static/images/login-bg.jpg",
-        "redirect_after": lambda request: reverse_lazy("admin:APP_MODEL_changelist"),
+        "redirect_after": lambda request: reverse_lazy("admin:index"),
     },
     "STYLES": [
         lambda request: static("css/style.css"),
@@ -41,7 +41,7 @@ UNFOLD = {
     "SIDEBAR": {
         "show_search": False,  # Search in applications and models names
         "command_search": False,  # Replace the sidebar search with the command search
-        "show_all_applications": False,  # Dropdown with all applications and models
+        "show_all_applications": True,  # Dropdown with all applications and models
         "navigation": [
             {
                 "title": _("Navigation"),

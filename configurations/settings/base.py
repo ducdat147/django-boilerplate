@@ -14,6 +14,7 @@ from pathlib import Path
 
 import environ
 from django.core.management.utils import get_random_secret_key
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
@@ -96,6 +97,7 @@ INSTALLED_APPS = UNFOLD_APPS + DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -240,5 +242,10 @@ EMAIL_USE_SSL = env.bool("EMAIL_USE_SSL", default=False)
 EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
 EMAIL_VERIFICATION_CODE_TIMEOUT = env.int("EMAIL_VERIFICATION_CODE_TIMEOUT", default=5)
+
+LOGIN_URL = reverse_lazy("admin:login")
+LOGOUT_URL = reverse_lazy("admin:logout")
+
+LOGIN_REDIRECT_URL = reverse_lazy("admin:index")
 
 from .packages import *  # noqa
