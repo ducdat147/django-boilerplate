@@ -17,7 +17,7 @@ CONSTANCE_CONFIG = {
     "SITE_TITLE": ["Dashboard Site Title", _("Website title")],
     "SITE_HEADER": ["Appears in sidebar at the top", _("Website header")],
     "SITE_SUBHEADER": ["Appears under SITE_HEADER", _("Website subheader")],
-    "LOGIN_IMAGE": [
+    "LOGIN__IMAGE": [
         "https://demo.unfoldadmin.com/static/images/login-bg.jpg",
         _("Login page background image URL"),
     ],
@@ -64,7 +64,7 @@ CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
         },
         "Assets": {
             "fields": (
-                "LOGIN_IMAGE",
+                "LOGIN__IMAGE",
                 "SITE_LOGO",
                 "SITE_LOGO__LIGHT",
                 "SITE_LOGO__DARK",
@@ -124,7 +124,7 @@ CONSTANCE_CONFIG_FOR_UNFOLD = [
     "site_title",
     "site_header",
     "site_subheader",
-    "login_image",
+    "login__image",
     "site_logo",
     "site_logo__light",
     "site_logo__dark",

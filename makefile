@@ -63,7 +63,6 @@ app:
 	touch controllers/$(filter-out $@,$(MAKECMDGOALS))/urls.py
 	touch controllers/$(filter-out $@,$(MAKECMDGOALS))/views.py
 	touch controllers/$(filter-out $@,$(MAKECMDGOALS))/serializers.py
-	echo "from django.apps import AppConfig\n\n\nfrom django.conf import settings\nclass UnfoldAppConfig(AppConfig):\n\tdefault_auto_field = settings.DEFAULT_AUTO_FIELD\n\tname = \"core.$(filter-out $@,$(MAKECMDGOALS))\"" > core/$(filter-out $@,$(MAKECMDGOALS))/apps.py
 
 %:
 	@:
