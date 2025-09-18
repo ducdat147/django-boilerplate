@@ -4,7 +4,7 @@
     "tailwind:watch": "npx @tailwindcss/cli -i style.css -o staticfiles/css/style.css --minify --watch"
   },
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.12",
+    "@tailwindcss/cli": "^4.1.13",
     "tailwindcss": "^4.1.13"
   }
 }

@@ -17,7 +17,7 @@ UNFOLD = {
     "LOGIN": {
         # "image": lambda request: static("sample/login-bg.jpg"),
         "image": "https://demo.unfoldadmin.com/static/images/login-bg.jpg",
-        "redirect_after": lambda request: reverse_lazy("admin:APP_MODEL_changelist"),
+        "redirect_after": lambda request: reverse_lazy("admin:index"),
     },
     "STYLES": [
         lambda request: static("css/style.css"),
@@ -26,42 +26,6 @@ UNFOLD = {
         lambda request: static("js/script.js"),
     ],
     "DASHBOARD_CALLBACK": "controllers.admin.views.dashboard_callback",
-    "COLORS": {
-        "base": {
-            "50": "249, 250, 251",
-            "100": "243, 244, 246",
-            "200": "229, 231, 235",
-            "300": "209, 213, 219",
-            "400": "156, 163, 175",
-            "500": "107, 114, 128",
-            "600": "75, 85, 99",
-            "700": "55, 65, 81",
-            "800": "31, 41, 55",
-            "900": "17, 24, 39",
-            "950": "3, 7, 18",
-        },
-        "primary": {
-            "50": "250, 245, 255",
-            "100": "243, 232, 255",
-            "200": "233, 213, 255",
-            "300": "216, 180, 254",
-            "400": "192, 132, 252",
-            "500": "168, 85, 247",
-            "600": "147, 51, 234",
-            "700": "126, 34, 206",
-            "800": "107, 33, 168",
-            "900": "88, 28, 135",
-            "950": "59, 7, 100",
-        },
-        "font": {
-            "subtle-light": "var(--color-base-500)",  # text-base-500
-            "subtle-dark": "var(--color-base-400)",  # text-base-400
-            "default-light": "var(--color-base-600)",  # text-base-600
-            "default-dark": "var(--color-base-300)",  # text-base-300
-            "important-light": "var(--color-base-900)",  # text-base-900
-            "important-dark": "var(--color-base-100)",  # text-base-100
-        },
-    },
     "EXTENSIONS": {
         "modeltranslation": {
             "flags": {
@@ -77,7 +41,7 @@ UNFOLD = {
     "SIDEBAR": {
         "show_search": False,  # Search in applications and models names
         "command_search": False,  # Replace the sidebar search with the command search
-        "show_all_applications": False,  # Dropdown with all applications and models
+        "show_all_applications": True,  # Dropdown with all applications and models
         "navigation": [
             {
                 "title": _("Navigation"),

@@ -17,7 +17,7 @@ CONSTANCE_CONFIG = {
     "SITE_TITLE": ["Dashboard Site Title", _("Website title")],
     "SITE_HEADER": ["Appears in sidebar at the top", _("Website header")],
     "SITE_SUBHEADER": ["Appears under SITE_HEADER", _("Website subheader")],
-    "LOGIN_IMAGE": [
+    "LOGIN__IMAGE": [
         "https://demo.unfoldadmin.com/static/images/login-bg.jpg",
         _("Login page background image URL"),
     ],
@@ -31,6 +31,9 @@ CONSTANCE_CONFIG = {
     "SITE_ICON__DARK": [CONSTANCE_DEFAULT_VALUE, _("Website icon for dark mode")],
     "THEME": [CONSTANCE_DEFAULT_VALUE, _("Website theme"), "theme_choice_field"],
     "OTP_CODE_EXPIRATION_TIME": [10, _("Expiration time in minutes")],
+    "COLORS__BASE": ["default", _("Base colors"), "choise_color"],
+    "COLORS__PRIMARY": ["default", _("Primary colors"), "choise_color"],
+    "COLORS__FONT": ["default", _("Font colors"), "choise_color"],
 }
 
 CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
@@ -53,12 +56,15 @@ CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
                 "SITE_SYMBOL",
                 "BORDER_RADIUS",
                 "THEME",
+                "COLORS__BASE",
+                "COLORS__PRIMARY",
+                "COLORS__FONT",
             ),
             "collapse": False,
         },
         "Assets": {
             "fields": (
-                "LOGIN_IMAGE",
+                "LOGIN__IMAGE",
                 "SITE_LOGO",
                 "SITE_LOGO__LIGHT",
                 "SITE_LOGO__DARK",
@@ -85,6 +91,32 @@ CONSTANCE_ADDITIONAL_FIELDS = {
             ),
         },
     ],
+    bool: [
+        "django.forms.fields.ChoiceField",
+        {
+            "widget": "unfold.widgets.UnfoldAdminSelectWidget",
+            "choices": (
+                (True, _("On")),
+                (False, _("Off")),
+            ),
+        },
+    ],
+    "color_field": [
+        "django.forms.CharField",
+        {
+            "widget": "unfold.widgets.UnfoldAdminColorInputWidget",
+        },
+    ],
+    "choise_color": [
+        "django.forms.fields.ChoiceField",
+        {
+            "widget": "unfold.widgets.UnfoldAdminSelectWidget",
+            "choices": (
+                ("default", _("Default")),
+                ("all-white", _("All White")),
+            ),
+        },
+    ],
 }
 
 CONSTANCE_CONFIG_FOR_UNFOLD = [
@@ -92,7 +124,7 @@ CONSTANCE_CONFIG_FOR_UNFOLD = [
     "site_title",
     "site_header",
     "site_subheader",
-    "login_image",
+    "login__image",
     "site_logo",
     "site_logo__light",
     "site_logo__dark",
@@ -102,4 +134,80 @@ CONSTANCE_CONFIG_FOR_UNFOLD = [
     "site_symbol",
     "border_radius",
     "theme",
+]
+
+CONSTANCE_CALLBACKS_UNFOLD = [
+    {
+        "callback": "utils.performs.ConstanceValue",
+        "field": "COLORS__BASE",
+        "meta_data": {
+            "default": {
+                "50": "#f9fafb",
+                "100": "#f3f4f6",
+                "200": "#e5e7eb",
+                "300": "#d1d5db",
+                "400": "#9ca3af",
+                "500": "#6b7280",
+                "600": "#4b5563",
+                "700": "#374151",
+                "800": "#1f2937",
+                "900": "#111827",
+                "950": "#03111a",
+            },
+            "all-white": {
+                "50": "#666",
+                "100": "#666",
+                "200": "#666",
+                "300": "#666",
+                "400": "#666",
+                "500": "#666",
+                "600": "#666",
+                "700": "#666",
+                "800": "#666",
+                "900": "#666",
+                "950": "#666",
+            },
+        },
+    },
+    {
+        "callback": "utils.performs.ConstanceValue",
+        "field": "COLORS__PRIMARY",
+        "meta_data": {
+            "default": {
+                "50": "#faf5ff",
+                "100": "#f3e8ff",
+                "200": "#e9d5ff",
+                "300": "#d8b4fe",
+                "400": "#c084fc",
+                "500": "#a855f7",
+                "600": "#9333ea",
+                "700": "#7e22ce",
+                "800": "#6b21a8",
+                "900": "#581c87",
+                "950": "#3b0764",
+            }
+        },
+    },
+    {
+        "callback": "utils.performs.ConstanceValue",
+        "field": "COLORS__FONT",
+        "meta_data": {
+            "default": {
+                "subtle-light": "var(--color-base-500)",
+                "subtle-dark": "var(--color-base-400)",
+                "default-light": "var(--color-base-600)",
+                "default-dark": "var(--color-base-300)",
+                "important-light": "var(--color-base-900)",
+                "important-dark": "var(--color-base-100)",
+            },
+            "all-white": {
+                "subtle-light": "var(--color-base-400)",
+                "subtle-dark": "var(--color-base-500)",
+                "default-light": "var(--color-base-300)",
+                "default-dark": "var(--color-base-600)",
+                "important-light": "var(--color-base-100)",
+                "important-dark": "var(--color-base-900)",
+            },
+        },
+    },
 ]
