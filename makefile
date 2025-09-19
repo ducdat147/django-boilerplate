@@ -13,6 +13,9 @@ freeze:
 update-package:
 	pip install -r requirements.txt --upgrade
 
+shell:
+	python manage.py shell
+
 run:
 	python manage.py runserver 0.0.0.0:80
 
@@ -30,7 +33,6 @@ staticfiles:
 
 migrate:
 	python manage.py makemigrations
-# 	python manage.py migrate constance --database="constance"
 	python manage.py migrate
 
 migrations:
@@ -63,6 +65,15 @@ app:
 	touch controllers/$(filter-out $@,$(MAKECMDGOALS))/urls.py
 	touch controllers/$(filter-out $@,$(MAKECMDGOALS))/views.py
 	touch controllers/$(filter-out $@,$(MAKECMDGOALS))/serializers.py
+
+build:
+	docker build -t django/service:v1 --file "docker/django/Dockerfile" --no-cache .
+
+compose-up:
+	docker-compose --env-file .docker.env up -d
+
+prune:
+	docker system prune -a --volumes -f
 
 %:
 	@:

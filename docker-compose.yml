@@ -1,0 +1,95 @@
+name: "django-boilerplate"
+
+services:
+  server: &service
+    container_name: server
+    image: django/service:v1
+    command: /start-service
+    ports:
+      - "80:8000"
+    volumes:
+      - server_data:/app
+    env_file:
+      - .docker.env
+    networks:
+      - local-networks
+    depends_on:
+      - database
+      - redis
+      - rabbitmq
+
+  celery_worker:
+    <<: *service
+    container_name: celery_worker
+    command: /start-celeryworker
+    ports: []
+
+  celery_beat:
+    <<: *service
+    container_name: celery_beat
+    command: /start-celerybeat
+    ports: []
+
+  celery_flower:
+    <<: *service
+    container_name: celery_flower
+    command: /start-celeryflower
+    ports:
+      - "5555:5555"
+
+  database:
+    container_name: database
+    image: postgres
+    volumes:
+      - database_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: databaselocal
+    networks:
+      - local-networks
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - local-networks
+
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - local-networks
+
+networks:
+  local-networks:
+
+volumes:
+  server_data:
+  rabbitmq_data:
+  redis_data:
+  database_data:

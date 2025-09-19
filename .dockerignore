@@ -70,3 +70,5 @@ logs/
 
 # Node
 node_modules/
+
+configurations/settings/local.py
