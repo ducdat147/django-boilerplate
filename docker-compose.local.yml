@@ -1,70 +1,17 @@
-name: "django-boilerplate"
+name: "django-boilerplate-local"
 
 services:
-  nginx:
-    container_name: nginx
-    build:
-      context: .
-      dockerfile: docker/devops/nginx/Dockerfile
-    ports:
-      - 80:80
-      - 5555:5555
-      - 15672:15672
-      - 3000:3000
-    depends_on:
-      - server
-      - celery_flower
-      - celery_beat
-      - celery_worker
-      - grafana
-    networks:
-      - local-networks
-    volumes:
-      - server_data:/app
-
-  server: &service
-    container_name: server
-    build:
-      context: .
-      dockerfile: docker/django/Dockerfile
-    command: /start-service
-    volumes:
-      - server_data:/app
-    env_file:
-      - .docker.env
-    networks:
-      - local-networks
-    depends_on:
-      - database
-      - redis
-      - rabbitmq
-
-  celery_worker:
-    <<: *service
-    container_name: celery_worker
-    command: /start-celeryworker
-    # ports: []
-
-  celery_beat:
-    <<: *service
-    container_name: celery_beat
-    command: /start-celerybeat
-    # ports: []
-
-  celery_flower:
-    <<: *service
-    container_name: celery_flower
-    command: /start-celeryflower
-    # ports:
-    #   - 5555:5555
-
   database:
     container_name: database
     image: postgres
     volumes:
       - database_data:/var/lib/postgresql/data
-    env_file:
-      - .docker.env
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=django_db
+      - POSTGRES_USER=django_user
+      - POSTGRES_PASSWORD=django_pass
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
       interval: 10s
@@ -78,6 +25,8 @@ services:
     container_name: redis
     volumes:
       - redis_data:/data
+    ports:
+      - 6379:6379
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -91,8 +40,12 @@ services:
     container_name: rabbitmq
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
-    env_file:
-      - .docker.env
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=pass
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "status"]
       interval: 10s
@@ -106,6 +59,8 @@ services:
     build:
       context: .
       dockerfile: docker/devops/loki/Dockerfile
+    ports:
+      - 3100:3100
     command: -config.file=/etc/loki/loki.yaml
     networks:
       - local-networks
@@ -129,6 +84,12 @@ services:
     build:
       context: .
       dockerfile: docker/devops/tempo/Dockerfile
+    ports:
+      - 3200:3200
+      - 9095:9095
+      - 14268:14268
+      - 4318:4318
+      - 4317:4317
     command: ["-config.file=/etc/tempo-local.yaml"]
     networks:
       - local-networks
@@ -138,6 +99,8 @@ services:
     build:
       context: .
       dockerfile: docker/devops/grafana/Dockerfile
+    ports:
+      - 3000:3000
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin

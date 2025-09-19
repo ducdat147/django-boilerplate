@@ -70,7 +70,7 @@ build:
 	docker build -t django/service:v1 --file "docker/django/Dockerfile" --no-cache .
 
 compose-up:
-	docker-compose --env-file .docker.env up -d
+	docker-compose up -d
 
 prune:
 	docker system prune -a --volumes -f
