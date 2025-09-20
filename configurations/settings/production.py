@@ -1,4 +1,4 @@
-from .base import *  # noqa
+from configurations.settings.base import *  # noqa
 
 LOGGING = {
     "version": 1,

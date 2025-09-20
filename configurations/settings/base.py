@@ -14,6 +14,7 @@ from pathlib import Path
 
 import environ
 from django.core.management.utils import get_random_secret_key
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
@@ -96,6 +97,8 @@ INSTALLED_APPS = UNFOLD_APPS + DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -131,9 +134,7 @@ WSGI_APPLICATION = "configurations.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": env.db(),
-}
+DATABASES = {"default": env.db()}
 
 CACHES = {"default": env.cache()}
 
@@ -215,14 +216,22 @@ DATETIME_INPUT_FORMATS = [
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-STATIC_URL = "static/"
+STATIC_HOST = env.str("STATIC_HOST", default="")
+STATIC_URL = f"{STATIC_HOST}/" + "static/"
 MEDIA_URL = "media/"
 STATIC_ROOT = BASE_DIR / "static"
 MEDIA_ROOT = BASE_DIR / "media"
 STATICFILES_DIRS = [
     BASE_DIR / "staticfiles",
 ]
+
+# Whitenoise settings
+# https://whitenoise.readthedocs.io/en/stable/index.html#quickstart-for-django-apps
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -241,4 +250,9 @@ EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
 EMAIL_VERIFICATION_CODE_TIMEOUT = env.int("EMAIL_VERIFICATION_CODE_TIMEOUT", default=5)
 
-from .packages import *  # noqa
+LOGIN_URL = reverse_lazy("admin:login")
+LOGOUT_URL = reverse_lazy("admin:logout")
+
+LOGIN_REDIRECT_URL = reverse_lazy("admin:index")
+
+from configurations.settings.packages import *  # noqa
