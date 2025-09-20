@@ -13,7 +13,7 @@ update-package:
 	pip install -r requirements.txt --upgrade
 
 lint:
-	flake8 . --exclude .venv,**/migrations
+	flake8 . --exclude .venv,**/migrations,**/settings/local.py
 
 pre-commit:
 	pre-commit run -a
