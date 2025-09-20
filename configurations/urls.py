@@ -38,6 +38,7 @@ urlpatterns = [
     path("admin/", admin_site.urls),
 )
 
+
 handler500 = admin_site.server_error
 handler404 = admin_site.not_found
 handler403 = admin_site.permission_denied

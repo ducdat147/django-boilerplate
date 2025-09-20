@@ -67,10 +67,13 @@ app:
 	touch controllers/$(filter-out $@,$(MAKECMDGOALS))/serializers.py
 
 build:
-	docker build -t django/service:v1 --file "docker/django/Dockerfile" --no-cache .
+	docker build -t django-boilerplate-server:latest --file "docker/django/Dockerfile" --no-cache .
 
-compose-up:
-	docker-compose up -d
+compose:
+	docker-compose -f docker-compose.yml up -d
+
+compose-dev:
+	docker-compose -f docker-compose.local.yml up -d
 
 prune:
 	docker system prune -a --volumes -f

@@ -9,11 +9,11 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_DB=django_db
-      - POSTGRES_USER=django_user
-      - POSTGRES_PASSWORD=django_pass
+      - POSTGRES_DB=databaselocal
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER $POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -44,8 +44,8 @@ services:
       - 5672:5672
       - 15672:15672
     environment:
-      - RABBITMQ_DEFAULT_USER=user
-      - RABBITMQ_DEFAULT_PASS=pass
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "status"]
       interval: 10s
@@ -56,9 +56,9 @@ services:
 
   loki:
     container_name: loki
-    build:
-      context: .
-      dockerfile: docker/devops/loki/Dockerfile
+    image: grafana/loki
+    volumes:
+      - ./docker/devops/loki/loki.yaml:/etc/loki/loki.yaml
     ports:
       - 3100:3100
     command: -config.file=/etc/loki/loki.yaml
@@ -67,10 +67,9 @@ services:
 
   promtail:
     container_name: promtail
-    build:
-      context: .
-      dockerfile: docker/devops/promtail/Dockerfile
+    image: grafana/promtail
     volumes:
+      - ./docker/devops/promtail/docker-config.yaml:/etc/promtail/docker-config.yaml
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock
     command: -config.file=/etc/promtail/docker-config.yaml
@@ -81,9 +80,9 @@ services:
 
   tempo:
     container_name: tempo
-    build:
-      context: .
-      dockerfile: docker/devops/tempo/Dockerfile
+    image: grafana/tempo
+    volumes:
+      - ./docker/devops/tempo/tempo-local.yaml:/etc/tempo-local.yaml
     ports:
       - 3200:3200
       - 9095:9095
@@ -96,9 +95,9 @@ services:
 
   grafana:
     container_name: grafana
-    build:
-      context: .
-      dockerfile: docker/devops/grafana/Dockerfile
+    image: grafana/grafana:9.5.2
+    volumes:
+      - ./docker/devops/grafana/datasources/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
     ports:
       - 3000:3000
     environment:
