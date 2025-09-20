@@ -23,12 +23,13 @@ services:
 
   server: &service
     container_name: server
-    build:
-      context: .
-      dockerfile: docker/django/Dockerfile
+    image: server:latest
+    # build:
+    #   context: .
+    #   dockerfile: docker/django/Dockerfile
     command: /start-service
     volumes:
-      - server_data:/app
+      - ./media:/app/media
     env_file:
       - .docker.env
     networks:
@@ -151,8 +152,6 @@ networks:
     name: local-networks
 
 volumes:
-  server_data:
-    name: server_data
   rabbitmq_data:
     name: rabbitmq_data
   redis_data:

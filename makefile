@@ -15,6 +15,9 @@ update-package:
 lint:
 	flake8 . --exclude .venv,**/migrations
 
+pre-commit:
+	pre-commit run -a
+
 shell:
 	python manage.py shell
 
@@ -37,7 +40,6 @@ migrations:
 	python manage.py makemigrations
 
 migrate: migrations
-	python manage.py makemigrations
 	python manage.py migrate
 
 user:
@@ -50,7 +52,7 @@ pyc:
 
 clear-migrations:
 	find ./core/**/migrations -name "0*.py" -delete
-	python manage.py makemigrations
+	${MAKE} migrations
 
 css:
 	pnpm tailwind:build
@@ -72,19 +74,21 @@ prune:
 	docker system prune -a --volumes -f
 
 build:
-	docker build -t django-boilerplate-server:latest --file "docker/django/Dockerfile" --no-cache .
+	# docker rm -f server celery_worker celery_beat celery_flower
+	# docker rmi server:latest
+	docker build -t server:latest --file "docker/django/Dockerfile" --no-cache .
 
-deploy:
-	docker-compose -f docker-compose.yml up -d
+deploy: build
+	docker-compose -f docker-compose.prod.yml up -d
 
-dev-up:
+docker-up:
 	docker-compose -f docker-compose.local.yml up -d
 
-dev-down:
-	docker-compose -f docker-compose.local.yml down -v
+docker-down.%:
+	docker-compose -f docker-compose.$*.yml down -v
+	${MAKE} prune
 
-clean: css freeze lint message pyc
-	pre-commit run -a
+clean: css freeze lint message pyc pre-commit
 
 %:
 	@:

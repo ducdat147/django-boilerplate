@@ -64,10 +64,10 @@ A Django boilerplate project with best practices and commonly used packages pre-
 - `make celery`: Start the Celery worker.
 - `make lint`: Run code linters (flake8, isort, black).
 - `make test`: Run tests with coverage.
-- `make clean`: Clean up unnecessary files (e.g., `__pycache__`).
-- `make i <package>`: Install a new package and add it to `requirements.txt`.
-- `make dev-up`: Start the development environment using Docker Compose.
-- `make dev-down`: Stop the development environment.
+- `make pyc`: Clean up unnecessary files (e.g., `__pycache__`).
+- `make i <package_name>`: Install a new package and add it to `requirements.txt`.
+- `make docker-up`: Start the development environment using Docker Compose.
+- `make docker-down.<prod|local>`: Stop the development environment.
 - `make prune`: Remove all stopped containers and unused images.
 - `make css`: Compile Tailwind CSS.
 - `make app <app_name>`: Create a new Django app.
