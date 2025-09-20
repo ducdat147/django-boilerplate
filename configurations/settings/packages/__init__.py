@@ -1,6 +1,6 @@
-from .celery import *  # noqa
-from .constance import *  # noqa
-from .djmoney import *  # noqa
-from .drf import *  # noqa
-from .modeltranslation import *  # noqa
-from .unfold import *  # noqa
+from configurations.settings.packages.celery import *  # noqa
+from configurations.settings.packages.constance import *  # noqa
+from configurations.settings.packages.djmoney import *  # noqa
+from configurations.settings.packages.drf import *  # noqa
+from configurations.settings.packages.modeltranslation import *  # noqa
+from configurations.settings.packages.unfold import *  # noqa

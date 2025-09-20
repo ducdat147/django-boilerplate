@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-05 14:47+0700\n"
+"POT-Creation-Date: 2025-09-20 11:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,37 +18,79 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+msgid "A server error occurred."
+msgstr ""
+
 msgid "English"
 msgstr ""
 
 msgid "Vietnamese"
 msgstr ""
 
+msgid "Website URL"
+msgstr ""
+
 msgid "Website title"
 msgstr ""
 
-msgid "Website description"
+msgid "Website header"
+msgstr ""
+
+msgid "Website subheader"
+msgstr ""
+
+msgid "Login page background image URL"
+msgstr ""
+
+msgid "Website symbol"
+msgstr ""
+
+msgid "Border radius"
+msgstr ""
+
+msgid "Website logo"
+msgstr ""
+
+msgid "Website logo for light mode"
+msgstr ""
+
+msgid "Website logo for dark mode"
+msgstr ""
+
+msgid "Website icon"
+msgstr ""
+
+msgid "Website icon for light mode"
+msgstr ""
+
+msgid "Website icon for dark mode"
 msgstr ""
 
 msgid "Website theme"
 msgstr ""
 
-msgid "Website URL"
+msgid "Expiration time in minutes"
 msgstr ""
 
-msgid "Website background color"
+msgid "Base colors"
 msgstr ""
 
-msgid "Base font size in pixels"
+msgid "Primary colors"
 msgstr ""
 
-msgid "Dashboard Site Title"
+msgid "Font colors"
 msgstr ""
 
-msgid "Appears in sidebar at the top"
+msgid "On"
 msgstr ""
 
-msgid "Appears under SITE_HEADER"
+msgid "Off"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "All White"
 msgstr ""
 
 msgid "Navigation"
@@ -132,16 +174,22 @@ msgstr ""
 msgid "Invalid verification"
 msgstr ""
 
-msgid "The server could not understand the request due to invalid syntax. Please do not repeat this request without modification."
+msgid ""
+"The server could not understand the request due to invalid syntax. Please do "
+"not repeat this request without modification."
 msgstr ""
 
-msgid "You do not have permission to access this resource. Please contact the administrator if you believe this is an error."
+msgid ""
+"You do not have permission to access this resource. Please contact the "
+"administrator if you believe this is an error."
 msgstr ""
 
 msgid "Sorry, we can't find that path. Please try again."
 msgstr ""
 
-msgid "The server encountered an internal error or misconfiguration and was unable to complete your request."
+msgid ""
+"The server encountered an internal error or misconfiguration and was unable "
+"to complete your request."
 msgstr ""
 
 msgid "Bad request"
@@ -223,7 +271,13 @@ msgid "The most trending products in last 2 weeks"
 msgstr ""
 
 #, python-format
-msgid "Total revenue between <strong class=\"font-semibold text-font-important-light dark:text-font-important-dark dark:text-white\">1 - 31 October</strong>. Increase <span class=\"text-green-700 font-semibold dark:text-green-400\">+3.14%%</span> comparing to previous month <strong class=\"font-semibold text-font-important-light dark:text-font-important-dark dark:text-white\">1 - 30 September</strong>."
+msgid ""
+"Total revenue between <strong class=\"font-semibold text-font-important-"
+"light dark:text-font-important-dark dark:text-white\">1 - 31 October</"
+"strong>. Increase <span class=\"text-green-700 font-semibold dark:text-"
+"green-400\">+3.14%%</span> comparing to previous month <strong class=\"font-"
+"semibold text-font-important-light dark:text-font-important-dark dark:text-"
+"white\">1 - 30 September</strong>."
 msgstr ""
 
 msgid "View detailed analytics"
@@ -247,13 +301,17 @@ msgstr ""
 msgid "Forgotten your password?"
 msgstr ""
 
-msgid "Enter your email address below, and we’ll email instructions for setting a new one."
+msgid ""
+"Enter your email address below, and we’ll email instructions for setting a "
+"new one."
 msgstr ""
 
 msgid "Change my password"
 msgstr ""
 
-msgid "The password reset link was invalid, possibly because it has already been used. Please request a new password reset."
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used. Please request a new password reset."
 msgstr ""
 
 msgid "Reset my password"
@@ -262,13 +320,19 @@ msgstr ""
 msgid "Success!"
 msgstr ""
 
-msgid "We’ve emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly."
+msgid ""
+"We’ve emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
 msgstr ""
 
-msgid "If you don’t receive an email, please make sure you’ve entered the address you registered with, and check your spam folder."
+msgid ""
+"If you don’t receive an email, please make sure you’ve entered the address "
+"you registered with, and check your spam folder."
 msgstr ""
 
-msgid "You’re receiving this email because you requested a password reset for your user account at "
+msgid ""
+"You’re receiving this email because you requested a password reset for your "
+"user account at "
 msgstr ""
 
 msgid "Please go to the following page and choose a new password:"
@@ -287,7 +351,9 @@ msgstr ""
 msgid "Password reset on %(site_name)s"
 msgstr ""
 
-msgid "Scan the following barcode with your phone’s OTP app (e.g. Google Authenticator)."
+msgid ""
+"Scan the following barcode with your phone’s OTP app (e.g. Google "
+"Authenticator)."
 msgstr ""
 
 msgid "Install Google Authenticator?"

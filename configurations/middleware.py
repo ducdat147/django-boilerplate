@@ -5,7 +5,7 @@ from opentelemetry import trace
 
 from configurations.hooks import add_event
 
-from .logging import sanitize_data
+from configurations.logging import sanitize_data
 
 logger = logging.getLogger(__name__)
 

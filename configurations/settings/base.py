@@ -255,4 +255,4 @@ LOGOUT_URL = reverse_lazy("admin:logout")
 
 LOGIN_REDIRECT_URL = reverse_lazy("admin:index")
 
-from .packages import *  # noqa
+from configurations.settings.packages import *  # noqa
