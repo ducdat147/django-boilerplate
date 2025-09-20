@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 # Settings for the unfold package
 # https://unfoldadmin.com/docs/configuration/settings/
+# Icon: https://fonts.google.com/icons
 CRISPY_TEMPLATE_PACK = "unfold_crispy"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = ["unfold_crispy"]

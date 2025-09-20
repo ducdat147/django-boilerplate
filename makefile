@@ -33,7 +33,7 @@ message:
 compile: message
 	python manage.py compilemessages -l en -l vi
 
-staticfiles:
+collectstatic:
 	python manage.py collectstatic --noinput
 
 migrations:
