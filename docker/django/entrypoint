@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+db_ready() {
+python << END
+import sys
+import psycopg
+from urllib.parse import urlparse
+
+try:
+    url = urlparse("${DATABASE_URL}")
+    psycopg.connect(
+        host=url.hostname,
+        port=url.port,
+        user=url.username,
+        password=url.password,
+        dbname=url.path[1:],
+    )
+except psycopg.OperationalError as e:
+    sys.stderr.write(f"Error: Unable to connect to the database. Details: {e}")
+    sys.exit(-1)
+except Exception as e:
+    sys.stderr.write(f"An unexpected error occurred: {e}")
+    sys.exit(-1)
+sys.exit(0)
+
+END
+}
+until db_ready; do
+  >&2 echo 'Waiting for Database to become available...'
+  sleep 1
+done
+>&2 echo 'Database is available'
+
+exec "$@"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-05 14:47+0700\n"
+"POT-Creation-Date: 2025-09-20 17:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,37 +18,73 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+msgid "A server error occurred."
+msgstr ""
+
 msgid "English"
 msgstr ""
 
 msgid "Vietnamese"
 msgstr ""
 
+msgid "Website URL"
+msgstr ""
+
 msgid "Website title"
 msgstr ""
 
-msgid "Website description"
+msgid "Website header"
+msgstr ""
+
+msgid "Website subheader"
+msgstr ""
+
+msgid "Login page background image URL"
+msgstr ""
+
+msgid "Website symbol"
+msgstr ""
+
+msgid "Border radius"
+msgstr ""
+
+msgid "Website logo"
+msgstr ""
+
+msgid "Website logo for light mode"
+msgstr ""
+
+msgid "Website logo for dark mode"
+msgstr ""
+
+msgid "Website icon"
+msgstr ""
+
+msgid "Website icon for light mode"
+msgstr ""
+
+msgid "Website icon for dark mode"
 msgstr ""
 
 msgid "Website theme"
 msgstr ""
 
-msgid "Website URL"
+msgid "Expiration time in minutes"
 msgstr ""
 
-msgid "Website background color"
+msgid "Base colors"
 msgstr ""
 
-msgid "Base font size in pixels"
+msgid "Primary colors"
 msgstr ""
 
-msgid "Dashboard Site Title"
+msgid "Font colors"
 msgstr ""
 
-msgid "Appears in sidebar at the top"
+msgid "On"
 msgstr ""
 
-msgid "Appears under SITE_HEADER"
+msgid "Off"
 msgstr ""
 
 msgid "Navigation"
