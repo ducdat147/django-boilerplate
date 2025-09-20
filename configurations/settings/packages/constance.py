@@ -4,6 +4,13 @@ from django.utils.translation import gettext_lazy as _
 from unfold.contrib.constance.settings import UNFOLD_CONSTANCE_ADDITIONAL_FIELDS
 
 from configurations.settings.base import env
+from configurations.settings.packages.unfold.color import (
+    convert_color_dict_to_choices,
+    get_default_color_value,
+    UNFOLD_BASE,
+    UNFOLD_FONT,
+    UNFOLD_PRIMARY,
+)
 
 CONSTANCE_SUPERUSER_ONLY = True
 
@@ -28,9 +35,21 @@ CONSTANCE_CONFIG = {
     "SITE_ICON__DARK": [CONSTANCE_DEFAULT_VALUE, _("Website icon for dark mode")],
     "THEME": [CONSTANCE_DEFAULT_VALUE, _("Website theme"), "theme_choice_field"],
     "OTP_CODE_EXPIRATION_TIME": [10, _("Expiration time in minutes")],
-    "COLORS__BASE": ["default", _("Base colors"), "choise_color"],
-    "COLORS__PRIMARY": ["default", _("Primary colors"), "choise_color"],
-    "COLORS__FONT": ["default", _("Font colors"), "choise_color"],
+    "COLORS__BASE": [
+        get_default_color_value(UNFOLD_BASE),
+        _("Base colors"),
+        "choise_color_base",
+    ],
+    "COLORS__PRIMARY": [
+        get_default_color_value(UNFOLD_PRIMARY),
+        _("Primary colors"),
+        "choise_color_primary",
+    ],
+    "COLORS__FONT": [
+        get_default_color_value(UNFOLD_FONT),
+        _("Font colors"),
+        "choise_color_font",
+    ],
 }
 
 CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
@@ -104,14 +123,25 @@ CONSTANCE_ADDITIONAL_FIELDS = {
             "widget": "unfold.widgets.UnfoldAdminColorInputWidget",
         },
     ],
-    "choise_color": [
+    "choise_color_base": [
         "django.forms.fields.ChoiceField",
         {
             "widget": "unfold.widgets.UnfoldAdminSelectWidget",
-            "choices": (
-                ("default", _("Default")),
-                ("all-white", _("All White")),
-            ),
+            "choices": convert_color_dict_to_choices(UNFOLD_BASE),
+        },
+    ],
+    "choise_color_primary": [
+        "django.forms.fields.ChoiceField",
+        {
+            "widget": "unfold.widgets.UnfoldAdminSelectWidget",
+            "choices": convert_color_dict_to_choices(UNFOLD_PRIMARY),
+        },
+    ],
+    "choise_color_font": [
+        "django.forms.fields.ChoiceField",
+        {
+            "widget": "unfold.widgets.UnfoldAdminSelectWidget",
+            "choices": convert_color_dict_to_choices(UNFOLD_FONT),
         },
     ],
 }
@@ -137,74 +167,16 @@ CONSTANCE_CALLBACKS_UNFOLD = [
     {
         "callback": "utils.performs.ConstanceValue",
         "field": "COLORS__BASE",
-        "meta_data": {
-            "default": {
-                "50": "#f9fafb",
-                "100": "#f3f4f6",
-                "200": "#e5e7eb",
-                "300": "#d1d5db",
-                "400": "#9ca3af",
-                "500": "#6b7280",
-                "600": "#4b5563",
-                "700": "#374151",
-                "800": "#1f2937",
-                "900": "#111827",
-                "950": "#03111a",
-            },
-            "all-white": {
-                "50": "#666",
-                "100": "#666",
-                "200": "#666",
-                "300": "#666",
-                "400": "#666",
-                "500": "#666",
-                "600": "#666",
-                "700": "#666",
-                "800": "#666",
-                "900": "#666",
-                "950": "#666",
-            },
-        },
+        "meta_data": UNFOLD_BASE,
     },
     {
         "callback": "utils.performs.ConstanceValue",
         "field": "COLORS__PRIMARY",
-        "meta_data": {
-            "default": {
-                "50": "#faf5ff",
-                "100": "#f3e8ff",
-                "200": "#e9d5ff",
-                "300": "#d8b4fe",
-                "400": "#c084fc",
-                "500": "#a855f7",
-                "600": "#9333ea",
-                "700": "#7e22ce",
-                "800": "#6b21a8",
-                "900": "#581c87",
-                "950": "#3b0764",
-            }
-        },
+        "meta_data": UNFOLD_PRIMARY,
     },
     {
         "callback": "utils.performs.ConstanceValue",
         "field": "COLORS__FONT",
-        "meta_data": {
-            "default": {
-                "subtle-light": "var(--color-base-500)",
-                "subtle-dark": "var(--color-base-400)",
-                "default-light": "var(--color-base-600)",
-                "default-dark": "var(--color-base-300)",
-                "important-light": "var(--color-base-900)",
-                "important-dark": "var(--color-base-100)",
-            },
-            "all-white": {
-                "subtle-light": "var(--color-base-400)",
-                "subtle-dark": "var(--color-base-500)",
-                "default-light": "var(--color-base-300)",
-                "default-dark": "var(--color-base-600)",
-                "important-light": "var(--color-base-100)",
-                "important-dark": "var(--color-base-900)",
-            },
-        },
+        "meta_data": UNFOLD_FONT,
     },
 ]
