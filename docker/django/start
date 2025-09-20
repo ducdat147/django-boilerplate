@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+echo "Collecting static files..."
+python /app/manage.pyc collectstatic --noinput
+echo "Running migrations..."
+python /app/manage.pyc migrate
+# echo "Creating seed data..."
+# python /app/manage.pyc seed_data
+echo "Compiling message files..."
+python /app/manage.pyc compilemessages
+
+uwsgi --ini /app/uwsgi.ini
