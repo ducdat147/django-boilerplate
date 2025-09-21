@@ -326,8 +326,14 @@ UNFOLD_FONT = {
 }
 
 
-def convert_color_dict_to_choices(color_dict: dict) -> tuple:
-    return tuple((k, k.replace("_", " ").capitalize()) for k in color_dict.keys())
+def convert_color_dict_to_choices(color_dict: dict, default_value="-") -> tuple:
+    return tuple(
+        (
+            k,
+            str(k.replace("_", " ") if k != default_value else "default").capitalize(),
+        )
+        for k in color_dict.keys()
+    )
 
 
 def get_default_color_value(color_dict: dict) -> str:
