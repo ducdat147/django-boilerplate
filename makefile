@@ -34,6 +34,7 @@ compile: message
 	python manage.py compilemessages -l en -l vi
 
 collectstatic:
+	${MAKE} css
 	python manage.py collectstatic --noinput
 
 migrations:
@@ -88,7 +89,7 @@ docker-down.%:
 	docker-compose -f docker-compose.$*.yml down -v
 	${MAKE} prune
 
-clean: css freeze lint message pyc pre-commit
+clean: css freeze message pyc pre-commit
 
 %:
 	@:

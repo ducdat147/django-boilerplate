@@ -19,6 +19,36 @@ CONSTANCE_REDIS_CONNECTION = env.str("CACHE_URL")
 
 CONSTANCE_DEFAULT_VALUE = "-"
 
+HEADER_STICKY_CLASS = "md:sticky top-0"
+HEADER_VARIANT_CLASS = "dark"
+
+
+CONSTANCE_ELEMENT_CLASSES = {
+    "header_theme": {
+        CONSTANCE_DEFAULT_VALUE: "",
+        "dark": "dark",
+    },
+    "header_variant": {
+        CONSTANCE_DEFAULT_VALUE: "",
+        "sticky": "md:sticky top-0",
+    },
+    "page": "",
+    "main": {
+        CONSTANCE_DEFAULT_VALUE: "",
+        "boxed": "border border-base-200 m-3 rounded-default shadow-xs dark:border-base-800",
+    },
+    "navigation": {
+        CONSTANCE_DEFAULT_VALUE: "",
+        "dark": "dark",
+    },
+    "navigation_wrapper": "",
+    "navigation_header": "",  # | "dark",
+    "navigation_inner": "",
+    "pagination": "",
+}
+
+EC_HEADER_THEME = ""
+
 CONSTANCE_CONFIG = {
     "SITE_URL": [CONSTANCE_DEFAULT_VALUE, _("Website URL")],
     "SITE_TITLE": ["Dashboard Site Title", _("Website title")],
@@ -50,6 +80,26 @@ CONSTANCE_CONFIG = {
         _("Font colors"),
         "choise_color_font",
     ],
+    "EC_MAIN": [
+        get_default_color_value(CONSTANCE_ELEMENT_CLASSES["main"]),
+        _("Layout style"),
+        "ec_main",
+    ],
+    "EC_HEADER_THEME": [
+        get_default_color_value(CONSTANCE_ELEMENT_CLASSES["header_theme"]),
+        _("Header theme"),
+        "ec_header_theme",
+    ],
+    "EC_HEADER_VARIANT": [
+        get_default_color_value(CONSTANCE_ELEMENT_CLASSES["header_variant"]),
+        _("Header variant"),
+        "ec_header_variant",
+    ],
+    "EC_SIDEBAR_THEME": [
+        get_default_color_value(CONSTANCE_ELEMENT_CLASSES["navigation"]),
+        _("Sidebar theme"),
+        "ec_sidebar_theme",
+    ],
 }
 
 CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
@@ -76,7 +126,16 @@ CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
                 "COLORS__PRIMARY",
                 "COLORS__FONT",
             ),
-            "collapse": False,
+            "collapse": True,
+        },
+        "Element Classes": {
+            "fields": (
+                "EC_MAIN",
+                "EC_HEADER_THEME",
+                "EC_HEADER_VARIANT",
+                "EC_SIDEBAR_THEME",
+            ),
+            "collapse": True,
         },
         "Assets": {
             "fields": (
@@ -88,7 +147,7 @@ CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
                 "SITE_ICON__LIGHT",
                 "SITE_ICON__DARK",
             ),
-            "collapse": False,
+            "collapse": True,
         },
     }
 )
@@ -127,21 +186,70 @@ CONSTANCE_ADDITIONAL_FIELDS = {
         "django.forms.fields.ChoiceField",
         {
             "widget": "unfold.widgets.UnfoldAdminSelectWidget",
-            "choices": convert_color_dict_to_choices(UNFOLD_BASE),
+            "choices": convert_color_dict_to_choices(
+                UNFOLD_BASE,
+                CONSTANCE_DEFAULT_VALUE,
+            ),
         },
     ],
     "choise_color_primary": [
         "django.forms.fields.ChoiceField",
         {
             "widget": "unfold.widgets.UnfoldAdminSelectWidget",
-            "choices": convert_color_dict_to_choices(UNFOLD_PRIMARY),
+            "choices": convert_color_dict_to_choices(
+                UNFOLD_PRIMARY,
+                CONSTANCE_DEFAULT_VALUE,
+            ),
         },
     ],
     "choise_color_font": [
         "django.forms.fields.ChoiceField",
         {
             "widget": "unfold.widgets.UnfoldAdminSelectWidget",
-            "choices": convert_color_dict_to_choices(UNFOLD_FONT),
+            "choices": convert_color_dict_to_choices(
+                UNFOLD_FONT,
+                CONSTANCE_DEFAULT_VALUE,
+            ),
+        },
+    ],
+    "ec_main": [
+        "django.forms.fields.ChoiceField",
+        {
+            "widget": "unfold.widgets.UnfoldAdminSelectWidget",
+            "choices": convert_color_dict_to_choices(
+                CONSTANCE_ELEMENT_CLASSES["main"],
+                CONSTANCE_DEFAULT_VALUE,
+            ),
+        },
+    ],
+    "ec_header_theme": [
+        "django.forms.fields.ChoiceField",
+        {
+            "widget": "unfold.widgets.UnfoldAdminSelectWidget",
+            "choices": convert_color_dict_to_choices(
+                CONSTANCE_ELEMENT_CLASSES["header_theme"],
+                CONSTANCE_DEFAULT_VALUE,
+            ),
+        },
+    ],
+    "ec_header_variant": [
+        "django.forms.fields.ChoiceField",
+        {
+            "widget": "unfold.widgets.UnfoldAdminSelectWidget",
+            "choices": convert_color_dict_to_choices(
+                CONSTANCE_ELEMENT_CLASSES["header_variant"],
+                CONSTANCE_DEFAULT_VALUE,
+            ),
+        },
+    ],
+    "ec_sidebar_theme": [
+        "django.forms.fields.ChoiceField",
+        {
+            "widget": "unfold.widgets.UnfoldAdminSelectWidget",
+            "choices": convert_color_dict_to_choices(
+                CONSTANCE_ELEMENT_CLASSES["navigation"],
+                CONSTANCE_DEFAULT_VALUE,
+            ),
         },
     ],
 }
@@ -161,6 +269,7 @@ CONSTANCE_CONFIG_FOR_UNFOLD = [
     "site_symbol",
     "border_radius",
     "theme",
+    "element_classes__header",
 ]
 
 CONSTANCE_CALLBACKS_UNFOLD = [
