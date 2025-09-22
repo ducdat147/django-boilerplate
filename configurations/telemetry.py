@@ -17,7 +17,7 @@ from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.sdk.trace.sampling import ALWAYS_ON
 
-from .hooks import (
+from configurations.hooks import (
     django_request_hook,
     django_response_hook,
     log_hook,

@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from ..base import PROJECT_NAME, SECRET_KEY, env
+from configurations.settings.base import PROJECT_NAME, SECRET_KEY, env
 
 # DRF Spectacular settings
 # https://drf-spectacular.readthedocs.io/en/latest/settings.html#settings

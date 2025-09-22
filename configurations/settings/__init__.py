@@ -1,4 +1,4 @@
 try:
-    from .local import *  # noqa
+    from configurations.settings.local import *  # noqa
 except ImportError:
-    from .production import *  # noqa
+    from configurations.settings.production import *  # noqa

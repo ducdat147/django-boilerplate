@@ -1,4 +1,4 @@
-from ..base import TIME_ZONE, env
+from configurations.settings.base import TIME_ZONE, env
 
 # Celery
 # https://docs.celeryq.dev/en/stable/getting-started/introduction.html

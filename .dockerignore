@@ -28,7 +28,7 @@ db.sqlite3-journal
 media/
 
 # Environment
-# *.env
+*.env
 .env
 .venv
 env/
@@ -70,3 +70,5 @@ logs/
 
 # Node
 node_modules/
+
+configurations/settings/local.py

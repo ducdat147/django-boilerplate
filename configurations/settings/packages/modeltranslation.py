@@ -1,4 +1,4 @@
-from ..base import LANGUAGE_CODE, LANGUAGES
+from configurations.settings.base import LANGUAGE_CODE, LANGUAGES
 
 # Modeltranslation
 # https://django-modeltranslation.readthedocs.io/en/latest/installation.html#advanced-settings
