@@ -1,6 +1,6 @@
 from constance import config
 from rest_framework import serializers
-from rest_framework.exceptions import NotFound, ParseError, ValidationError
+from rest_framework.exceptions import ParseError, ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
 from controllers.auth.utils import (
@@ -8,7 +8,7 @@ from controllers.auth.utils import (
     generate_otp,
     send_verification_email,
 )
-from core.user.enums import OtpTypeEnum
+from core.user.enums import OtpTypeEnum, TargetOtpEnum
 from core.user.models import OtpCode, User
 
 
@@ -25,101 +25,103 @@ class LogoutSerializer(serializers.Serializer):
 
 class SendOTPSerializer(serializers.Serializer):
     email = serializers.EmailField(write_only=True, required=False)
+    phone = serializers.CharField(write_only=True, required=False)
     verification_type = serializers.ChoiceField(
         choices=OtpTypeEnum.choices, write_only=True, required=True
+    )
+    target = serializers.ChoiceField(
+        choices=TargetOtpEnum.choices, write_only=True, required=False
     )
     exprires_in = serializers.IntegerField(read_only=True)
 
     class Meta:
         fields = [
             "email",
+            "phone",
             "verification_type",
+            "target",
             "exprires_in",
         ]
 
     def validate(self, attrs):
-        email = attrs.get("email")
+        to = attrs.get("email") or attrs.get("phone")
         verification_type = attrs.get("verification_type")
+        target = attrs.get("target")
         attrs["exprires_in"] = 0
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            raise NotFound(f"User with email {email} not found")
+        check_valid_verification(
+            verification_type=verification_type,
+            to=to,
+        )
+        otp_code = generate_otp()
+        OtpCode.objects.filter(
+            to=to,
+            target=target,
+            type_otp=verification_type,
+        ).update(is_used=True)
 
-        if verification_type in (OtpTypeEnum.EMAIL, OtpTypeEnum.PASSWORD):
-            check_valid_verification(
-                user=user,
-                verification_type=verification_type,
-                to=email,
-            )
-            otp_code = generate_otp()
-            OtpCode.objects.filter(
-                user=user,
-                type_otp=verification_type,
-            ).update(is_used=True)
-
-            # Create new OTP
-            OtpCode.objects.create(
-                user=user,
-                code=otp_code,
-                type_otp=verification_type,
-            )
-            name = user.full_name or user.username
-            send_verification_email(email, otp_code, name)
-            attrs["exprires_in"] = config.OTP_CODE_EXPIRATION_TIME
+        # Create new OTP
+        OtpCode.objects.create(
+            to=to,
+            target=target,
+            type_otp=verification_type,
+            code=otp_code,
+        )
+        name = "User"
+        if target == TargetOtpEnum.EMAIL:
+            send_verification_email(to, otp_code, name)
+        if target == TargetOtpEnum.PHONE:
+            pass
+        attrs["exprires_in"] = config.OTP_CODE_EXPIRATION_TIME
 
         return super().validate(attrs)
 
 
 class VerifyOTPSerializer(serializers.Serializer):
     email = serializers.EmailField(write_only=True, required=False)
+    phone = serializers.CharField(write_only=True, required=False)
+    verification_type = serializers.ChoiceField(
+        choices=OtpTypeEnum.choices, write_only=True, required=False
+    )
+    target = serializers.ChoiceField(
+        choices=TargetOtpEnum.choices, write_only=True, required=False
+    )
     code = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         fields = [
             "email",
+            "phone",
+            "verification_type",
+            "target",
             "code",
         ]
 
     def validate(self, attrs):
-        if "email" in attrs and attrs["email"]:
-            email = attrs["email"]
-            code = attrs["code"]
-            verification_type = OtpTypeEnum.EMAIL
-        else:
-            raise ValidationError({"email": "Email is required"})
-
+        to = attrs.get("email") or attrs.get("phone")
+        code = attrs.get("code")
+        verification_type = attrs.get("verification_type")
+        target = attrs.get("target")
+        check_valid_verification(
+            verification_type=verification_type,
+            to=to,
+        )
         try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            raise NotFound(f"User with email {email} not found")
+            otp_instance = OtpCode.objects.filter(
+                to=to,
+                target=target,
+                code=code,
+                type_otp=verification_type,
+                is_used=False,
+            ).latest("-created_at")
+        except OtpCode.DoesNotExist:
+            raise ParseError("Invalid OTP code")
 
-        if verification_type in (OtpTypeEnum.EMAIL, OtpTypeEnum.PASSWORD):
-            check_valid_verification(
-                user=user,
-                verification_type=verification_type,
-                to=email,
-            )
-            try:
-                otp_instance = OtpCode.objects.filter(
-                    user=user,
-                    code=code,
-                    type_otp=verification_type,
-                    is_used=False,
-                ).latest("-created_at")
-            except OtpCode.DoesNotExist:
-                raise ParseError("Invalid OTP code")
+        if otp_instance.is_expired:
+            raise ParseError("OTP code has expired")
 
-            if otp_instance.is_expired:
-                raise ParseError("OTP code has expired")
-
-            # Mark OTP as used
-            otp_instance.is_used = True
-            otp_instance.save()
-
-            if verification_type == OtpTypeEnum.EMAIL:
-                user.settings.is_email_verified = True
-                user.settings.save()
+        # Mark OTP as used
+        otp_instance.is_used = True
+        otp_instance.save()
 
         return super().validate(attrs)
 

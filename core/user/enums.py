@@ -2,6 +2,11 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
+class TargetOtpEnum(models.TextChoices):
+    EMAIL = "email", _("Email")
+    PHONE = "phone", _("Phone")
+
+
 class OtpTypeEnum(models.TextChoices):
     EMAIL = "email", _("Email Verification")
     PASSWORD = "password", _("Password Reset")
