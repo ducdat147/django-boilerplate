@@ -65,6 +65,7 @@ CONSTANCE_CONFIG = {
     "SITE_ICON__DARK": [CONSTANCE_DEFAULT_VALUE, _("Website icon for dark mode")],
     "THEME": [CONSTANCE_DEFAULT_VALUE, _("Website theme"), "theme_choice_field"],
     "OTP_CODE_EXPIRATION_TIME": [10, _("Expiration time in minutes")],
+    "OTP_CODE_LENGTH": [6, _("OTP code length")],
     "COLORS__BASE": [
         get_default_color_value(UNFOLD_BASE),
         _("Base colors"),
@@ -105,7 +106,10 @@ CONSTANCE_CONFIG = {
 CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
     {
         "Service": {
-            "fields": ("OTP_CODE_EXPIRATION_TIME",),
+            "fields": (
+                "OTP_CODE_EXPIRATION_TIME",
+                "OTP_CODE_LENGTH",
+            ),
             "collapse": False,
         },
         "General Settings": {
