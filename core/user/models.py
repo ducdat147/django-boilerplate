@@ -65,7 +65,7 @@ class OtpCode(BaseModel):
     is_used = models.BooleanField(verbose_name=_("Is Used"), default=False)
 
     def __str__(self):
-        return f"{self.user.email} - {self.code} ({self.type_otp})"
+        return f"{self.to} - ({self.type_otp})"
 
     def save(self, *args, **kwargs):
         if not self.expires_at:
