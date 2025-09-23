@@ -134,7 +134,7 @@ services:
 
   grafana:
     container_name: grafana
-    image: grafana/grafana:9.5.2
+    image: grafana/grafana
     volumes:
       - ./docker/devops/grafana/datasources/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
     environment:

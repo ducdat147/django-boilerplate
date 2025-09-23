@@ -18,6 +18,7 @@ admin.site.unregister(Group)
 
 
 class UserAdmin(BaseUserAdmin, ModelAdmin):
+    list_display = ("username", "email", "is_active", "last_login", "date_joined")
     form = UserChangeForm
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm

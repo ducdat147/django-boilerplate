@@ -1,4 +1,6 @@
 from constance import config
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.exceptions import ParseError, ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
@@ -130,15 +132,24 @@ class RegisterUserSerializer(serializers.ModelSerializer):
     message = serializers.CharField(
         read_only=True, default="User registered successfully"
     )
+    password = serializers.CharField(write_only=True, required=False)
     is_existed = serializers.BooleanField(read_only=True, default=False)
 
     class Meta:
         model = User
         fields = [
             "email",
+            "password",
             "message",
             "is_existed",
         ]
+
+    def validate_password(self, value):
+        try:
+            validate_password(value)
+        except ValidationError as e:
+            raise ValidationError({"password": e.messages})
+        return make_password(value)
 
     def create(self, validated_data):
         validated_data["username"] = validated_data["email"]
