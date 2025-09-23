@@ -94,7 +94,6 @@ def convert_config(config, config_names: list):
                     result=result,
                     full_key=key,
                 )
-
     return result
 
 
@@ -128,8 +127,33 @@ def callback_constance(config) -> dict:
             result=result,
             full_key=key,
         )
-
     return result
+
+
+def get_element_classes(config) -> dict:
+    main = settings.CONSTANCE_ELEMENT_CLASSES["main"][getattr(config, "EC_MAIN", "")]
+    sidebar_theme = settings.CONSTANCE_ELEMENT_CLASSES["navigation"][
+        getattr(config, "EC_SIDEBAR_THEME", "")
+    ]
+    header_theme = settings.CONSTANCE_ELEMENT_CLASSES["header_theme"][
+        getattr(config, "EC_HEADER_THEME", "")
+    ]
+    header_variant = settings.CONSTANCE_ELEMENT_CLASSES["header_variant"][
+        getattr(config, "EC_HEADER_VARIANT", "")
+    ]
+
+    return {
+        "element_classes": {
+            "header": f"{header_theme} {header_variant}".strip(),
+            "page": "",
+            "main": main,
+            "navigation": sidebar_theme,
+            "navigation_wrapper": "",
+            "navigation_header": f"dark:bg-base-900 dark:border-base-800 {header_theme}".strip(),
+            "navigation_inner": "",
+            "pagination": "",
+        }
+    }
 
 
 class AdminSite(UnfoldAdminSite):
@@ -145,10 +169,13 @@ class AdminSite(UnfoldAdminSite):
         context = super().each_context(request)
         update_context = convert_config(config, settings.CONSTANCE_CONFIG_FOR_UNFOLD)
         update_context_callback = callback_constance(config)
+        update_context_element_classes = get_element_classes(config)
         if bool(update_context):
             context = {**context, **update_context}
         if bool(update_context_callback):
             context = {**context, **update_context_callback}
+        if bool(update_context_element_classes):
+            context = {**context, **update_context_element_classes}
         return context
 
     def get_urls(self) -> List[URLPattern]:

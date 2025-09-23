@@ -21,6 +21,15 @@ pre-commit:
 shell:
 	python manage.py shell
 
+test:
+	coverage run manage.py test
+
+test.report:
+	coverage report -m
+
+test.html:
+	coverage html
+
 run:
 	python manage.py runserver 0.0.0.0:80
 
@@ -34,6 +43,7 @@ compile: message
 	python manage.py compilemessages -l en -l vi
 
 collectstatic:
+	${MAKE} css
 	python manage.py collectstatic --noinput
 
 migrations:
@@ -88,7 +98,7 @@ docker-down.%:
 	docker-compose -f docker-compose.$*.yml down -v
 	${MAKE} prune
 
-clean: css freeze lint message pyc pre-commit
+clean: css freeze message pyc pre-commit
 
 %:
 	@:
