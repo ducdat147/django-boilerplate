@@ -134,7 +134,10 @@ WSGI_APPLICATION = "configurations.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {"default": env.db()}
+DATABASES = {
+    "default": env.db(),
+    "test": env.db("TEST_DATABASE_URL", default="sqlite:///:memory:"),
+}
 
 CACHES = {"default": env.cache()}
 
@@ -154,6 +157,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {"min_length": 8},
     },
     {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",

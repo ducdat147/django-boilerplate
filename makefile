@@ -21,6 +21,15 @@ pre-commit:
 shell:
 	python manage.py shell
 
+test:
+	coverage run manage.py test
+
+test.report:
+	coverage report -m
+
+test.html:
+	coverage html
+
 run:
 	python manage.py runserver 0.0.0.0:80
 
