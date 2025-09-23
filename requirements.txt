@@ -22,7 +22,7 @@ django-allauth==65.11.2
 django-autoslug==1.9.9
 django-celery-beat==2.8.1
 django-constance==4.3.2
-django-cors-headers==4.8.0
+django-cors-headers==4.9.0
 django-crispy-forms==2.4
 django-environ==0.12.0
 django-filter==25.1
