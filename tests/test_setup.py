@@ -35,6 +35,17 @@ class TestSetup(APITestCase):
         format: str = "json",
         response_body: dict = None,
     ):
+        """Run a single test case.
+
+        Args:
+            `method` (str): The HTTP method to use ["get", "post", "put", "patch", "delete"].
+            `path_name` (str): The name of the URL path to test. Use reverse() to get the URL.
+            `request_body` (dict, optional): The request payload. Defaults to None.
+            `status_code` (status, optional): The expected HTTP status code. Defaults to None.
+            `fields` (list, optional): The fields to check in the response. Defaults to None.
+            `format` (str, optional): The format of the request. Defaults to "json".
+            `response_body` (dict, optional): The expected response payload. Defaults to None.
+        """
         url = reverse(path_name)
         self.assertIn(method, ["get", "post", "put", "patch", "delete"])
         response = getattr(self.client, method)(url, data=request_body, format=format)
@@ -54,6 +65,22 @@ class TestSetup(APITestCase):
     def run_tests(
         self, func_name: str = "NoName", special_case: bool = False, **kwargs
     ):
+        """Run tests based on the provided function name and parameters.
+
+        Args:
+            `func_name` (str, optional): The name of the test function to run. Defaults to "NoName".
+            `special_case` (bool, optional): Flag to indicate if this is a special case test. Defaults to False.
+            `**kwargs`: Additional keyword arguments for special case tests.
+                - `path_name` (str): The name of the URL path to test.
+                - `method` (str): The HTTP method to use ["get", "post", "put", "patch", "delete"].
+                - `request_body` (dict, optional): The request payload. Defaults to None.
+                - `status_code` (status, optional): The expected HTTP status code. Defaults to None.
+                - `fields` (list, optional): The fields to check in the response. Defaults to None.
+                - `format` (str, optional): The format of the request. Defaults to "json".
+                - `response_body` (dict, optional): The expected response payload. Defaults to None.
+        Raises:
+            ValueError: If the test case is not found.
+        """
         obj = ALL_TEST_CASE.get(func_name)
         if bool(obj) and not special_case:
             test_cases = obj.get("test_case") or []

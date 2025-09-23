@@ -13,6 +13,6 @@ python /app/manage.pyc migrate
 echo "Compiling message files..."
 python /app/manage.pyc compilemessages
 echo "Running Tests..."
-python coverage run /app/manage.pyc test
+python /app/manage.pyc test
 
 uwsgi --ini /app/uwsgi.ini
