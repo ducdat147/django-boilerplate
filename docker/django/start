@@ -12,5 +12,7 @@ python /app/manage.pyc migrate
 # python /app/manage.pyc seed_data
 echo "Compiling message files..."
 python /app/manage.pyc compilemessages
+echo "Running Tests..."
+python /app/manage.pyc test
 
 uwsgi --ini /app/uwsgi.ini

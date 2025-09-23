@@ -22,7 +22,7 @@ django-allauth==65.11.2
 django-autoslug==1.9.9
 django-celery-beat==2.8.1
 django-constance==4.3.2
-django-cors-headers==4.8.0
+django-cors-headers==4.9.0
 django-crispy-forms==2.4
 django-environ==0.12.0
 django-filter==25.1
@@ -33,7 +33,7 @@ django-money==3.5.4
 django-phonenumber-field==8.1.0
 django-simple-history==3.10.1
 django-timezone-field==7.1
-django-unfold==0.65.0
+django-unfold==0.66.0
 djangorestframework==3.16.1
 djangorestframework_simplejwt==5.5.1
 drf-spectacular==0.28.0
@@ -106,7 +106,7 @@ uritemplate==4.2.0
 urllib3==2.5.0
 vine==5.1.0
 virtualenv==20.34.0
-wcwidth==0.2.13
+wcwidth==0.2.14
 whitenoise==6.11.0
 wrapt==1.17.3
 zipp==3.23.0
