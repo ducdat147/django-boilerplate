@@ -1,6 +1,8 @@
 from constance import config
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.password_validation import (
+    validate_password as dj_validate_password,
+)
 from rest_framework import serializers
 from rest_framework.exceptions import ParseError, ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
@@ -145,10 +147,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         ]
 
     def validate_password(self, value):
-        try:
-            validate_password(value)
-        except ValidationError as e:
-            raise ValidationError({"password": e.messages})
+        dj_validate_password(value)
         return make_password(value)
 
     def create(self, validated_data):

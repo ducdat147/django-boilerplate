@@ -24,3 +24,22 @@ class AuthTests(TestSetup):
             request_body={"refresh": str(refresh)},
         )
         self.run_tests("test_auth.test_refresh_token__invalid")
+
+    def test_logout(self):
+        refresh = RefreshToken.for_user(self.user)
+        self.run_tests(
+            special_case=True,
+            path_name="auth-logout",
+            method="post",
+            status_code=status.HTTP_204_NO_CONTENT,
+            format="json",
+            request_body={"refresh": str(refresh)},
+        )
+        self.run_tests(
+            special_case=True,
+            path_name="auth-logout",
+            method="post",
+            status_code=status.HTTP_400_BAD_REQUEST,
+            format="json",
+            request_body={"refresh": str(refresh)},
+        )
