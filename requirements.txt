@@ -33,7 +33,7 @@ django-money==3.5.4
 django-phonenumber-field==8.1.0
 django-simple-history==3.10.1
 django-timezone-field==7.1
-django-unfold==0.65.0
+django-unfold==0.66.0
 djangorestframework==3.16.1
 djangorestframework_simplejwt==5.5.1
 drf-spectacular==0.28.0
