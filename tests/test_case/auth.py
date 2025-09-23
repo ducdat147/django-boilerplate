@@ -1,12 +1,11 @@
 from rest_framework import status
-from django.urls import reverse
 
 from tests.test_case.data_init import DATA_INIT
 
 
 AUTH_TEST_CASE = {
     "test_auth.test_register_user": {
-        "path_name": reverse("register"),
+        "path_name": "register",
         "method": "post",
         "test_case": [
             {
@@ -15,18 +14,37 @@ AUTH_TEST_CASE = {
                     "password": "1StrongPassword!",
                 },
                 "status_code": status.HTTP_201_CREATED,
-                "fields": [],
-                "format": "json",
                 "response_body": {
                     "email": "newusertest@yopmail.com",
                     "message": "User registered successfully",
                     "is_existed": False,
                 },
             },
+            {
+                "request_body": {
+                    "email": "newusertest@yopmail.com",
+                    "password": "1234",
+                },
+                "status_code": status.HTTP_400_BAD_REQUEST,
+            },
+        ],
+    },
+    "test_auth.test_register_user__login": {
+        "path_name": "token-obtain-pair",
+        "method": "post",
+        "test_case": [
+            {
+                "request_body": {
+                    "username": "newusertest@yopmail.com",
+                    "password": "1StrongPassword!",
+                },
+                "status_code": status.HTTP_200_OK,
+                "fields": ["refresh", "access"],
+            },
         ],
     },
     "test_auth.test_login": {
-        "path_name": reverse("token-obtain-pair"),
+        "path_name": "token-obtain-pair",
         "method": "post",
         "test_case": [
             {
@@ -40,14 +58,26 @@ AUTH_TEST_CASE = {
             {
                 "request_body": {
                     "username": "no_exist_user@yopmail.com",
-                    "password": "1StrongPassword!",
+                    "password": DATA_INIT["password"],
                 },
                 "status_code": status.HTTP_401_UNAUTHORIZED,
             },
             {
                 "request_body": {
-                    "username": "test@yopmail.com",
+                    "username": DATA_INIT["email"],
                     "password": "wrongpassword",
+                },
+                "status_code": status.HTTP_401_UNAUTHORIZED,
+            },
+        ],
+    },
+    "test_auth.test_refresh_token__invalid": {
+        "path_name": "token-refresh",
+        "method": "post",
+        "test_case": [
+            {
+                "request_body": {
+                    "refresh": "invalidtoken",
                 },
                 "status_code": status.HTTP_401_UNAUTHORIZED,
             },
