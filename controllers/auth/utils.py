@@ -8,29 +8,23 @@ from rest_framework.exceptions import ParseError
 
 from core.common.tasks import send_email_task
 from core.user.enums import OtpTypeEnum
-from core.user.models import User
 
 
 def check_valid_verification(
-    user: User,
     verification_type: str,
     to: str = None,
 ) -> OtpTypeEnum:
     if verification_type == OtpTypeEnum.EMAIL:
         if not to:
             raise ParseError(_("Email is required for email verification."))
-        elif user.email != to:
-            raise ParseError(_("Invalid email address."))
-        elif user.settings.is_email_verified:
-            raise ParseError(_("Email already verified."))
     else:
         raise ParseError(_("Invalid verification"))
     return OtpTypeEnum(verification_type)
 
 
 def generate_otp():
-    """Generate 6 digit OTP code"""
-    return "".join(random.choices(string.digits, k=6))
+    """Generate OTP code"""
+    return "".join(random.choices(string.digits, k=config.OTP_CODE_LENGTH))
 
 
 def send_verification_email(email, otp_code, name):

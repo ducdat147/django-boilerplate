@@ -12,7 +12,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from common.models import BaseModel
-from core.user.enums import OTPVerificationStatusEnum, OtpTypeEnum
+from core.user.enums import OTPVerificationStatusEnum, OtpTypeEnum, TargetOtpEnum
 
 
 class User(AbstractUser):
@@ -51,10 +51,11 @@ class UserSettings(models.Model):
 
 
 class OtpCode(BaseModel):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="otp_codes", verbose_name=_("User")
+    to = models.CharField(verbose_name=_("To"), max_length=255)
+    target = models.CharField(
+        verbose_name=_("Target"), max_length=255, choices=TargetOtpEnum.choices
     )
-    code = models.CharField(verbose_name=_("OTP Code"), max_length=6)
+    code = models.CharField(verbose_name=_("OTP Code"), max_length=50)
     type_otp = models.CharField(
         verbose_name=_("OTP Type"), max_length=20, choices=OtpTypeEnum.choices
     )
@@ -64,13 +65,14 @@ class OtpCode(BaseModel):
     is_used = models.BooleanField(verbose_name=_("Is Used"), default=False)
 
     def __str__(self):
-        return f"{self.user.email} - {self.code} ({self.type_otp})"
+        return f"{self.to} - ({self.type_otp})"
 
     def save(self, *args, **kwargs):
         if not self.expires_at:
             self.expires_at = timezone.now() + timedelta(
                 minutes=config.OTP_CODE_EXPIRATION_TIME
             )
+
         super().save(*args, **kwargs)
 
     @property
