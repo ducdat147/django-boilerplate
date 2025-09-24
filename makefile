@@ -83,22 +83,30 @@ app:
 prune:
 	docker system prune -a --volumes -f
 
-build:
-	# docker rm -f server celery_worker celery_beat celery_flower
-	# docker rmi server:latest
-	docker build -t server:latest --file "docker/django/Dockerfile" --no-cache .
+docker.build:
+	docker build -t ducdat147/dj.base.project:v1 .
 
-deploy: build
+docker.login:
+	docker login
+
+docker.push: docker.build docker.login
+	docker push ducdat147/dj.base.project:v1
+
+deploy:
 	docker-compose -f docker-compose.prod.yml up -d
 
-docker-up:
+docker.up:
 	docker-compose -f docker-compose.local.yml up -d
 
-docker-down.%:
+docker.down.%:
 	docker-compose -f docker-compose.$*.yml down -v
 	${MAKE} prune
 
-clean: css freeze message pyc pre-commit
+clean: css freeze message pre-commit pyc
+
+git.clean:
+	git fetch origin
+	git checkout develop
 
 %:
 	@:
