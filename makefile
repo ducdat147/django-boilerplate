@@ -84,13 +84,15 @@ prune:
 	docker system prune -a --volumes -f
 
 docker.build:
-	docker build -t ducdat147/dj.base.project:v1 .
+	docker build -t ducdat147/dj.base.project .
 
 docker.login:
 	docker login
 
-docker.push: docker.build docker.login
-	docker push ducdat147/dj.base.project:v1
+docker.push:
+	${MAKE} docker.build
+	${MAKE} docker.login
+	docker push ducdat147/dj.base.project
 
 deploy:
 	docker-compose -f docker-compose.prod.yml up -d

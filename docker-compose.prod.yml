@@ -3,7 +3,7 @@ name: "django-boilerplate"
 services:
   nginx:
     container_name: nginx
-    image: nginx:latest
+    image: nginx
     ports:
       - 80:80
       - 5555:5555
@@ -23,7 +23,7 @@ services:
 
   server: &service
     container_name: server
-    image: ducdat147/dj.base.project:v1
+    image: ducdat147/dj.base.project
     command: /start-service
     volumes:
       - ./media:/app/media
@@ -72,7 +72,7 @@ services:
 
   redis:
     container_name: redis
-    image: redis:latest
+    image: redis
     volumes:
       - redis_data:/data
     healthcheck:
