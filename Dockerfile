@@ -7,6 +7,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8
 
+EXPOSE 8000
+EXPOSE 5555
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
@@ -24,27 +27,27 @@ RUN pip install --upgrade pip
 RUN pip install -r /requirements.txt
 RUN pip install uwsgi
 
-COPY ./docker/django/entrypoint /entrypoint
+COPY ./bash/django/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
 RUN chmod +x /entrypoint
 RUN chown django:django /entrypoint
 
-COPY ./docker/django/start /start-service
+COPY ./bash/django/start /start-service
 RUN sed -i 's/\r$//g' /start-service
 RUN chmod +x /start-service
 RUN chown django:django /start-service
 
-COPY ./docker/django/celery/worker/start /start-celeryworker
+COPY ./bash/django/celery/worker/start /start-celeryworker
 RUN sed -i 's/\r$//g' /start-celeryworker
 RUN chmod +x /start-celeryworker
 RUN chown django:django /start-celeryworker
 
-COPY ./docker/django/celery/beat/start /start-celerybeat
+COPY ./bash/django/celery/beat/start /start-celerybeat
 RUN sed -i 's/\r$//g' /start-celerybeat
 RUN chmod +x /start-celerybeat
 RUN chown django:django /start-celerybeat
 
-COPY ./docker/django/celery/flower/start /start-celeryflower
+COPY ./bash/django/celery/flower/start /start-celeryflower
 RUN sed -i 's/\r$//g' /start-celeryflower
 RUN chmod +x /start-celeryflower
 RUN chown django:django /start-celeryflower

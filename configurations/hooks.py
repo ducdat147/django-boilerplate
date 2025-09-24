@@ -30,9 +30,9 @@ def request_hook(span: Span, request: WSGIRequest):
                 else None
             )
             body = getattr(request, "body", None)
-            if bool(params) and MIN_LENGTH < len(params) < MAX_LENGHT:
+            if bool(params) and MIN_LENGTH < len(params):
                 attributes["requests.queryparams"] = params
-            if bool(body) and MIN_LENGTH < len(body) < MAX_LENGHT:
+            if bool(body) and MIN_LENGTH < len(body):
                 attributes["requests.body"] = body
             if bool(attributes):
                 add_event(span, attributes=attributes)
@@ -44,11 +44,7 @@ def response_hook(span: Span, request: WSGIRequest, response: Response):
     if span and span.is_recording():
         try:
             content = getattr(response, "content", None)
-            if (
-                content
-                and isinstance(content, bytes)
-                and MIN_LENGTH < len(content) < MAX_LENGHT
-            ):
+            if content and isinstance(content, bytes) and MIN_LENGTH < len(content):
                 add_event(span, attributes={"response.body": content})
 
             status = getattr(response, "status_code", None)
@@ -100,24 +96,35 @@ def log_hook(span: Span, record: LogRecord):
                 span.set_status(StatusCode.ERROR)
 
             content = get_formatted_message(record)
+            filepath = None
 
             attributes = {
-                "log.severity": record.levelname,
-                "log.message": content,
-                "code.lineno": record.lineno,
-                "code.funcname": record.funcName,
-                "code.filename": record.filename,
+                "severity": record.levelname,
+                "funcname": record.funcName,
+                "filename": record.filename,
                 "module": record.module,
-                "log.logger": record.name,
+                "logger": record.name,
                 "timestamp": record.created,
             }
             if str(settings.BASE_DIR) in record.pathname:
-                attributes["filepath"] = record.pathname.replace(
-                    str(settings.BASE_DIR), ""
+                filepath = record.pathname.replace(str(settings.BASE_DIR), "")
+
+            if record.exc_info:
+                attributes["exception.type"] = record.exc_info[0].__name__
+                attributes["exception.message"] = str(record.exc_info[1])
+                attributes["exception.lineno"] = (
+                    record.exc_info[2].tb_lineno if record.exc_info[2] else None
                 )
-            # if record.exc_info:
-            #     attributes["exception.type"] = record.exc_info[0].__name__
-            #     attributes["exception.message"] = str(record.exc_info[1])
+                attributes["exception.filepath"] = (
+                    f"{filepath or record.filename} :{record.lineno}"
+                )
+            else:
+                attributes["log.message"] = content
+                attributes["log.lineno"] = record.lineno
+                attributes["log.filepath"] = (
+                    f"{filepath or record.filename} :{record.lineno}"
+                )
+
             add_event(span, attributes=attributes)
     except Exception as e:
         print(f"Error in log_hook: {str(e)}")

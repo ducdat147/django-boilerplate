@@ -72,3 +72,4 @@ logs/
 node_modules/
 
 configurations/settings/local.py
+docker-compose.*.yml

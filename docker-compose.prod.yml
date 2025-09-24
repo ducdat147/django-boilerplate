@@ -3,14 +3,14 @@ name: "django-boilerplate"
 services:
   nginx:
     container_name: nginx
-    image: nginx:latest
+    image: nginx
     ports:
       - 80:80
       - 5555:5555
       - 15672:15672
       - 3000:3000
     volumes:
-      - ./docker/devops/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./bash/devops/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./media:/app/media
     depends_on:
       - server
@@ -23,10 +23,7 @@ services:
 
   server: &service
     container_name: server
-    image: server:latest
-    # build:
-    #   context: .
-    #   dockerfile: docker/django/Dockerfile
+    image: ducdat147/dj.base.project
     command: /start-service
     volumes:
       - ./media:/app/media
@@ -75,7 +72,7 @@ services:
 
   redis:
     container_name: redis
-    image: redis:latest
+    image: redis
     volumes:
       - redis_data:/data
     healthcheck:
@@ -88,7 +85,7 @@ services:
 
   rabbitmq:
     container_name: rabbitmq
-    image: rabbitmq:3.11-management
+    image: rabbitmq
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     env_file:
@@ -105,7 +102,7 @@ services:
     container_name: loki
     image: grafana/loki
     volumes:
-      - ./docker/devops/loki/loki.yaml:/etc/loki/loki.yaml
+      - ./bash/devops/loki/loki.yaml:/etc/loki/loki.yaml
     command: -config.file=/etc/loki/loki.yaml
     networks:
       - local-networks
@@ -114,8 +111,8 @@ services:
     container_name: promtail
     image: grafana/promtail
     volumes:
-      - ./docker/devops/promtail/docker-config.yaml:/etc/promtail/docker-config.yaml
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./bash/devops/promtail/docker-config.yaml:/etc/promtail/docker-config.yaml
+      - /var/lib/bash/containers:/var/lib/bash/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock
     command: -config.file=/etc/promtail/docker-config.yaml
     depends_on:
@@ -127,7 +124,7 @@ services:
     container_name: tempo
     image: grafana/tempo
     volumes:
-      - ./docker/devops/tempo/tempo-local.yaml:/etc/tempo-local.yaml
+      - ./bash/devops/tempo/tempo-local.yaml:/etc/tempo-local.yaml
     command: ["-config.file=/etc/tempo-local.yaml"]
     networks:
       - local-networks
@@ -136,7 +133,7 @@ services:
     container_name: grafana
     image: grafana/grafana
     volumes:
-      - ./docker/devops/grafana/datasources/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - ./bash/devops/grafana/datasources/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
