@@ -8,11 +8,9 @@ echo "Collecting static files..."
 python /app/manage.pyc collectstatic --noinput
 echo "Running migrations..."
 python /app/manage.pyc migrate
+echo "Compiling message files..."
+python /app/manage.pyc compilemessages --ignore=venv --ignore=.venv
 echo "Creating seed data..."
 python /app/manage.pyc seed_data
-echo "Compiling message files..."
-python /app/manage.pyc compilemessages
-echo "Running Tests..."
-python /app/manage.pyc test
 
 uwsgi --ini /app/uwsgi.ini

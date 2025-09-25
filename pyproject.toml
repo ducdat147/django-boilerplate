@@ -1,0 +1,54 @@
+[project]
+name = "django-boilerplate"
+version = "0.1.0"
+description = "Add your description here"
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "cryptography>=46.0.1",
+    "django>=5.2.6",
+    "django-allauth>=65.11.2",
+    "django-autoslug>=1.9.9",
+    "django-celery-beat>=2.8.1",
+    "django-constance>=4.3.2",
+    "django-cors-headers>=4.9.0",
+    "django-crispy-forms>=2.4",
+    "django-environ>=0.12.0",
+    "django-filter>=25.1",
+    "django-guardian>=3.2.0",
+    "django-import-export>=4.3.9",
+    "django-modeltranslation>=0.19.17",
+    "django-money>=3.5.4",
+    "django-phonenumber-field>=8.1.0",
+    "django-simple-history>=3.10.1",
+    "django-unfold>=0.66.0",
+    "djangorestframework-simplejwt>=5.5.1",
+    "drf-spectacular>=0.28.0",
+    "flower>=2.0.1",
+    "json-log-formatter>=1.1.1",
+    "markdown>=3.9",
+    "oauthlib>=3.3.1",
+    "opentelemetry-exporter-otlp>=1.37.0",
+    "opentelemetry-instrumentation-celery>=0.58b0",
+    "opentelemetry-instrumentation-django>=0.58b0",
+    "opentelemetry-instrumentation-logging>=0.58b0",
+    "opentelemetry-instrumentation-requests>=0.58b0",
+    "pillow>=11.3.0",
+    "psycopg>=3.2.10",
+    "psycopg-binary>=3.2.10",
+    "pyotp>=2.9.0",
+    "pyupgrade>=3.20.0",
+    "qrcode>=8.2",
+    "redis>=6.4.0",
+    "uwsgi>=2.0.30",
+    "whitenoise>=6.11.0",
+]
+
+[dependency-groups]
+dev = [
+    "coverage>=7.10.7",
+    "flake8>=7.3.0",
+    "pre-commit>=4.3.0",
+    "ruff>=0.13.1",
+]

@@ -12,20 +12,18 @@ EXPOSE 5555
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
     build-essential \
     libpq-dev \
     pkg-config \
     gettext \
     && rm -rf /var/lib/apt/lists/*
 
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
 RUN addgroup --system django \
     && adduser --system --ingroup django django
-
-# Coppy project and install Python dependencies
-COPY ./requirements.txt /requirements.txt
-RUN pip install --upgrade pip
-RUN pip install -r /requirements.txt
-RUN pip install uwsgi
 
 COPY ./bash/django/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
@@ -67,6 +65,11 @@ WORKDIR /app
 # Copy project and set permissions
 COPY . .
 RUN chown -R django:django /app
+
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Install Python dependencies
+RUN uv sync --no-dev
 
 # Compile Python files
 RUN python -m compileall -b . && find . -type f -name "*.py" -delete

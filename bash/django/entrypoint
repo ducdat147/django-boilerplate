@@ -7,26 +7,32 @@ set -o nounset
 db_ready() {
 python << END
 import sys
+import time
+
 import psycopg
 from urllib.parse import urlparse
 
-try:
-    url = urlparse("${DATABASE_URL}")
-    psycopg.connect(
-        host=url.hostname,
-        port=url.port,
-        user=url.username,
-        password=url.password,
-        dbname=url.path[1:],
-    )
-except psycopg.OperationalError as e:
-    sys.stderr.write(f"Error: Unable to connect to the database. Details: {e}")
-    sys.exit(-1)
-except Exception as e:
-    sys.stderr.write(f"An unexpected error occurred: {e}")
-    sys.exit(-1)
-sys.exit(0)
+suggest_unrecoverable_after = 30
+start = time.time()
 
+while True:
+    try:
+        url = urlparse("${DATABASE_URL}")
+        psycopg.connect(
+            host=url.hostname,
+            port=url.port,
+            user=url.username,
+            password=url.password,
+            dbname=url.path[1:],
+        )
+        break
+    except psycopg.OperationalError as error:
+        sys.stderr.write("Waiting for PostgreSQL to become available...\n")
+
+        if time.time() - start > suggest_unrecoverable_after:
+            sys.stderr.write("  This is taking longer than expected. The following exception may be indicative of an unrecoverable error: '{}'\n".format(error))
+
+    time.sleep(1)
 END
 }
 until db_ready; do
