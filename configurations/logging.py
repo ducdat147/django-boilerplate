@@ -1,5 +1,9 @@
+import logging
 from copy import deepcopy
 from typing import Any
+
+import json_log_formatter
+from django.conf import settings
 
 
 HIDDEN_FIELDS = [
@@ -69,3 +73,30 @@ def sanitize_data(
         case_sensitive,
         deep_search,
     )
+
+
+class JSONFormatter(json_log_formatter.JSONFormatter):
+    """
+    Docs: https://blog.rama.io/json-logging-with-django#heading-customize-json-log-messages
+    """
+
+    def json_record(self, message, extra, record: logging.LogRecord):
+        extra_attributes = {
+            "funcname": record.funcName,
+            "filename": record.filename,
+            "lineno": record.lineno,
+            "levelname": record.levelname,
+            "levelno": record.levelno,
+        }
+        if record.levelname in ["ERROR", "CRITICAL"] and not extra.get("error"):
+            extra_attributes["error"] = True
+        if str(settings.BASE_DIR) in record.pathname:
+            extra_attributes["filepath"] = record.pathname.replace(
+                str(settings.BASE_DIR), ""
+            )
+        else:
+            extra_attributes["logtype"] = "lib"
+        extra.update(
+            extra_attributes,
+        )
+        return super().json_record(message, extra, record)

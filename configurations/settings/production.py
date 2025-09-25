@@ -1,3 +1,5 @@
+import sys
+
 from configurations.settings.base import *  # noqa
 
 LOGGING = {
@@ -5,7 +7,10 @@ LOGGING = {
     "disable_existing_loggers": False,
     "formatters": {
         "verbose": {
-            "format": "%(levelname)s %(message)s",
+            "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s",
+        },
+        "json": {
+            "()": "configurations.logging.JSONFormatter",
         },
     },
     "handlers": {
@@ -13,10 +18,20 @@ LOGGING = {
             "level": "INFO",
             "class": "logging.StreamHandler",
             "formatter": "verbose",
-        }
+        },
+        "stdout": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "json",
+            "stream": sys.stdout,
+        },
     },
-    "root": {
-        "level": "INFO",
-        "handlers": ["console"],
+    "root": {"level": "INFO", "handlers": ["stdout"]},
+    "loggers": {
+        "django": {
+            "handlers": ["stdout"],
+            "level": "INFO",
+            "propagate": False,
+        },
     },
 }
