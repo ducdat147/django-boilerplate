@@ -26,8 +26,12 @@ LOGGING = {
             "stream": sys.stdout,
         },
     },
-    "root": {"level": "INFO", "handlers": ["stdout"]},
     "loggers": {
+        "": {
+            "level": "INFO",
+            "handlers": ["stdout"],
+            "propagate": False,
+        },
         "django": {
             "handlers": ["stdout"],
             "level": "INFO",
