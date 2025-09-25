@@ -31,6 +31,8 @@ test.html:
 	coverage html
 
 run:
+	open http://localhost/
+	open http://localhost:3000/
 	python manage.py runserver 0.0.0.0:80
 
 celery:
@@ -89,26 +91,32 @@ docker.build:
 docker.login:
 	docker login
 
-docker.push:
-	${MAKE} docker.build
-	${MAKE} docker.login
+docker.push: docker.build docker.login
 	docker push ducdat147/dj.base.project
 
 deploy:
 	docker-compose -f docker-compose.prod.yml up -d
+	open http://localhost/
+	open http://localhost:3000/
 
 docker.up:
 	docker-compose -f docker-compose.local.yml up -d
 
 docker.down.%:
 	docker-compose -f docker-compose.$*.yml down -v
-	${MAKE} prune
 
 clean: css freeze message pre-commit pyc
 
-git.clean:
+git.develop:
 	git fetch origin
 	git checkout develop
+	git pull origin develop
+
+git.clean: git.develop
+	git for-each-ref --format '%(refname:short)' refs/heads | grep -v "develop" | xargs git branch -D
+
+git.createbranch: git.develop
+	git checkout -b $(filter-out $@,$(MAKECMDGOALS))
 
 %:
 	@:

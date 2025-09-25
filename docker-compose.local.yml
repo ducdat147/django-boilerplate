@@ -1,5 +1,13 @@
 name: "django-boilerplate-local"
 
+x-logging:
+  &default-logging
+  driver: "json-file"
+  options:
+    max-size: "1m"
+    max-file: "1"
+    tag: "{{.Name}}"
+
 services:
   database:
     container_name: database
@@ -52,30 +60,6 @@ services:
     networks:
       - local-networks
 
-  loki:
-    container_name: loki
-    image: grafana/loki
-    volumes:
-      - ./bash/devops/loki/loki.yaml:/etc/loki/loki.yaml
-    ports:
-      - 3100:3100
-    command: -config.file=/etc/loki/loki.yaml
-    networks:
-      - local-networks
-
-  promtail:
-    container_name: promtail
-    image: grafana/promtail
-    volumes:
-      - ./bash/devops/promtail/docker-config.yaml:/etc/promtail/docker-config.yaml
-      - /var/lib/bash/containers:/var/lib/bash/containers:ro
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: -config.file=/etc/promtail/docker-config.yaml
-    depends_on:
-      - loki
-    networks:
-      - local-networks
-
   tempo:
     container_name: tempo
     image: grafana/tempo
@@ -90,6 +74,7 @@ services:
     command: ["-config.file=/etc/tempo-local.yaml"]
     networks:
       - local-networks
+    logging: *default-logging
 
   grafana:
     container_name: grafana
@@ -105,8 +90,8 @@ services:
     networks:
       - local-networks
     depends_on:
-      - loki
       - tempo
+    logging: *default-logging
 
 networks:
   local-networks:

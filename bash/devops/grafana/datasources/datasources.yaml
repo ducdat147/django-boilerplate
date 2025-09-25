@@ -8,6 +8,13 @@ datasources:
     version: 1
     editable: false
     isDefault: true
+    jsonData:
+      derivedFields:
+      - datasourceName: Tempo
+        datasourceUid: tempo
+        matcherRegex: "\"otelTraceID\": \"(\\w+)\""
+        name: trace_id
+        url: $${__value.raw}
   - name: Tempo
     type: tempo
     uid: tempo
