@@ -425,7 +425,6 @@ dependencies = [
     { name = "django-unfold" },
     { name = "djangorestframework-simplejwt" },
     { name = "drf-spectacular" },
-    { name = "flake8" },
     { name = "flower" },
     { name = "json-log-formatter" },
     { name = "markdown" },
@@ -436,19 +435,21 @@ dependencies = [
     { name = "opentelemetry-instrumentation-logging" },
     { name = "opentelemetry-instrumentation-requests" },
     { name = "pillow" },
-    { name = "pre-commit" },
     { name = "psycopg" },
     { name = "psycopg-binary" },
     { name = "pyotp" },
     { name = "pyupgrade" },
     { name = "qrcode" },
     { name = "redis" },
+    { name = "uwsgi" },
     { name = "whitenoise" },
 ]
 
 [package.dev-dependencies]
 dev = [
     { name = "coverage" },
+    { name = "flake8" },
+    { name = "pre-commit" },
     { name = "ruff" },
 ]
 
@@ -473,7 +474,6 @@ requires-dist = [
     { name = "django-unfold", specifier = ">=0.66.0" },
     { name = "djangorestframework-simplejwt", specifier = ">=5.5.1" },
     { name = "drf-spectacular", specifier = ">=0.28.0" },
-    { name = "flake8", specifier = ">=7.3.0" },
     { name = "flower", specifier = ">=2.0.1" },
     { name = "json-log-formatter", specifier = ">=1.1.1" },
     { name = "markdown", specifier = ">=3.9" },
@@ -484,19 +484,21 @@ requires-dist = [
     { name = "opentelemetry-instrumentation-logging", specifier = ">=0.58b0" },
     { name = "opentelemetry-instrumentation-requests", specifier = ">=0.58b0" },
     { name = "pillow", specifier = ">=11.3.0" },
-    { name = "pre-commit", specifier = ">=4.3.0" },
     { name = "psycopg", specifier = ">=3.2.10" },
     { name = "psycopg-binary", specifier = ">=3.2.10" },
     { name = "pyotp", specifier = ">=2.9.0" },
     { name = "pyupgrade", specifier = ">=3.20.0" },
     { name = "qrcode", specifier = ">=8.2" },
     { name = "redis", specifier = ">=6.4.0" },
+    { name = "uwsgi", specifier = ">=2.0.30" },
     { name = "whitenoise", specifier = ">=6.11.0" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "coverage", specifier = ">=7.10.7" },
+    { name = "flake8", specifier = ">=7.3.0" },
+    { name = "pre-commit", specifier = ">=4.3.0" },
     { name = "ruff", specifier = ">=0.13.1" },
 ]
 
@@ -1647,6 +1649,12 @@ sdist = { url = "https://files.pythonhosted.org/packages/15/22/9ee70a2574a4f4599
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a7/c2/fe1e52489ae3122415c51f387e221dd0773709bad6c6cdaa599e8a2c5185/urllib3-2.5.0-py3-none-any.whl", hash = "sha256:e6b01673c0fa6a13e374b50871808eb3bf7046c4b125b216f6bf1cc604cff0dc", size = 129795, upload-time = "2025-06-18T14:07:40.39Z" },
 ]
+
+[[package]]
+name = "uwsgi"
+version = "2.0.30"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/6f/f0/d794e9c7359f488b158e88c9e718c5600efdb74a0daf77331e5ffb6c87c4/uwsgi-2.0.30.tar.gz", hash = "sha256:c12aa652124f062ac216077da59f6d247bd7ef938234445881552e58afb1eb5f", size = 822560, upload-time = "2025-06-03T08:13:53.772Z" }
 
 [[package]]
 name = "vine"

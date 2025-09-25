@@ -25,7 +25,6 @@ dependencies = [
     "django-unfold>=0.66.0",
     "djangorestframework-simplejwt>=5.5.1",
     "drf-spectacular>=0.28.0",
-    "flake8>=7.3.0",
     "flower>=2.0.1",
     "json-log-formatter>=1.1.1",
     "markdown>=3.9",
@@ -36,18 +35,20 @@ dependencies = [
     "opentelemetry-instrumentation-logging>=0.58b0",
     "opentelemetry-instrumentation-requests>=0.58b0",
     "pillow>=11.3.0",
-    "pre-commit>=4.3.0",
     "psycopg>=3.2.10",
     "psycopg-binary>=3.2.10",
     "pyotp>=2.9.0",
     "pyupgrade>=3.20.0",
     "qrcode>=8.2",
     "redis>=6.4.0",
+    "uwsgi>=2.0.30",
     "whitenoise>=6.11.0",
 ]
 
 [dependency-groups]
 dev = [
     "coverage>=7.10.7",
+    "flake8>=7.3.0",
+    "pre-commit>=4.3.0",
     "ruff>=0.13.1",
 ]
