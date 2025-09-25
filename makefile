@@ -2,15 +2,15 @@ init:
 	mkdir -p logs
 
 install:
-	pip install --upgrade pip
-	pip install -r requirements.txt
+	uv self upgrade
+	uv sync
 	pre-commit install
 
 freeze:
-	pip freeze > requirements.txt
+	uv export --no-hashes --format requirements-txt > requirements.txt
 
 update-package:
-	pip install -r requirements.txt --upgrade
+	uv lock --upgrade
 
 lint:
 	flake8 . --exclude .venv,**/migrations,**/settings/local.py
@@ -20,6 +20,9 @@ pre-commit:
 
 shell:
 	python manage.py shell
+
+seed_data:
+	python manage.py seed_data
 
 test:
 	coverage run manage.py test
@@ -70,8 +73,12 @@ css:
 	pnpm tailwind:build
 
 i:
-	pip install $(filter-out $@,$(MAKECMDGOALS))
-	pip freeze > requirements.txt
+	uv install $(filter-out $@,$(MAKECMDGOALS))
+	${MAKE} freeze
+
+r:
+	uv remove $(filter-out $@,$(MAKECMDGOALS))
+	${MAKE} freeze
 
 app:
 	mkdir core/$(filter-out $@,$(MAKECMDGOALS))

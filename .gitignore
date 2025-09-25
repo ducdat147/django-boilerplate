@@ -230,3 +230,6 @@ local/
 
 node_modules/
 *-lock.yaml
+
+uv.lock
+.python-version
