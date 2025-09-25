@@ -1,9 +1,12 @@
 init:
 	mkdir -p logs
 
-install:
-	uv self upgrade
+install.dev:
 	uv sync
+	pre-commit install
+
+install:
+	uv sync --no-dev
 	pre-commit install
 
 freeze:
@@ -34,8 +37,6 @@ test.html:
 	coverage html
 
 run:
-	open http://localhost/
-	open http://localhost:3000/
 	python manage.py runserver 0.0.0.0:80
 
 celery:
@@ -73,12 +74,16 @@ css:
 	pnpm tailwind:build
 
 i:
-	uv install $(filter-out $@,$(MAKECMDGOALS))
-	${MAKE} freeze
+	uv add $(filter-out $@,$(MAKECMDGOALS))
+
+i.dev:
+	uv add --dev $(filter-out $@,$(MAKECMDGOALS))
 
 r:
 	uv remove $(filter-out $@,$(MAKECMDGOALS))
-	${MAKE} freeze
+
+r.dev:
+	uv remove --dev $(filter-out $@,$(MAKECMDGOALS))
 
 app:
 	mkdir core/$(filter-out $@,$(MAKECMDGOALS))

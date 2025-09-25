@@ -77,7 +77,7 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details
 
 ## UV installation
-To install UV, run the following command ([DOCS](https://realpython.com/python-uv/)):
+To install UV, run the following command ([DOCS](https://realpython.com/python-uv/) or [Docs](https://docs.astral.sh/uv/getting-started/installation/)):
 
 - On macOS and Linux:
 ```bash
