@@ -117,7 +117,7 @@ docker.up:
 docker.down.%:
 	docker-compose -f docker-compose.$*.yml down -v
 
-clean: css freeze message pre-commit pyc
+clean: css message pyc pre-commit
 
 git.develop:
 	git fetch origin

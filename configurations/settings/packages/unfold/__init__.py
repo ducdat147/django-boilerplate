@@ -42,8 +42,8 @@ UNFOLD = {
         "show_history": True,
     },
     "SIDEBAR": {
-        "show_search": False,
-        "command_search": False,
+        "show_search": True,
+        "command_search": True,
         "show_all_applications": True,
         "navigation": [
             {
