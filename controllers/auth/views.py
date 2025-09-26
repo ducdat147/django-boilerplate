@@ -2,7 +2,6 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView, CreateAPIView
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from controllers.auth.serializers import (
     LogoutSerializer,
@@ -10,14 +9,6 @@ from controllers.auth.serializers import (
     RegisterUserSerializer,
     VerifyOTPSerializer,
 )
-
-
-class CustomTokenObtainPairView(TokenObtainPairView):
-    pass
-
-
-class CustomTokenRefreshView(TokenRefreshView):
-    pass
 
 
 class LogoutView(GenericAPIView):

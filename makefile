@@ -128,7 +128,7 @@ git.clean: git.develop
 	git for-each-ref --format '%(refname:short)' refs/heads | grep -v "develop" | xargs git branch -D
 
 git.createbranch: git.develop
-	git checkout -b $(filter-out $@,$(MAKECMDGOALS))
+	git checkout -b feature/$(filter-out $@,$(MAKECMDGOALS))
 
 %:
 	@:

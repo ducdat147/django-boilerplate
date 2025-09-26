@@ -20,6 +20,14 @@ UNFOLD = {
     "SCRIPTS": [
         lambda request: static("js/script.js"),
     ],
+    "SITE_FAVICONS": [
+        {
+            "rel": "icon",
+            "sizes": "32x32",
+            "type": "image/x-icon",
+            "href": lambda request: static("media/favicon.ico"),
+        },
+    ],
     "DASHBOARD_CALLBACK": "controllers.admin.views.dashboard_callback",
     "EXTENSIONS": {
         "modeltranslation": {
