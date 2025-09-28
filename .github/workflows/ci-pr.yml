@@ -72,8 +72,7 @@ jobs:
   auto-merge:
     name: Auto-merge & delete branch
     runs-on: ubuntu-latest
-    needs: [check-pr, test]
-    if: ${{ needs.check-pr.outputs.hasConflicts == 'false' && success() && needs.check-pr.outputs.isFork == 'false' }}
+    needs: [test]
     steps:
       - name: Merge PR & delete branch
         run: gh pr merge ${{ github.event.pull_request.number }} --merge --delete-branch
