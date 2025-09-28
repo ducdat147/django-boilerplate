@@ -1,4 +1,4 @@
-name: CI - Django PR to develop
+name: CI - Develop
 
 on:
   pull_request:
@@ -9,16 +9,10 @@ permissions:
   contents: write
   pull-requests: write
 
-concurrency:
-  group: pr-ci-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
-
 jobs:
   test:
-    name: Django Tests (uv)
+    name: Django Tests with uv
     runs-on: ubuntu-latest
-    needs: check-pr
-    if: needs.check-pr.outputs.hasConflicts == 'false'
 
     services:
       postgres:
@@ -45,9 +39,11 @@ jobs:
 
     env:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/app_test
-      REDIS_URL: redis://localhost:6379/0
-      DJANGO_SETTINGS_MODULE: config.settings.test
+      CACHE_URL: redis://localhost:6379/0
+      DJANGO_SETTINGS_MODULE: configurations.settings
       PYTHONUNBUFFERED: 1
+      DEPLOYMENT_ENVIRONMENT: test
+      PROJECT_NAME: django
 
     steps:
       - name: Checkout
@@ -61,35 +57,17 @@ jobs:
       - name: Install uv
         run: pip install uv
 
-      - name: Cache .venv
-        uses: actions/cache@v4
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/pyproject.toml', '**/uv.lock') }}
-
       - name: Sync dependencies
         run: uv sync
 
       - name: Run migrations
         run: uv run python manage.py migrate --noinput
 
-      - name: Install coverage
-        run: uv pip install coverage
-
       - name: Run tests with coverage
         run: uv run coverage run manage.py test
 
-      - name: Coverage report
+      - name: Report coverage
         run: uv run coverage report -m
-
-      - name: Coverage XML
-        run: uv run coverage xml -o coverage.xml
-
-      - name: Upload coverage.xml
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-xml
-          path: coverage.xml
 
   auto-merge:
     name: Auto-merge & delete branch
