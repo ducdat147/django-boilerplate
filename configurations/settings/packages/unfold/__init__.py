@@ -25,7 +25,7 @@ UNFOLD = {
             "rel": "icon",
             "sizes": "32x32",
             "type": "image/x-icon",
-            "href": lambda request: static("media/favicon.ico"),
+            "href": lambda request: static("image/favicon.ico"),
         },
     ],
     "DASHBOARD_CALLBACK": "controllers.admin.views.dashboard_callback",
