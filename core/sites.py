@@ -131,27 +131,72 @@ def callback_constance(config) -> dict:
 
 
 def get_element_classes(config) -> dict:
-    main = settings.CONSTANCE_ELEMENT_CLASSES["main"][getattr(config, "EC_MAIN", "")]
-    sidebar_theme = settings.CONSTANCE_ELEMENT_CLASSES["navigation"][
-        getattr(config, "EC_SIDEBAR_THEME", "")
-    ]
-    header_theme = settings.CONSTANCE_ELEMENT_CLASSES["header_theme"][
-        getattr(config, "EC_HEADER_THEME", "")
-    ]
-    header_variant = settings.CONSTANCE_ELEMENT_CLASSES["header_variant"][
-        getattr(config, "EC_HEADER_VARIANT", "")
-    ]
+    header = []
+    page = []
+    main = []
+    navigation = []
+    navigation_wrapper = []
+    navigation_header = []
+    navigation_inner = []
+    pagination = []
+
+    if getattr(config, "EC_STICKY_HEADER", "") == "sticky":
+        header.extend(
+            [
+                "md:sticky",
+                "top-0",
+            ]
+        )
+    if getattr(config, "EC_LAYOUT_STYLE", "") == "boxed":
+        header.extend(
+            [
+                "rounded-t-default",
+            ]
+        )
+        navigation_wrapper.extend(["-mr-3"])
+        navigation_header.extend(
+            [
+                "border-transparent",
+                "mt-3",
+                "dark:border-transparent",
+            ]
+        )
+        main.extend(
+            [
+                "border",
+                "border-base-200",
+                "m-3",
+                "rounded-default",
+                "shadow-xs",
+                "dark:border-base-800",
+            ]
+        )
+        navigation.extend(["lg:border-r-0"])
+    elif getattr(config, "EC_SIDEBAR_VARIANT", "") == "dark":
+        navigation.extend(["dark"])
+    elif getattr(config, "EC_HEADER_VARIANT", "") == "dark":
+        navigation_header.extend(
+            [
+                "dark",
+                "-mx-px",
+                "border-r",
+                "dark:border-base-800",
+                "dark:bg-base-900",
+            ]
+        )
+    if getattr(config, "EC_HEADER_VARIANT", "") == "dark":
+        header.extend(["dark"])
 
     return {
         "element_classes": {
-            "header": f"{header_theme} {header_variant}".strip(),
-            "page": "",
-            "main": main,
-            "navigation": sidebar_theme,
-            "navigation_wrapper": "",
-            "navigation_header": f"dark:bg-base-900 dark:border-base-800 {header_theme}".strip(),
-            "navigation_inner": "",
-            "pagination": "",
+            "header": " ".join(header),
+            "page": " ".join(page),
+            "main": " ".join(main),
+            "navigation": " ".join(navigation),
+            "navigation_wrapper": " ".join(navigation_wrapper),
+            "navigation_header": " ".join(navigation_header),
+            "navigation_inner": " ".join(navigation_inner),
+            "pagination": " ".join(pagination),
         }
     }
 
