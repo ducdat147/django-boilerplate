@@ -1,5 +1,13 @@
 name: "django-boilerplate-local"
 
+x-logging:
+  &default-logging
+  driver: "json-file"
+  options:
+    max-size: "1m"
+    max-file: "1"
+    tag: "{{.Name}}"
+
 services:
   database:
     container_name: database
@@ -8,10 +16,8 @@ services:
       - database_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
-    environment:
-      - POSTGRES_DB=databaselocal
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
+    env_file:
+      - .env
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER $POSTGRES_DB"]
       interval: 10s
@@ -36,7 +42,7 @@ services:
       - local-networks
 
   rabbitmq:
-    image: rabbitmq:3.11-management
+    image: rabbitmq
     container_name: rabbitmq
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
@@ -54,35 +60,11 @@ services:
     networks:
       - local-networks
 
-  loki:
-    container_name: loki
-    image: grafana/loki
-    volumes:
-      - ./docker/devops/loki/loki.yaml:/etc/loki/loki.yaml
-    ports:
-      - 3100:3100
-    command: -config.file=/etc/loki/loki.yaml
-    networks:
-      - local-networks
-
-  promtail:
-    container_name: promtail
-    image: grafana/promtail
-    volumes:
-      - ./docker/devops/promtail/docker-config.yaml:/etc/promtail/docker-config.yaml
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: -config.file=/etc/promtail/docker-config.yaml
-    depends_on:
-      - loki
-    networks:
-      - local-networks
-
   tempo:
     container_name: tempo
     image: grafana/tempo
     volumes:
-      - ./docker/devops/tempo/tempo-local.yaml:/etc/tempo-local.yaml
+      - ./bash/devops/tempo/tempo-local.yaml:/etc/tempo-local.yaml
     ports:
       - 3200:3200
       - 9095:9095
@@ -92,12 +74,13 @@ services:
     command: ["-config.file=/etc/tempo-local.yaml"]
     networks:
       - local-networks
+    logging: *default-logging
 
   grafana:
     container_name: grafana
     image: grafana/grafana
     volumes:
-      - ./docker/devops/grafana/datasources/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - ./bash/devops/grafana/datasources/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
     ports:
       - 3000:3000
     environment:
@@ -107,8 +90,8 @@ services:
     networks:
       - local-networks
     depends_on:
-      - loki
       - tempo
+    logging: *default-logging
 
 networks:
   local-networks:
