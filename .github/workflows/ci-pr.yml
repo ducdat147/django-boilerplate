@@ -9,30 +9,44 @@ permissions:
   contents: write
   pull-requests: write
 
+concurrency:
+  group: pr-ci-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   check-pr:
     name: Check PR conflicts
     runs-on: ubuntu-latest
+    outputs:
+      hasConflicts: ${{ steps.conflicts.outputs.hasConflicts }}
+      isFork: ${{ steps.meta.outputs.isFork }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check if PR has conflicts
+      - name: Detect conflicts
         id: conflicts
         uses: eps1lon/actions-label-merge-conflict@v3
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fail if PR has conflicts
+      - name: PR meta
+        id: meta
+        run: |
+          echo "isFork=${{ github.event.pull_request.head.repo.fork }}" >> $GITHUB_OUTPUT
+
+      - name: Close PR if conflicts
         if: steps.conflicts.outputs.hasConflicts == 'true'
         run: |
-          echo "❌ PR has conflicts. Cancelling..."
+          echo "❌ PR có conflict. Đóng PR."
+          gh pr comment ${{ github.event.pull_request.number }} --body "PR bị conflict với \`develop\`. Vui lòng rebase/merge \`develop\` rồi mở lại."
           gh pr close ${{ github.event.pull_request.number }} --delete-branch=false
+          exit 1
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   test:
-    name: Django Tests with uv
+    name: Django Tests (uv)
     runs-on: ubuntu-latest
     needs: check-pr
     if: needs.check-pr.outputs.hasConflicts == 'false'
@@ -63,10 +77,8 @@ jobs:
     env:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/app_test
       REDIS_URL: redis://localhost:6379/0
-      DJANGO_SETTINGS_MODULE: configurations.settings
+      DJANGO_SETTINGS_MODULE: config.settings.test
       PYTHONUNBUFFERED: 1
-      SECRET_KEY: django-insecure-key
-      DEPLOYMENT_ENVIRONMENT: test
 
     steps:
       - name: Checkout
@@ -80,25 +92,48 @@ jobs:
       - name: Install uv
         run: pip install uv
 
+      - name: Cache .venv
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/pyproject.toml', '**/uv.lock') }}
+
       - name: Sync dependencies
         run: uv sync
 
       - name: Run migrations
         run: uv run python manage.py migrate --noinput
 
+      - name: Install coverage
+        run: uv pip install coverage
+
       - name: Run tests with coverage
         run: uv run coverage run manage.py test
 
-      - name: Report coverage
+      - name: Coverage report
         run: uv run coverage report -m
 
+      - name: Coverage XML
+        run: uv run coverage xml -o coverage.xml
+
+      - name: Upload coverage.xml
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: coverage.xml
+
   auto-merge:
-    name: Auto merge PR if tests pass
+    name: Auto-merge & delete branch
     runs-on: ubuntu-latest
-    needs: test
-    if: ${{ success() }}
+    needs: [check-pr, test]
+    if: ${{ needs.check-pr.outputs.hasConflicts == 'false' && success() && needs.check-pr.outputs.isFork == 'false' }}
     steps:
-      - name: Merge PR
+      - name: Merge PR & delete branch
         run: gh pr merge ${{ github.event.pull_request.number }} --merge --delete-branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment merged
+        run: gh pr comment ${{ github.event.pull_request.number }} --body "✅ Tests passed. Đã merge vào \`develop\` và xóa luôn branch gốc."
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
