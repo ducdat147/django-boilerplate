@@ -20,6 +20,14 @@ UNFOLD = {
     "SCRIPTS": [
         lambda request: static("js/script.js"),
     ],
+    "SITE_FAVICONS": [
+        {
+            "rel": "icon",
+            "sizes": "32x32",
+            "type": "image/x-icon",
+            "href": lambda request: static("image/favicon.ico"),
+        },
+    ],
     "DASHBOARD_CALLBACK": "controllers.admin.views.dashboard_callback",
     "EXTENSIONS": {
         "modeltranslation": {
@@ -34,8 +42,8 @@ UNFOLD = {
         "show_history": True,
     },
     "SIDEBAR": {
-        "show_search": False,
-        "command_search": False,
+        "show_search": True,
+        "command_search": True,
         "show_all_applications": True,
         "navigation": [
             {

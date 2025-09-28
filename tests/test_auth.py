@@ -16,7 +16,7 @@ class AuthTests(TestSetup):
         refresh = RefreshToken.for_user(self.user)
         self.run_tests(
             special_case=True,
-            path_name="token-refresh",
+            path_name="token_refresh",
             method="post",
             status_code=status.HTTP_200_OK,
             format="json",
@@ -29,17 +29,17 @@ class AuthTests(TestSetup):
         refresh = RefreshToken.for_user(self.user)
         self.run_tests(
             special_case=True,
-            path_name="auth-logout",
+            path_name="token_blacklist",
             method="post",
-            status_code=status.HTTP_204_NO_CONTENT,
+            status_code=status.HTTP_200_OK,
             format="json",
             request_body={"refresh": str(refresh)},
         )
         self.run_tests(
             special_case=True,
-            path_name="auth-logout",
+            path_name="token_blacklist",
             method="post",
-            status_code=status.HTTP_400_BAD_REQUEST,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             format="json",
             request_body={"refresh": str(refresh)},
         )

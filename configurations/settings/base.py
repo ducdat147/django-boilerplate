@@ -31,8 +31,6 @@ SERVICE_NAME = f"{PROJECT_NAME.upper()} SERVICE"
 
 CELERY_SERVICE_NAME = f"{PROJECT_NAME.upper()} CELERY"
 
-DEPLOYMENT_ENVIRONMENT = env.str("DEPLOYMENT_ENVIRONMENT", default="local").lower()
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 

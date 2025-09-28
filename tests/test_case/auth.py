@@ -30,7 +30,7 @@ AUTH_TEST_CASE = {
         ],
     },
     "test_auth.test_register_user__login": {
-        "path_name": "token-obtain-pair",
+        "path_name": "token_obtain_pair",
         "method": "post",
         "test_case": [
             {
@@ -44,7 +44,7 @@ AUTH_TEST_CASE = {
         ],
     },
     "test_auth.test_login": {
-        "path_name": "token-obtain-pair",
+        "path_name": "token_obtain_pair",
         "method": "post",
         "test_case": [
             {
@@ -72,7 +72,7 @@ AUTH_TEST_CASE = {
         ],
     },
     "test_auth.test_refresh_token__invalid": {
-        "path_name": "token-refresh",
+        "path_name": "token_refresh",
         "method": "post",
         "test_case": [
             {
