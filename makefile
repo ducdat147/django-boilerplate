@@ -3,63 +3,63 @@ init:
 
 install.dev:
 	uv sync
-	pre-commit install
+	uv run pre-commit install
 
 install:
 	uv sync --no-dev
-	pre-commit install
+	uv run pre-commit install
 
 freeze:
 	uv export --no-hashes --format requirements-txt > requirements.txt
 
 update-package:
-	uv lock --upgrade
+	uv run uv lock --upgrade
 
 lint:
 	flake8 . --exclude .venv,**/migrations,**/settings/local.py
 
 pre-commit:
-	pre-commit run -a
+	uv run pre-commit run -a
 
 shell:
-	python manage.py shell
+	uv run python manage.py shell
 
 seed_data:
-	python manage.py seed_data
+	uv run python manage.py seed_data
 
 test:
-	coverage run manage.py test
+	uv run coverage run manage.py test
 
 test.report:
-	coverage report -m
+	uv run coverage report -m
 
 test.html:
-	coverage html
+	uv run coverage html
 
 run:
-	python manage.py runserver 0.0.0.0:80
+	uv run python manage.py runserver 0.0.0.0:80
 
 celery:
-	celery -A configurations.celery worker --pool=threads --loglevel=INFO
+	uv run celery -A configurations.celery worker --pool=threads --loglevel=INFO
 
 message:
-	python manage.py makemessages -l en -l vi --no-location --no-wrap
+	uv run python manage.py makemessages -l en -l vi --no-location --no-wrap
 
 compile: message
-	python manage.py compilemessages -l en -l vi
+	uv run python manage.py compilemessages -l en -l vi
 
 collectstatic:
 	${MAKE} css
-	python manage.py collectstatic --noinput
+	uv run python manage.py collectstatic --noinput
 
 migrations:
-	python manage.py makemigrations
+	uv run python manage.py makemigrations
 
 migrate: migrations
-	python manage.py migrate
+	uv run python manage.py migrate
 
 user:
-	python manage.py createsuperuser --username admin --email admin@admin.com
+	uv run python manage.py createsuperuser --username admin --email admin@admin.com
 
 pyc:
 	find . -name "*.pyc" -delete
