@@ -37,6 +37,7 @@ services:
       logging: "promtail"
     volumes:
       - ./media:/app/media
+      - ./logs:/app/logs
     env_file:
       - .docker.env
     networks:

@@ -1,19 +1,22 @@
 from django.urls import path
 
+from rest_framework_simplejwt.views import (
+    token_blacklist,
+    token_refresh,
+    token_obtain_pair,
+)
+
 from controllers.auth.views import (
-    CustomTokenObtainPairView,
-    CustomTokenRefreshView,
-    LogoutView,
     SendOTPView,
     VerifyOTPView,
     RegisterUserView,
 )
 
 urlpatterns = [
-    path("login/", CustomTokenObtainPairView.as_view(), name="token-obtain-pair"),
-    path("refresh/", CustomTokenRefreshView.as_view(), name="token-refresh"),
-    path("logout/", LogoutView.as_view(), name="auth-logout"),
+    path("token/", token_obtain_pair, name="token_obtain_pair"),
+    path("token/blacklist/", token_blacklist, name="token_blacklist"),
+    path("token/refresh/", token_refresh, name="token_refresh"),
     path("register/", RegisterUserView.as_view(), name="register"),
-    path("otp/send/", SendOTPView.as_view(), name="send-otp"),
-    path("otp/verify/", VerifyOTPView.as_view(), name="verify-otp"),
+    path("otp/send/", SendOTPView.as_view(), name="otp_send"),
+    path("otp/verify/", VerifyOTPView.as_view(), name="otp_verify"),
 ]
