@@ -1,16 +1,19 @@
 init:
 	mkdir -p logs
 
+install.dev:
+	uv sync
+	pre-commit install
+
 install:
-	pip install --upgrade pip
-	pip install -r requirements.txt
+	uv sync --no-dev
 	pre-commit install
 
 freeze:
-	pip freeze > requirements.txt
+	uv export --no-hashes --format requirements-txt > requirements.txt
 
 update-package:
-	pip install -r requirements.txt --upgrade
+	uv lock --upgrade
 
 lint:
 	flake8 . --exclude .venv,**/migrations,**/settings/local.py
@@ -20,6 +23,9 @@ pre-commit:
 
 shell:
 	python manage.py shell
+
+seed_data:
+	python manage.py seed_data
 
 test:
 	coverage run manage.py test
@@ -68,8 +74,16 @@ css:
 	pnpm tailwind:build
 
 i:
-	pip install $(filter-out $@,$(MAKECMDGOALS))
-	pip freeze > requirements.txt
+	uv add $(filter-out $@,$(MAKECMDGOALS))
+
+i.dev:
+	uv add --dev $(filter-out $@,$(MAKECMDGOALS))
+
+r:
+	uv remove $(filter-out $@,$(MAKECMDGOALS))
+
+r.dev:
+	uv remove --dev $(filter-out $@,$(MAKECMDGOALS))
 
 app:
 	mkdir core/$(filter-out $@,$(MAKECMDGOALS))
@@ -83,22 +97,38 @@ app:
 prune:
 	docker system prune -a --volumes -f
 
-build:
-	# docker rm -f server celery_worker celery_beat celery_flower
-	# docker rmi server:latest
-	docker build -t server:latest --file "docker/django/Dockerfile" --no-cache .
+docker.build:
+	docker build -t ducdat147/dj.base.project .
 
-deploy: build
+docker.login:
+	docker login
+
+docker.push: docker.build docker.login
+	docker push ducdat147/dj.base.project
+
+deploy:
 	docker-compose -f docker-compose.prod.yml up -d
+	open http://localhost/
+	open http://localhost:3000/
 
-docker-up:
+docker.up:
 	docker-compose -f docker-compose.local.yml up -d
 
-docker-down.%:
+docker.down.%:
 	docker-compose -f docker-compose.$*.yml down -v
-	${MAKE} prune
 
-clean: css freeze message pyc pre-commit
+clean: css freeze message pre-commit pyc
+
+git.develop:
+	git fetch origin
+	git checkout develop
+	git pull origin develop
+
+git.clean: git.develop
+	git for-each-ref --format '%(refname:short)' refs/heads | grep -v "develop" | xargs git branch -D
+
+git.createbranch: git.develop
+	git checkout -b $(filter-out $@,$(MAKECMDGOALS))
 
 %:
 	@:

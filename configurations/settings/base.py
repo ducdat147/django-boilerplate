@@ -129,6 +129,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "configurations.wsgi.application"
+# ASGI_APPLICATION = "configurations.asgi.application"
 
 
 # Database

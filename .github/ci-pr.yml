@@ -1,0 +1,104 @@
+name: CI - Django PR to develop
+
+on:
+  pull_request:
+    branches: [ "develop" ]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-pr:
+    name: Check PR conflicts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check if PR has conflicts
+        id: conflicts
+        uses: eps1lon/actions-label-merge-conflict@v3
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fail if PR has conflicts
+        if: steps.conflicts.outputs.hasConflicts == 'true'
+        run: |
+          echo "❌ PR has conflicts. Cancelling..."
+          gh pr close ${{ github.event.pull_request.number }} --delete-branch=false
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  test:
+    name: Django Tests with uv
+    runs-on: ubuntu-latest
+    needs: check-pr
+    if: needs.check-pr.outputs.hasConflicts == 'false'
+
+    services:
+      postgres:
+        image: postgres:16
+        ports: [ "5432:5432" ]
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: app_test
+        options: >-
+          --health-cmd="pg_isready -U postgres -d app_test"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+      redis:
+        image: redis:7
+        ports: [ "6379:6379" ]
+        options: >-
+          --health-cmd="redis-cli ping || exit 1"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/app_test
+      REDIS_URL: redis://localhost:6379/0
+      DJANGO_SETTINGS_MODULE: configurations.settings
+      PYTHONUNBUFFERED: 1
+      SECRET_KEY: django-insecure-key
+      DEPLOYMENT_ENVIRONMENT: test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Sync dependencies
+        run: uv sync
+
+      - name: Run migrations
+        run: uv run python manage.py migrate --noinput
+
+      - name: Run tests with coverage
+        run: uv run coverage run manage.py test
+
+      - name: Report coverage
+        run: uv run coverage report -m
+
+  auto-merge:
+    name: Auto merge PR if tests pass
+    runs-on: ubuntu-latest
+    needs: test
+    if: ${{ success() }}
+    steps:
+      - name: Merge PR
+        run: gh pr merge ${{ github.event.pull_request.number }} --merge --delete-branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -75,3 +75,40 @@ A Django boilerplate project with best practices and commonly used packages pre-
 Contributions are welcome! Please fork the repository and submit a pull request with your changes.
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details
+
+## UV installation
+To install UV, run the following command ([DOCS](https://realpython.com/python-uv/) or [Docs](https://docs.astral.sh/uv/getting-started/installation/)):
+
+- On macOS and Linux:
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+- On Windows (PowerShell):
+```powershell
+irm -useb https://astral.sh/uv/install.ps1 | iex
+```
+
+## UV usage
+To use UV to manage your virtual environments, navigate to your project directory and run:
+```bash
+uv venv
+```
+This will create a virtual environment in the `.venv` directory and activate it. You can then install your project dependencies as usual.
+Activate the virtual environment with:
+- On Windows:
+```bash
+.venv\Scripts\activate
+```
+- On macOS and Linux:
+```bash
+source .venv/bin/activate
+```
+Install all dependencies from `requirements.txt` use `uv`:
+```bash
+uv install -r requirements.txt
+```
+Synchronize packages:
+```bash
+uv sync
+```

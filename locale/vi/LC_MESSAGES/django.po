@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-21 16:13+0000\n"
+"POT-Creation-Date: 2025-09-24 21:47+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,6 +70,9 @@ msgid "Website theme"
 msgstr ""
 
 msgid "Expiration time in minutes"
+msgstr ""
+
+msgid "OTP code length"
 msgstr ""
 
 msgid "Base colors"
@@ -171,12 +174,6 @@ msgstr ""
 msgid "Email is required for email verification."
 msgstr ""
 
-msgid "Invalid email address."
-msgstr ""
-
-msgid "Email already verified."
-msgstr ""
-
 msgid "Invalid verification"
 msgstr ""
 
@@ -210,6 +207,12 @@ msgstr ""
 msgid "Two Step QR Code"
 msgstr ""
 
+msgid "Email"
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
 msgid "Email Verification"
 msgstr ""
 
@@ -240,7 +243,10 @@ msgstr ""
 msgid "Config"
 msgstr ""
 
-msgid "User"
+msgid "To"
+msgstr ""
+
+msgid "Target"
 msgstr ""
 
 msgid "OTP Code"

@@ -34,6 +34,13 @@ scrape_configs:
       # https://grafana.com/docs/loki/latest/clients/promtail/stages/json/
       - json:
           expressions:
-            #message: message
-            level: level
-            #output: 'message'
+            trace_id: otelTraceID
+            message: message
+            level: levelname
+            span_id: otelSpanID
+      - labels:
+          level: level
+      - structured_metadata:
+          trace_id: trace_id
+          span_id: span_id
+          message: message
