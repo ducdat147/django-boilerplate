@@ -14,37 +14,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check-pr:
-    name: Check PR conflicts
-    runs-on: ubuntu-latest
-    outputs:
-      hasConflicts: ${{ steps.conflicts.outputs.hasConflicts }}
-      isFork: ${{ steps.meta.outputs.isFork }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Detect conflicts
-        id: conflicts
-        uses: eps1lon/actions-label-merge-conflict@v3
-        with:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: PR meta
-        id: meta
-        run: |
-          echo "isFork=${{ github.event.pull_request.head.repo.fork }}" >> $GITHUB_OUTPUT
-
-      - name: Close PR if conflicts
-        if: steps.conflicts.outputs.hasConflicts == 'true'
-        run: |
-          echo "❌ PR có conflict. Đóng PR."
-          gh pr comment ${{ github.event.pull_request.number }} --body "PR bị conflict với \`develop\`. Vui lòng rebase/merge \`develop\` rồi mở lại."
-          gh pr close ${{ github.event.pull_request.number }} --delete-branch=false
-          exit 1
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   test:
     name: Django Tests (uv)
     runs-on: ubuntu-latest
