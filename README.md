@@ -14,7 +14,9 @@ A Django boilerplate project with best practices and commonly used packages pre-
 - Tailwind CSS integration for modern, responsive UI design
 - Makefile for common tasks like setup, testing, and linting
 - Environment variable management with `.env` files
+
 ## Getting Started
+
 1. Clone the repository:
     ```bash
     git clone https://github.com/yourusername/django-boilerplate.git .
