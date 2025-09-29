@@ -9,6 +9,25 @@ permissions:
   contents: write
   pull-requests: write
 
+env:
+  DATABASE_URL: postgres://postgres:postgres@localhost:5432/app_test
+  CACHE_URL: redis://localhost:6379/0
+  DJANGO_SETTINGS_MODULE: configurations.settings
+  CELERY_BROKER: amqp://guest:guest@localhost:5672//
+  CELERY_BACKEND: rpc://
+  CELERY_FLOWER_USER: admin
+  CELERY_FLOWER_PASSWORD: admin
+  PYTHONUNBUFFERED: 1
+  DEPLOYMENT_ENVIRONMENT: test
+  PROJECT_NAME: django
+  EMAIL_USE_TLS: False
+  EMAIL_USE_SSL: True
+  EMAIL_HOST: smtp.gmail.com
+  EMAIL_PORT: 465
+  EMAIL_HOST_USER: admin@mail.com
+  EMAIL_HOST_PASSWORD: passmail
+  EMAIL_VERIFICATION_CODE_TIMEOUT: 60
+
 jobs:
   test:
     name: Django Tests with uv
@@ -48,25 +67,6 @@ jobs:
           --health-interval=5s
           --health-timeout=5s
           --health-retries=20
-
-    env:
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/app_test
-      CACHE_URL: redis://localhost:6379/0
-      DJANGO_SETTINGS_MODULE: configurations.settings
-      CELERY_BROKER: amqp://guest:guest@localhost:5672//
-      CELERY_BACKEND: rpc://
-      CELERY_FLOWER_USER: admin
-      CELERY_FLOWER_PASSWORD: admin
-      PYTHONUNBUFFERED: 1
-      DEPLOYMENT_ENVIRONMENT: test
-      PROJECT_NAME: django
-      EMAIL_USE_TLS: False
-      EMAIL_USE_SSL: True
-      EMAIL_HOST: smtp.gmail.com
-      EMAIL_PORT: 465
-      EMAIL_HOST_USER: admin@mail.com
-      EMAIL_HOST_PASSWORD: passmail
-      EMAIL_VERIFICATION_CODE_TIMEOUT: 60
 
     steps:
       - name: Checkout
