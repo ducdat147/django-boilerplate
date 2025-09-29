@@ -4,29 +4,36 @@ on:
   pull_request:
     branches: [ "develop" ]
     types: [opened, synchronize, reopened]
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
+  status: {}
 
 permissions:
   contents: write
   pull-requests: write
 
 env:
-  DATABASE_URL: postgres://postgres:postgres@localhost:5432/app_test
-  CACHE_URL: redis://localhost:6379/0
-  DJANGO_SETTINGS_MODULE: configurations.settings
-  CELERY_BROKER: amqp://guest:guest@localhost:5672//
-  CELERY_BACKEND: rpc://
-  CELERY_FLOWER_USER: admin
-  CELERY_FLOWER_PASSWORD: admin
-  PYTHONUNBUFFERED: 1
-  DEPLOYMENT_ENVIRONMENT: test
-  PROJECT_NAME: django
-  EMAIL_USE_TLS: False
-  EMAIL_USE_SSL: True
-  EMAIL_HOST: smtp.gmail.com
-  EMAIL_PORT: 465
-  EMAIL_HOST_USER: admin@mail.com
-  EMAIL_HOST_PASSWORD: passmail
-  EMAIL_VERIFICATION_CODE_TIMEOUT: 60
+  DATABASE_URL: "postgres://postgres:postgres@localhost:5432/app_test"
+  CACHE_URL: "redis://localhost:6379/0"
+  DJANGO_SETTINGS_MODULE: "configurations.settings"
+  CELERY_BROKER: "amqp://guest:guest@localhost:5672//"
+  CELERY_BACKEND: "rpc://"
+  CELERY_FLOWER_USER: "admin"
+  CELERY_FLOWER_PASSWORD: "admin"
+  PYTHONUNBUFFERED: "1"
+  DEPLOYMENT_ENVIRONMENT: "test"
+  PROJECT_NAME: "django"
+  EMAIL_USE_TLS: "False"
+  EMAIL_USE_SSL: "True"
+  EMAIL_HOST: "smtp.gmail.com"
+  EMAIL_PORT: "465"
+  EMAIL_HOST_USER: "admin@mail.com"
+  EMAIL_HOST_PASSWORD: "passmail"
+  EMAIL_VERIFICATION_CODE_TIMEOUT: "60"
 
 jobs:
   test:
@@ -91,3 +98,13 @@ jobs:
 
       - name: Report coverage
         run: uv run coverage report -m
+
+  automerge:
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+      - name: Auto-merge
+        run: gh pr merge --auto --merge "$PR_URL" # Use Github CLI to merge automatically the PR
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
