@@ -16,24 +16,22 @@ permissions:
   contents: write
   pull-requests: write
 
-env:
-  DATABASE_URL: "postgres://postgres:postgres@localhost:5432/app_test"
-  CACHE_URL: "redis://localhost:6379/0"
-  DJANGO_SETTINGS_MODULE: "configurations.settings"
-  CELERY_BROKER: "amqp://guest:guest@localhost:5672//"
-  CELERY_BACKEND: "rpc://"
-  CELERY_FLOWER_USER: "admin"
-  CELERY_FLOWER_PASSWORD: "admin"
-  PYTHONUNBUFFERED: "1"
-  DEPLOYMENT_ENVIRONMENT: "test"
-  PROJECT_NAME: "django"
-
 jobs:
   test:
-    name: Django Tests with uv
+    name: Django Tests
     runs-on: ubuntu-latest
 
     env:
+      DATABASE_URL: "postgres://${{secrets.TEST_USER}}:${{secrets.TEST_PASS}}@localhost:5432/${{secrets.TEST_DB}}"
+      CACHE_URL: "redis://localhost:6379/0"
+      DJANGO_SETTINGS_MODULE: "configurations.settings"
+      CELERY_BROKER: "amqp://${{secrets.TEST_USER}}:${{secrets.TEST_PASS}}@localhost:5672//"
+      CELERY_BACKEND: "rpc://"
+      CELERY_FLOWER_USER: "${{secrets.TEST_USER}}"
+      CELERY_FLOWER_PASSWORD: "${{secrets.TEST_PASS}}"
+      PYTHONUNBUFFERED: "1"
+      DEPLOYMENT_ENVIRONMENT: "test"
+      PROJECT_NAME: "django"
       EMAIL_USE_TLS: "${{secrets.EMAIL_USE_TLS}}"
       EMAIL_USE_SSL: "${{secrets.EMAIL_USE_SSL}}"
       EMAIL_HOST: "${{secrets.EMAIL_HOST}}"
@@ -47,9 +45,9 @@ jobs:
         image: postgres:16
         ports: [ "5432:5432" ]
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: app_test
+          POSTGRES_USER: "${{secrets.TEST_USER}}"
+          POSTGRES_PASSWORD: "${{secrets.TEST_PASS}}"
+          POSTGRES_DB: "${{secrets.TEST_DB}}"
         options: >-
           --health-cmd="pg_isready -U postgres -d app_test"
           --health-interval=5s
@@ -69,8 +67,8 @@ jobs:
         image: rabbitmq:3.11
         ports: [ "5672:5672", "15672:15672" ]
         env:
-          RABBITMQ_DEFAULT_USER: guest
-          RABBITMQ_DEFAULT_PASS: guest
+          RABBITMQ_DEFAULT_USER: "${{secrets.TEST_USER}}"
+          RABBITMQ_DEFAULT_PASS: "${{secrets.TEST_PASS}}"
         options: >-
           --health-cmd="rabbitmq-diagnostics -q ping"
           --health-interval=5s
