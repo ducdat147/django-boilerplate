@@ -37,10 +37,26 @@ jobs:
           --health-timeout=5s
           --health-retries=20
 
+      rabbitmq:
+        image: rabbitmq:3.11
+        ports: [ "5672:5672", "15672:15672" ]
+        env:
+          RABBITMQ_DEFAULT_USER: guest
+          RABBITMQ_DEFAULT_PASS: guest
+        options: >-
+          --health-cmd="rabbitmq-diagnostics -q ping"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
     env:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/app_test
       CACHE_URL: redis://localhost:6379/0
       DJANGO_SETTINGS_MODULE: configurations.settings
+      CELERY_BROKER: amqp://guest:guest@localhost:5672//
+      CELERY_BACKEND: rpc://
+      CELERY_FLOWER_USER: admin
+      CELERY_FLOWER_PASSWORD: admin
       PYTHONUNBUFFERED: 1
       DEPLOYMENT_ENVIRONMENT: test
       PROJECT_NAME: django
