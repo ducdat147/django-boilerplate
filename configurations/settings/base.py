@@ -244,10 +244,10 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_TIMEOUT = 5
 EMAIL_HOST = env.str("EMAIL_HOST")
 EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
-EMAIL_PORT = env.int("EMAIL_PORT")
+EMAIL_PORT = env.int("EMAIL_PORT", default=465)
 EMAIL_USE_SSL = env.bool("EMAIL_USE_SSL", default=False)
-EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="")
 EMAIL_VERIFICATION_CODE_TIMEOUT = env.int("EMAIL_VERIFICATION_CODE_TIMEOUT", default=5)
 
 LOGIN_URL = reverse_lazy("admin:login")
