@@ -1,0 +1,133 @@
+name: CI - Staging
+
+on:
+  pull_request:
+    branches: [ "staging" ]
+    types: [opened, synchronize, reopened]
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
+  status: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+
+    env:
+      DEBUG: "True"
+      DATABASE_URL: "postgres://${{secrets.TEST_USER}}:${{secrets.TEST_PASS}}@localhost:5432/${{secrets.TEST_DB}}"
+      CACHE_URL: "redis://localhost:6379/0"
+      DJANGO_SETTINGS_MODULE: "configurations.settings"
+      CELERY_BROKER: "amqp://${{secrets.TEST_USER}}:${{secrets.TEST_PASS}}@localhost:5672//"
+      CELERY_BACKEND: "rpc://"
+      CELERY_FLOWER_USER: "${{secrets.TEST_USER}}"
+      CELERY_FLOWER_PASSWORD: "${{secrets.TEST_PASS}}"
+      PYTHONUNBUFFERED: "1"
+      DEPLOYMENT_ENVIRONMENT: "test"
+      PROJECT_NAME: "django"
+      EMAIL_USE_TLS: "${{secrets.EMAIL_USE_TLS}}"
+      EMAIL_USE_SSL: "${{secrets.EMAIL_USE_SSL}}"
+      EMAIL_HOST: "${{secrets.EMAIL_HOST}}"
+      EMAIL_PORT: "${{secrets.EMAIL_PORT}}"
+      EMAIL_HOST_USER: "${{secrets.EMAIL_HOST_USER}}"
+      EMAIL_HOST_PASSWORD: "${{secrets.EMAIL_HOST_PASSWORD}}"
+      EMAIL_VERIFICATION_CODE_TIMEOUT: "${{secrets.EMAIL_VERIFICATION_CODE_TIMEOUT}}"
+
+    services:
+      postgres:
+        image: postgres:16
+        ports: [ "5432:5432" ]
+        env:
+          POSTGRES_USER: "${{secrets.TEST_USER}}"
+          POSTGRES_PASSWORD: "${{secrets.TEST_PASS}}"
+          POSTGRES_DB: "${{secrets.TEST_DB}}"
+        options: >-
+          --health-cmd="pg_isready -U postgres -d app_test"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+      redis:
+        image: redis:7
+        ports: [ "6379:6379" ]
+        options: >-
+          --health-cmd="redis-cli ping || exit 1"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+      rabbitmq:
+        image: rabbitmq:3.11
+        ports: [ "5672:5672", "15672:15672" ]
+        env:
+          RABBITMQ_DEFAULT_USER: "${{secrets.TEST_USER}}"
+          RABBITMQ_DEFAULT_PASS: "${{secrets.TEST_PASS}}"
+        options: >-
+          --health-cmd="rabbitmq-diagnostics -q ping"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Sync dependencies
+        run: uv sync
+
+      - name: Run migrations
+        run: uv run python manage.py migrate --noinput
+
+      - name: Run tests with coverage
+        run: uv run coverage run manage.py test
+
+      - name: Report coverage
+        run: uv run coverage report -m
+
+  push-docker:
+    name: Push Docker Image
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{secrets.DOCKER_USER}}
+          password: ${{secrets.DOCKER_ACCESS_TOKEN}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{secrets.DOCKER_USER}}/dj.base.project:staging
+
+  automerge:
+    name: Auto-merge
+    runs-on: ubuntu-latest
+    needs: [push-docker]
+    steps:
+      - name: Auto-merge
+        run: gh pr merge --auto --merge "$PR_URL" # Use Github CLI to merge automatically the PR
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
