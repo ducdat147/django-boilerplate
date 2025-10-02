@@ -1,22 +1,19 @@
 init:
 	mkdir -p logs
 
-install.dev:
-	uv sync
+install.dev: update-package
+	uv sync --locked
 	uv run pre-commit install
 
-install:
+install: update-package
 	uv sync --no-dev
 	uv run pre-commit install
 
-freeze:
-	uv export --no-hashes --format requirements-txt > requirements.txt
-
 update-package:
-	uv run uv lock --upgrade
+	uv lock --upgrade
 
 lint:
-	flake8 . --exclude .venv,**/migrations,**/settings/local.py
+	uv run ruff format
 
 pre-commit:
 	uv run pre-commit run -a
