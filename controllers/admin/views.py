@@ -173,8 +173,9 @@ def random_data(request):
                 "title": "Product A Performance",
                 "metric": f"${intcomma(f'{random.uniform(1000, 9999):.02f}')}",
                 "footer": mark_safe(
-                    f'<strong class="text-green-700 font-semibold dark:text-green-400">+{intcomma(f"{random.uniform(1, 9):.02f}")
-                                                                                         }%</strong>&nbsp;progress from last week'
+                    f'<strong class="text-green-700 font-semibold dark:text-green-400">+{
+                        intcomma(f"{random.uniform(1, 9):.02f}")
+                    }%</strong>&nbsp;progress from last week'
                 ),
                 "chart": json.dumps(
                     {
@@ -187,24 +188,27 @@ def random_data(request):
                 "title": "Product B Performance",
                 "metric": f"${intcomma(f'{random.uniform(1000, 9999):.02f}')}",
                 "footer": mark_safe(
-                    f'<strong class="text-green-700 font-semibold dark:text-green-400">+{intcomma(f"{random.uniform(1, 9):.02f}")
-                                                                                         }%</strong>&nbsp;progress from last week'
+                    f'<strong class="text-green-700 font-semibold dark:text-green-400">+{
+                        intcomma(f"{random.uniform(1, 9):.02f}")
+                    }%</strong>&nbsp;progress from last week'
                 ),
             },
             {
                 "title": "Product C Performance",
                 "metric": f"${intcomma(f'{random.uniform(1000, 9999):.02f}')}",
                 "footer": mark_safe(
-                    f'<strong class="text-green-700 font-semibold dark:text-green-400">+{intcomma(f"{random.uniform(1, 9):.02f}")
-                                                                                         }%</strong>&nbsp;progress from last week'
+                    f'<strong class="text-green-700 font-semibold dark:text-green-400">+{
+                        intcomma(f"{random.uniform(1, 9):.02f}")
+                    }%</strong>&nbsp;progress from last week'
                 ),
             },
             {
                 "title": "Product C Performance",
                 "metric": f"${intcomma(f'{random.uniform(1000, 9999):.02f}')}",
                 "footer": mark_safe(
-                    f'<strong class="text-green-700 font-semibold dark:text-green-400">+{intcomma(f"{random.uniform(1, 9):.02f}")
-                                                                                         }%</strong>&nbsp;progress from last week'
+                    f'<strong class="text-green-700 font-semibold dark:text-green-400">+{
+                        intcomma(f"{random.uniform(1, 9):.02f}")
+                    }%</strong>&nbsp;progress from last week'
                 ),
             },
         ],
