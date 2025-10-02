@@ -92,13 +92,13 @@ jobs:
         run: uv sync
 
       - name: Run migrations
-        run: python manage.py migrate --noinput
+        run: uv run python manage.py migrate --noinput
 
       - name: Run tests with coverage
-        run: coverage run manage.py test
+        run: uv run coverage run manage.py test
 
       - name: Report coverage
-        run: coverage report -m
+        run: uv run coverage report -m
 
   push-docker:
     name: Push Docker Image
