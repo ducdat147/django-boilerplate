@@ -69,7 +69,7 @@ RUN chown -R django:django /app
 ENV PATH="/app/.venv/bin:$PATH"
 
 # Install Python dependencies
-RUN uv sync --locked
+RUN uv sync --no-dev
 
 # Compile Python files
 RUN python -m compileall -b . && find . -type f -name "*.py" -delete
