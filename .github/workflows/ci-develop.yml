@@ -18,9 +18,8 @@ permissions:
 
 jobs:
   test:
-    name: Tests
+    name: Run test Develop
     runs-on: ubuntu-latest
-    continue-on-error: true
 
     env:
       DEBUG: "True"
@@ -102,9 +101,8 @@ jobs:
         run: uv run coverage report -m
 
   push-docker:
-    name: Push Docker Image
+    name: Push Docker Image Develop
     runs-on: ubuntu-latest
-    continue-on-error: true
     needs: [test]
     steps:
       - name: Checkout
@@ -124,12 +122,11 @@ jobs:
           tags: ${{secrets.DOCKER_USER}}/dj.base.project:develop
 
   automerge:
-    name: Auto-merge
+    name: Auto Merge to Develop
     runs-on: ubuntu-latest
-    continue-on-error: true
     needs: [push-docker]
     steps:
-      - name: Auto-merge
+      - name: Merge
         run: gh pr merge --auto --merge "$PR_URL" # Use Github CLI to merge automatically the PR
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
