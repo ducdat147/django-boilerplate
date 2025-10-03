@@ -9,8 +9,8 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "Your project description",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
-    "SCHEMA_PATH_PREFIX": "/api/",
-    "SCHEMA_PATH_PREFIX_INSERT": "",
+    "SCHEMA_PATH_PREFIX": "/api",
+    "SCHEMA_PATH_PREFIX_INSERT": "/api",
     "SCHEMA_PATH_PREFIX_TRIM": True,
 }
 
