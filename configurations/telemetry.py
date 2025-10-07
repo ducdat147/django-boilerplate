@@ -71,7 +71,7 @@ def init_telemetry(is_service: bool = False, **kwargs):
     )
 
     otlp_endpoint = kwargs.get(
-        "otlp_endpoint", os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT")
+        "otlp_endpoint", os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT", default=None)
     )
 
     if otlp_endpoint and isinstance(otlp_endpoint, str):
