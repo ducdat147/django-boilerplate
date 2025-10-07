@@ -16,7 +16,7 @@ from unfold.widgets import (
 )
 
 from common.forms import BaseForm
-from core.common.tasks import send_email_task
+from common.tasks import send_email_task
 from core.user.models import User
 
 

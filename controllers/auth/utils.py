@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 from rest_framework.exceptions import ParseError
 
-from core.common.tasks import send_email_task
+from common.tasks import send_email_task
 from core.user.enums import OtpTypeEnum
 
 
