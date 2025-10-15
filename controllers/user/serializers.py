@@ -10,8 +10,6 @@ class MyProfileSerializer(serializers.ModelSerializer):
             "id",
             "username",
             "email",
-            "first_name",
-            "last_name",
         ]
         read_only_fields = [
             "id",

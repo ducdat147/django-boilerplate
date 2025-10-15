@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 16:46+0000\n"
+"POT-Creation-Date: 2025-10-16 00:44+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -204,7 +204,28 @@ msgstr ""
 msgid "Back to homepage"
 msgstr ""
 
+msgid "User Setting"
+msgstr ""
+
+msgid "User Profile"
+msgstr ""
+
+msgid "Important dates"
+msgstr ""
+
+msgid "Permissions"
+msgstr ""
+
 msgid "Two Step QR Code"
+msgstr ""
+
+msgid "Male"
+msgstr ""
+
+msgid "Female"
+msgstr ""
+
+msgid "Other"
 msgstr ""
 
 msgid "Email"
@@ -214,6 +235,9 @@ msgid "Phone"
 msgstr ""
 
 msgid "Email Verification"
+msgstr ""
+
+msgid "Phone Verification"
 msgstr ""
 
 msgid "Password Reset"
@@ -234,10 +258,40 @@ msgstr ""
 msgid "Used"
 msgstr ""
 
-msgid "Email Verified"
+msgid "email address"
+msgstr ""
+
+msgid "phone"
+msgstr ""
+
+msgid "email verified"
 msgstr ""
 
 msgid "If the email is verified, the user can login with the email."
+msgstr ""
+
+msgid "phone verified"
+msgstr ""
+
+msgid "If the phone is verified, the user can login with the phone."
+msgstr ""
+
+msgid "first name"
+msgstr ""
+
+msgid "last name"
+msgstr ""
+
+msgid "date of birth"
+msgstr ""
+
+msgid "gender"
+msgstr ""
+
+msgid "avatar"
+msgstr ""
+
+msgid "address"
 msgstr ""
 
 msgid "Config"

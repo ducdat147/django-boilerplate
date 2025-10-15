@@ -10,37 +10,99 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from phonenumber_field.modelfields import PhoneNumberField
 
 from common.models import BaseModel
-from core.user.enums import OTPVerificationStatusEnum, OtpTypeEnum, TargetOtpEnum
+from core.user.enums import (
+    GenderEnum,
+    OTPVerificationStatusEnum,
+    OtpTypeEnum,
+    TargetOtpEnum,
+)
 
 
 class User(AbstractUser):
+    first_name = None
+    last_name = None
+    email = models.EmailField(_("email address"), blank=True)
+    phone = PhoneNumberField(_("phone"), blank=True)
+    is_email_verified = models.BooleanField(
+        _("email verified"),
+        default=False,
+        help_text=_("If the email is verified, the user can login with the email."),
+    )
+    is_phone_verified = models.BooleanField(
+        _("phone verified"),
+        default=False,
+        help_text=_("If the phone is verified, the user can login with the phone."),
+    )
+
+    def __str__(self):
+        return f"{self.username or self.email or self.phone}"
+
     @property
-    def full_name(self):
-        full_name = []
-        if self.first_name:
-            full_name.append(self.first_name)
-        if self.last_name:
-            full_name.append(self.last_name)
-        return " ".join(full_name)
+    def is_has_password(self):
+        return self.password.startswith("!") or not bool(self.password)
+
+    @property
+    def is_anonymous_user(self):
+        return not getattr(self, "userprofile", None)
+
+    def create_user_profile(self):
+        if not getattr(self, "userprofile", None):
+            UserProfile.objects.create(user=self)
+        if not getattr(self, "usersetting", None):
+            UserSetting.objects.create(user=self)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        if not hasattr(self, "settings"):
-            self.settings = UserSettings.objects.create(user=self)
+
+        if not self.is_anonymous_user:
+            if not getattr(self, "usersetting", None):
+                UserSetting.objects.create(user=self)
 
 
-class UserSettings(models.Model):
+class UserProfile(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
-        related_name="settings",
     )
-    is_email_verified = models.BooleanField(
-        _("Email Verified"),
-        default=False,
-        help_text=_("If the email is verified, the user can login with the email."),
+    first_name = models.CharField(_("first name"), max_length=150, blank=True)
+    last_name = models.CharField(_("last name"), max_length=150, blank=True)
+    date_of_birth = models.DateField(_("date of birth"), null=True, blank=True)
+    gender = models.CharField(
+        _("gender"),
+        max_length=20,
+        choices=GenderEnum.choices,
+        default=GenderEnum.OTHER,
+    )
+    avatar = models.URLField(
+        _("avatar"),
+        max_length=255,
+        blank=True,
+    )
+    address = models.CharField(
+        _("address"),
+        max_length=255,
+        blank=True,
+    )
+
+    def __str__(self):
+        return (
+            f"{self.full_name} ({self.user.username})"
+            if self.full_name
+            else self.user.username
+        )
+
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}".strip()
+
+
+class UserSetting(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
     )
     config = models.JSONField(
         _("Config"),
