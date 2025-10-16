@@ -440,10 +440,13 @@ dependencies = [
     { name = "markdown" },
     { name = "oauthlib" },
     { name = "opentelemetry-exporter-otlp" },
+    { name = "opentelemetry-instrumentation-asgi" },
     { name = "opentelemetry-instrumentation-celery" },
     { name = "opentelemetry-instrumentation-django" },
     { name = "opentelemetry-instrumentation-logging" },
     { name = "opentelemetry-instrumentation-requests" },
+    { name = "opentelemetry-instrumentation-threading" },
+    { name = "opentelemetry-instrumentation-wsgi" },
     { name = "pillow" },
     { name = "psycopg" },
     { name = "psycopg-binary" },
@@ -489,10 +492,13 @@ requires-dist = [
     { name = "markdown", specifier = ">=3.9" },
     { name = "oauthlib", specifier = ">=3.3.1" },
     { name = "opentelemetry-exporter-otlp", specifier = ">=1.37.0" },
+    { name = "opentelemetry-instrumentation-asgi", specifier = ">=0.58b0" },
     { name = "opentelemetry-instrumentation-celery", specifier = ">=0.58b0" },
     { name = "opentelemetry-instrumentation-django", specifier = ">=0.58b0" },
     { name = "opentelemetry-instrumentation-logging", specifier = ">=0.58b0" },
     { name = "opentelemetry-instrumentation-requests", specifier = ">=0.58b0" },
+    { name = "opentelemetry-instrumentation-threading", specifier = ">=0.58b0" },
+    { name = "opentelemetry-instrumentation-wsgi", specifier = ">=0.58b0" },
     { name = "pillow", specifier = ">=11.3.0" },
     { name = "psycopg", specifier = ">=3.2.10" },
     { name = "psycopg-binary", specifier = ">=3.2.10" },
@@ -1036,6 +1042,22 @@ wheels = [
 ]
 
 [[package]]
+name = "opentelemetry-instrumentation-asgi"
+version = "0.58b0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "asgiref" },
+    { name = "opentelemetry-api" },
+    { name = "opentelemetry-instrumentation" },
+    { name = "opentelemetry-semantic-conventions" },
+    { name = "opentelemetry-util-http" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/7b/e2/03ff707d881d590c7adaed5e9d1979aed7e5e53fc1ed89035e5ed9f304af/opentelemetry_instrumentation_asgi-0.58b0.tar.gz", hash = "sha256:3ccc0c9c1c8c71e8d9da5945c6dcd9c0c8d147839f208536b7042c6dd98e65c9", size = 25116, upload-time = "2025-09-11T11:42:18.437Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8c/71/a00884c6655387c70070138acbf79a6616ad5d4489680f40708d75b598a7/opentelemetry_instrumentation_asgi-0.58b0-py3-none-any.whl", hash = "sha256:508a6d79e333d648d2afee0e140b6e80eb5d443be183be58e81d9ff88373168a", size = 16798, upload-time = "2025-09-11T11:41:08.105Z" },
+]
+
+[[package]]
 name = "opentelemetry-instrumentation-celery"
 version = "0.58b0"
 source = { registry = "https://pypi.org/simple" }
@@ -1091,6 +1113,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/36/42/83ee32de763b919779aaa595b60c5a7b9c0a4b33952bbe432c5f6a783085/opentelemetry_instrumentation_requests-0.58b0.tar.gz", hash = "sha256:ae9495e6ff64e27bdb839fce91dbb4be56e325139828e8005f875baf41951a2e", size = 15188, upload-time = "2025-09-11T11:42:51.268Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/90/4d/f3476b28ea167d1762134352d01ae9693940a42c78994d9f1b32a4477816/opentelemetry_instrumentation_requests-0.58b0-py3-none-any.whl", hash = "sha256:672a0be0bb5b52bea0c11820b35e27edcf4cd22d34abe4afc59a92a80519f8a8", size = 12966, upload-time = "2025-09-11T11:41:52.67Z" },
+]
+
+[[package]]
+name = "opentelemetry-instrumentation-threading"
+version = "0.58b0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "opentelemetry-api" },
+    { name = "opentelemetry-instrumentation" },
+    { name = "wrapt" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/70/a9/3888cb0470e6eb48ea17b6802275ae71df411edd6382b9a8e8f391936fda/opentelemetry_instrumentation_threading-0.58b0.tar.gz", hash = "sha256:f68c61f77841f9ff6270176f4d496c10addbceacd782af434d705f83e4504862", size = 8770, upload-time = "2025-09-11T11:42:56.308Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a5/54/add1076cb37980e617723a96e29c84006983e8ad6fc589dde7f69ddc57d4/opentelemetry_instrumentation_threading-0.58b0-py3-none-any.whl", hash = "sha256:eacc072881006aceb5b9b6831bcdce718c67ef6f31ac0b32bd6a23a94d979b4a", size = 9312, upload-time = "2025-09-11T11:41:58.603Z" },
 ]
 
 [[package]]

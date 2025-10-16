@@ -38,7 +38,12 @@ class User(AbstractUser):
     )
 
     def __str__(self):
-        return f"{self.username or self.email or self.phone}"
+        userprofile = getattr(self, "userprofile", None)
+        if userprofile:
+            full_name = userprofile.full_name
+            if full_name:
+                return f"{full_name}"
+        return f"{self.phone or self.email or self.username}"
 
     @property
     def is_has_password(self):
@@ -53,6 +58,8 @@ class User(AbstractUser):
             UserProfile.objects.create(user=self)
         if not getattr(self, "usersetting", None):
             UserSetting.objects.create(user=self)
+        if not getattr(self, "twofactorauthenticationotp", None):
+            TwoFactorAuthenticationOTP.objects.create(user=self, is_active=False)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -88,11 +95,7 @@ class UserProfile(models.Model):
     )
 
     def __str__(self):
-        return (
-            f"{self.full_name} ({self.user.username})"
-            if self.full_name
-            else self.user.username
-        )
+        return self.user.__str__()
 
     @property
     def full_name(self):
@@ -110,6 +113,9 @@ class UserSetting(models.Model):
         null=True,
         blank=True,
     )
+
+    def __str__(self):
+        return self.user.__str__()
 
 
 class OtpCode(BaseModel):
@@ -156,10 +162,7 @@ class OtpCode(BaseModel):
 class TwoFactorAuthenticationOTP(BaseModel):
     user = models.OneToOneField(
         User,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="two_factor_otp",
+        on_delete=models.CASCADE,
     )
     secret_key = models.CharField(
         max_length=255,
@@ -167,6 +170,9 @@ class TwoFactorAuthenticationOTP(BaseModel):
         blank=True,
     )
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.user.__str__()
 
     def save(self, *args, **kwargs):
         if not self.is_active or not self.secret_key:
