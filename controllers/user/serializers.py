@@ -1,12 +1,33 @@
 from rest_framework import serializers
+from phonenumber_field.serializerfields import PhoneNumberField
+from django.contrib.auth import get_user_model
 
-from core.user.models import User, UserProfile, UserSetting
+from core.user.models import UserProfile
+
+User = get_user_model()
 
 
-class UserProfileSerializer(serializers.ModelSerializer):
+class MyProfileSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(source="user.id", read_only=True)
+    username = serializers.CharField(source="user.username", read_only=True)
+    email = serializers.EmailField(source="user.email")
+    is_email_verified = serializers.BooleanField(
+        source="user.is_email_verified", read_only=True
+    )
+    phone = PhoneNumberField(source="user.phone")
+    is_phone_verified = serializers.BooleanField(
+        source="user.is_phone_verified", read_only=True
+    )
+
     class Meta:
         model = UserProfile
         fields = [
+            "id",
+            "username",
+            "email",
+            "is_email_verified",
+            "phone",
+            "is_phone_verified",
             "first_name",
             "last_name",
             "full_name",
@@ -16,37 +37,28 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "address",
         ]
 
-
-class UserSettingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserSetting
-        fields = [
-            "config",
-        ]
-
-
-class MyProfileSerializer(serializers.ModelSerializer):
-    userprofile = UserProfileSerializer()
-    usersetting = UserSettingSerializer()
-
-    class Meta:
-        model = User
-        fields = [
-            "id",
-            "username",
-            "email",
-            "phone",
-            "userprofile",
-            "usersetting",
-        ]
-        read_only_fields = [
-            "username",
-        ]
-
     def update(self, instance, validated_data):
-        userprofile_data = validated_data.pop("userprofile", {})
-        usersetting_data = validated_data.pop("usersetting", {})
+        user_data = validated_data.pop("user", {})
+        email = user_data.get("email")
+        phone = user_data.get("phone")
+
+        if email and instance.user.email != email:
+            if User.objects.filter(email=email).exclude(id=instance.user.id).exists():
+                raise serializers.ValidationError(
+                    {"email": "This email is already in use."}
+                )
+            instance.user.email = email
+            instance.user.is_email_verified = False  # Reset email verification status
+
+        if phone and instance.user.phone != phone:
+            if User.objects.filter(phone=phone).exclude(id=instance.user.id).exists():
+                raise serializers.ValidationError(
+                    {"phone": "This phone number is already in use."}
+                )
+            instance.user.phone = phone
+            instance.user.is_phone_verified = False  # Reset phone verification status
+
         instance = super().update(instance, validated_data)
-        UserProfileSerializer().update(instance.userprofile, userprofile_data)
-        UserSettingSerializer().update(instance.usersetting, usersetting_data)
+        instance.user.save()
+
         return instance

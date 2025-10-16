@@ -3,23 +3,8 @@ import string
 
 from constance import config
 from django.template.loader import render_to_string
-from django.utils.translation import gettext_lazy as _
-from rest_framework.exceptions import ParseError
 
 from common.tasks import send_email_task
-from core.user.enums import OtpTypeEnum
-
-
-def check_valid_verification(
-    verification_type: str,
-    to: str = None,
-) -> OtpTypeEnum:
-    if verification_type == OtpTypeEnum.EMAIL:
-        if not to:
-            raise ParseError(_("Email is required for email verification."))
-    else:
-        raise ParseError(_("Invalid verification"))
-    return OtpTypeEnum(verification_type)
 
 
 def generate_otp():

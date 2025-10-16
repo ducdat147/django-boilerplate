@@ -103,9 +103,19 @@ class UserProfile(models.Model):
 
 
 class UserSetting(models.Model):
+    class LanguegeEnum(models.TextChoices):
+        EN = "en", _("English")
+        VI = "vi", _("Vietnamese")
+
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
+    )
+    language = models.CharField(
+        _("Language"),
+        max_length=6,
+        default=LanguegeEnum.EN,
+        choices=LanguegeEnum.choices,
     )
     config = models.JSONField(
         _("Config"),
@@ -144,10 +154,10 @@ class OtpCode(BaseModel):
         super().save(*args, **kwargs)
 
     @property
-    def is_expired(self):
+    def is_expired(self) -> bool:
         return timezone.now() > self.expires_at
 
-    def verify(self, code):
+    def verify(self, code) -> OTPVerificationStatusEnum:
         if self.code != code:
             return OTPVerificationStatusEnum.INVALID
         if self.is_used:

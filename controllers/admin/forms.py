@@ -17,7 +17,9 @@ from unfold.widgets import (
 
 from common.forms import BaseForm
 from common.tasks import send_email_task
-from core.user.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class AdminPasswordResetForm(BaseForm):

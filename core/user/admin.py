@@ -75,9 +75,7 @@ class UserSettingInline(StackedInline):
     can_delete = False
     verbose_name = _("User Setting")
     extra = 0
-    fields = [
-        "config",
-    ]
+    # fields = "__all__"
     tab = True
 
 
@@ -110,11 +108,10 @@ class UserProfileInline(StackedInline):
 
 class UserAdmin(BaseUserAdmin, ModelAdmin):
     list_display = (
-        "username",
+        "__str__",
         "email",
         "phone",
         "is_active",
-        "last_login",
         "date_joined",
     )
     fieldsets = (
@@ -169,6 +166,7 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
     change_password_form = AdminPasswordChangeForm
     readonly_fields = ("last_login", "date_joined")
     change_form_show_cancel_button = True
+    ordering = ("-date_joined",)
 
     def get_inlines(self, request, obj: User):
         if not obj.is_anonymous_user:
@@ -185,8 +183,21 @@ class GroupAdmin(BaseGroupAdmin, ModelAdmin):
 
 
 class OtpCodeAdmin(ModelAdmin):
-    list_display = ["to", "type_otp", "target", "created_at"]
+    list_display = [
+        "to",
+        "type_otp",
+        "target",
+        "is_used",
+        "is_expired",
+        "created_at",
+    ]
     list_filter = ["type_otp", "target"]
+    ordering = ("-created_at",)
+
+    def is_expired(self, obj: OtpCode):
+        return obj.is_expired
+
+    is_expired.boolean = True
 
 
 admin_site.register(User, UserAdmin)

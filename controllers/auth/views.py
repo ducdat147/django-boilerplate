@@ -30,9 +30,9 @@ class RegisterUserView(CreateAPIView):
 
 
 class SendOTPView(GenericAPIView):
-    serializer_class = SendOTPSerializer
     authentication_classes = ()
     permission_classes = ()
+    serializer_class = SendOTPSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -41,9 +41,9 @@ class SendOTPView(GenericAPIView):
 
 
 class VerifyOTPView(GenericAPIView):
-    serializer_class = VerifyOTPSerializer
     authentication_classes = ()
     permission_classes = ()
+    serializer_class = VerifyOTPSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
