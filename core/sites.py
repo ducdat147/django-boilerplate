@@ -78,7 +78,7 @@ def convert_to_dict(
         result[key] = value
 
 
-def convert_config(config, config_names: list):
+def convert_config(config_names: list):
     result = {}
 
     for key in config_names:
@@ -97,7 +97,7 @@ def convert_config(config, config_names: list):
     return result
 
 
-def callback_constance(config) -> dict:
+def callback_constance() -> dict:
     from utils.performs import get_class_from_string
 
     result = {}
@@ -130,7 +130,7 @@ def callback_constance(config) -> dict:
     return result
 
 
-def get_element_classes(config) -> dict:
+def get_element_classes() -> dict:
     header = []
     page = []
     main = []
@@ -140,14 +140,14 @@ def get_element_classes(config) -> dict:
     navigation_inner = []
     pagination = []
 
-    if getattr(config, "EC_STICKY_HEADER", "") == "sticky":
+    if config.EC_STICKY_HEADER:
         header.extend(
             [
                 "md:sticky",
                 "top-0",
             ]
         )
-    if getattr(config, "EC_LAYOUT_STYLE", "") == "boxed":
+    if config.EC_BOXED_LAYOUT:
         header.extend(
             [
                 "rounded-t-default",
@@ -172,9 +172,9 @@ def get_element_classes(config) -> dict:
             ]
         )
         navigation.extend(["lg:border-r-0"])
-    elif getattr(config, "EC_SIDEBAR_VARIANT", "") == "dark":
+    elif config.EC_SIDEBAR_DARK:
         navigation.extend(["dark"])
-    elif getattr(config, "EC_HEADER_VARIANT", "") == "dark":
+    elif config.EC_HEADER_DARK:
         navigation_header.extend(
             [
                 "dark",
@@ -184,7 +184,7 @@ def get_element_classes(config) -> dict:
                 "dark:bg-base-900",
             ]
         )
-    if getattr(config, "EC_HEADER_VARIANT", "") == "dark":
+    if config.EC_HEADER_DARK:
         header.extend(["dark"])
 
     return {
@@ -212,9 +212,9 @@ class AdminSite(UnfoldAdminSite):
 
     def each_context(self, request: HttpRequest) -> dict[str, Any]:
         context = super().each_context(request)
-        update_context = convert_config(config, settings.CONSTANCE_CONFIG_FOR_UNFOLD)
-        update_context_callback = callback_constance(config)
-        update_context_element_classes = get_element_classes(config)
+        update_context = convert_config(settings.CONSTANCE_CONFIG_FOR_UNFOLD)
+        update_context_callback = callback_constance()
+        update_context_element_classes = get_element_classes()
         if bool(update_context):
             context = {**context, **update_context}
         if bool(update_context_callback):

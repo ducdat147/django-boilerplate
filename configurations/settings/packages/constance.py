@@ -19,25 +19,6 @@ CONSTANCE_REDIS_CONNECTION = env.str("CACHE_URL")
 
 CONSTANCE_DEFAULT_VALUE = "-"
 
-CONSTANCE_ELEMENT_CLASSES = {
-    "sticky_header": [
-        CONSTANCE_DEFAULT_VALUE,
-        "sticky",
-    ],
-    "header_variant": [
-        CONSTANCE_DEFAULT_VALUE,
-        "dark",
-    ],
-    "sidebar_variant": [
-        CONSTANCE_DEFAULT_VALUE,
-        "dark",
-    ],
-    "layout_style": [
-        CONSTANCE_DEFAULT_VALUE,
-        "boxed",
-    ],
-}
-
 CONSTANCE_CONFIG = {
     "SITE_URL": [CONSTANCE_DEFAULT_VALUE, _("Website URL")],
     "SITE_TITLE": ["Dashboard Site Title", _("Website title")],
@@ -74,26 +55,10 @@ CONSTANCE_CONFIG = {
         _("Font colors"),
         "choise_color_font",
     ],
-    "EC_STICKY_HEADER": [
-        get_default_value(CONSTANCE_ELEMENT_CLASSES["sticky_header"]),
-        _("Sticky header"),
-        "ec_sticky_header",
-    ],
-    "EC_HEADER_VARIANT": [
-        get_default_value(CONSTANCE_ELEMENT_CLASSES["header_variant"]),
-        _("Header variant"),
-        "ec_header_variant",
-    ],
-    "EC_SIDEBAR_VARIANT": [
-        get_default_value(CONSTANCE_ELEMENT_CLASSES["sidebar_variant"]),
-        _("Sidebar variant"),
-        "ec_sidebar_variant",
-    ],
-    "EC_LAYOUT_STYLE": [
-        get_default_value(CONSTANCE_ELEMENT_CLASSES["layout_style"]),
-        _("Layout style"),
-        "ec_layout_style",
-    ],
+    "EC_STICKY_HEADER": [False, _("Sticky header")],
+    "EC_HEADER_DARK": [False, _("Header dark")],
+    "EC_SIDEBAR_DARK": [False, _("Sidebar dark")],
+    "EC_BOXED_LAYOUT": [False, _("Boxed layout")],
 }
 
 CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
@@ -129,9 +94,9 @@ CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
         "Element Classes": {
             "fields": (
                 "EC_STICKY_HEADER",
-                "EC_HEADER_VARIANT",
-                "EC_SIDEBAR_VARIANT",
-                "EC_LAYOUT_STYLE",
+                "EC_HEADER_DARK",
+                "EC_SIDEBAR_DARK",
+                "EC_BOXED_LAYOUT",
             ),
             "collapse": False,
         },
@@ -164,16 +129,6 @@ CONSTANCE_ADDITIONAL_FIELDS = {
             ),
         },
     ],
-    # bool: [
-    #     "django.forms.fields.ChoiceField",
-    #     {
-    #         "widget": "unfold.widgets.UnfoldAdminSelectWidget",
-    #         "choices": (
-    #             (True, _("On")),
-    #             (False, _("Off")),
-    #         ),
-    #     },
-    # ],
     "color_field": [
         "django.forms.CharField",
         {
@@ -206,46 +161,6 @@ CONSTANCE_ADDITIONAL_FIELDS = {
             "widget": "unfold.widgets.UnfoldAdminSelectWidget",
             "choices": convert_dict_key_to_choices_tuple(
                 UNFOLD_FONT.keys(),
-                CONSTANCE_DEFAULT_VALUE,
-            ),
-        },
-    ],
-    "ec_sticky_header": [
-        "django.forms.fields.ChoiceField",
-        {
-            "widget": "unfold.widgets.UnfoldAdminSelectWidget",
-            "choices": convert_dict_key_to_choices_tuple(
-                CONSTANCE_ELEMENT_CLASSES["sticky_header"],
-                CONSTANCE_DEFAULT_VALUE,
-            ),
-        },
-    ],
-    "ec_header_variant": [
-        "django.forms.fields.ChoiceField",
-        {
-            "widget": "unfold.widgets.UnfoldAdminSelectWidget",
-            "choices": convert_dict_key_to_choices_tuple(
-                CONSTANCE_ELEMENT_CLASSES["header_variant"],
-                CONSTANCE_DEFAULT_VALUE,
-            ),
-        },
-    ],
-    "ec_sidebar_variant": [
-        "django.forms.fields.ChoiceField",
-        {
-            "widget": "unfold.widgets.UnfoldAdminSelectWidget",
-            "choices": convert_dict_key_to_choices_tuple(
-                CONSTANCE_ELEMENT_CLASSES["sidebar_variant"],
-                CONSTANCE_DEFAULT_VALUE,
-            ),
-        },
-    ],
-    "ec_layout_style": [
-        "django.forms.fields.ChoiceField",
-        {
-            "widget": "unfold.widgets.UnfoldAdminSelectWidget",
-            "choices": convert_dict_key_to_choices_tuple(
-                CONSTANCE_ELEMENT_CLASSES["layout_style"],
                 CONSTANCE_DEFAULT_VALUE,
             ),
         },
