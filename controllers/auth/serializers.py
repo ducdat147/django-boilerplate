@@ -2,6 +2,9 @@ import re
 from constance import config
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
+from django.db.models import Q
+from django.utils.crypto import get_random_string
+from django.core.cache import cache
 from rest_framework import serializers
 from rest_framework.exceptions import ParseError, ValidationError, NotFound
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
@@ -39,18 +42,27 @@ class OTPBaseSerializer(serializers.Serializer):
         default=OtpTypeEnum.VERIFY_OTP,
     )
 
-    def verify_flag(self, verification_type: OtpTypeEnum) -> None | str:
-        if verification_type == OtpTypeEnum.EMAIL and not self.user.is_email_verified:
-            self.user.is_email_verified = True
-            self.user.save(update_fields=["is_email_verified"])
-        elif verification_type == OtpTypeEnum.PHONE and not self.user.is_phone_verified:
-            self.user.is_phone_verified = True
-            self.user.save(update_fields=["is_phone_verified"])
-        elif verification_type == OtpTypeEnum.PASSWORD:
-            return "ssssss"
+    def verify_flag(
+        self,
+        verification_type: OtpTypeEnum,
+        target: TargetOtpEnum,
+    ) -> None | str:
+        if verification_type == OtpTypeEnum.PASSWORD:
+            token = get_random_string(32)
+            cache.set(
+                f"password_reset_{self.user.id}_token",
+                token,
+                config.PASSWORD_RESET_TIMEOUT,
+            )
+            return token
+        else:
+            if getattr(self.user, f"is_{target}_verified", None) is False:
+                setattr(self.user, f"is_{target}_verified", True)
+                self.user.save(update_fields=[f"is_{target}_verified"])
         return None
 
     def validate_to(self, attrs) -> tuple[str, TargetOtpEnum, OtpTypeEnum]:
+        verification_type: OtpTypeEnum = attrs.get("verification_type")
         if attrs.get("email"):
             to = attrs.get("email")
             target = TargetOtpEnum.EMAIL
@@ -59,34 +71,23 @@ class OTPBaseSerializer(serializers.Serializer):
             target = TargetOtpEnum.PHONE
         else:
             raise ParseError(_("Either email or phone must be provided"))
-        verification_type = attrs.get("verification_type")
         try:
-            if verification_type == OtpTypeEnum.EMAIL or (
-                target == TargetOtpEnum.EMAIL
-                and verification_type == OtpTypeEnum.PASSWORD
-            ):
-                self.user = User.objects.get(email=to)
-            elif verification_type == OtpTypeEnum.PHONE or (
-                target == TargetOtpEnum.PHONE
-                and verification_type == OtpTypeEnum.PASSWORD
-            ):
-                self.user = User.objects.get(phone=to)
+            if verification_type == target or verification_type == OtpTypeEnum.PASSWORD:
+                self.user = User.objects.get(**{target: to})
+            else:
+                raise ValidationError({"verification_type": _("Invalid input.")})
 
-            if verification_type == OtpTypeEnum.PASSWORD:
-                if target == TargetOtpEnum.EMAIL and not self.user.is_email_verified:
-                    raise NotFound(_("Email not verified"))
-                elif target == TargetOtpEnum.PHONE and not self.user.is_phone_verified:
-                    raise NotFound(_("Phone number not verified"))
+            if (
+                verification_type == OtpTypeEnum.PASSWORD
+                and getattr(self.user, f"is_{target}_verified", None) is False
+            ):
+                if target == TargetOtpEnum.EMAIL:
+                    raise NotFound({target: _("Email not verified")})
+                elif target == TargetOtpEnum.PHONE:
+                    raise NotFound({target: _("Phone number not verified")})
 
         except User.DoesNotExist:
-            if target == TargetOtpEnum.EMAIL:
-                if verification_type == OtpTypeEnum.PHONE:
-                    raise ValidationError({"verification_type": _("Invalid input.")})
-                raise NotFound(_("Email not already registered"))
-            elif target == TargetOtpEnum.PHONE:
-                if verification_type == OtpTypeEnum.EMAIL:
-                    raise ValidationError({"verification_type": _("Invalid input.")})
-                raise NotFound(_("Phone number not already registered"))
+            raise NotFound({target: _("Data not registered")})
 
         return to, target, verification_type
 
@@ -164,8 +165,9 @@ class VerifyOTPSerializer(OTPBaseSerializer):
         elif status_otp == OTPVerificationStatusEnum.EXPIRED:
             raise ParseError(_("OTP code has expired"))
 
-        token = self.verify_flag(verification_type)
-        attrs["token"] = token
+        if status_otp == OTPVerificationStatusEnum.VERIFIED:
+            token = self.verify_flag(verification_type, target)
+            attrs["token"] = token
 
         return super().validate(attrs)
 
@@ -175,7 +177,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(write_only=True, required=False)
     phone = PhoneNumberField(write_only=True, required=False)
     password = serializers.CharField(write_only=True, required=False)
-    is_existed = serializers.BooleanField(read_only=True, default=False)
+    is_new = serializers.BooleanField(read_only=True, default=False)
 
     class Meta:
         model = User
@@ -184,7 +186,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
             "email",
             "phone",
             "password",
-            "is_existed",
+            "is_new",
         ]
 
     def validate_username(self, value):
@@ -200,6 +202,12 @@ class RegisterUserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         if not validated_data.get("email") and not validated_data.get("phone"):
             raise ParseError(_("Either email or phone must be provided"))
+        if User.objects.filter(
+            Q(phone=validated_data.get("phone"), phone__isnull=False)
+            | Q(email=validated_data.get("email"), email__isnull=False)
+        ).exists():
+            raise ParseError(_("Email or phone number is already registered."))
+
         validated_data["is_active"] = True
         password = validated_data.get("password")
         password = make_password(password)
@@ -209,7 +217,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
             username=validated_data["username"],
             defaults=validated_data,
         )
-        instance.is_existed = not is_created
-        if not instance.is_existed:
+        instance.is_new = is_created
+        if instance.is_new:
             instance.create_user_profile()
         return instance

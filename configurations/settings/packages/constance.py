@@ -55,6 +55,10 @@ CONSTANCE_CONFIG = {
     "THEME": [CONSTANCE_DEFAULT_VALUE, _("Website theme"), "theme_choice_field"],
     "OTP_CODE_EXPIRATION_TIME": [10, _("Expiration time in minutes")],
     "OTP_CODE_LENGTH": [6, _("OTP code length")],
+    "PASSWORD_RESET_TIMEOUT": [
+        15,
+        _("Password reset token expiration time in minutes"),
+    ],
     "COLORS__BASE": [
         get_default_value(UNFOLD_BASE.keys()),
         _("Base colors"),
@@ -98,6 +102,7 @@ CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
             "fields": (
                 "OTP_CODE_EXPIRATION_TIME",
                 "OTP_CODE_LENGTH",
+                "PASSWORD_RESET_TIMEOUT",
             ),
             "collapse": False,
         },
@@ -159,16 +164,16 @@ CONSTANCE_ADDITIONAL_FIELDS = {
             ),
         },
     ],
-    bool: [
-        "django.forms.fields.ChoiceField",
-        {
-            "widget": "unfold.widgets.UnfoldAdminSelectWidget",
-            "choices": (
-                (True, _("On")),
-                (False, _("Off")),
-            ),
-        },
-    ],
+    # bool: [
+    #     "django.forms.fields.ChoiceField",
+    #     {
+    #         "widget": "unfold.widgets.UnfoldAdminSelectWidget",
+    #         "choices": (
+    #             (True, _("On")),
+    #             (False, _("Off")),
+    #         ),
+    #     },
+    # ],
     "color_field": [
         "django.forms.CharField",
         {
