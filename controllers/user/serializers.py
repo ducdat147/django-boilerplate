@@ -1,8 +1,17 @@
 from rest_framework import serializers
+from rest_framework.exceptions import (
+    ParseError,
+    ValidationError,
+    NotFound,
+)
+from django.utils.translation import gettext as _
 from phonenumber_field.serializerfields import PhoneNumberField
 from django.contrib.auth import get_user_model
+from django.contrib.auth import password_validation
 
-from core.user.models import UserProfile
+from controllers.auth.utils import generate_otp, send_verification_email
+from core.user.enums import OTPVerificationStatusEnum, OtpTypeEnum, TargetOtpEnum
+from core.user.models import OtpCode, UserProfile
 
 User = get_user_model()
 
@@ -62,3 +71,139 @@ class MyProfileSerializer(serializers.ModelSerializer):
         instance.user.save()
 
         return instance
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True)
+
+    def validate_new_password(self, value):
+        password_validation.validate_password(value)
+        return value
+
+    def validate_old_password(self, value):
+        user = self.context["request"].user
+        if not user.check_password(value):
+            raise serializers.ValidationError(
+                {"old_password": "Old password is not correct."}
+            )
+        return value
+
+    def validate(self, attrs):
+        user = self.context["request"].user
+        old_password = attrs.get("old_password")
+        new_password = attrs.get("new_password")
+        if old_password == new_password:
+            raise ValidationError(
+                {"new_password": _("New password must be different from old password.")}
+            )
+        user.set_password(new_password)
+        user.save()
+        return attrs
+
+
+class OTPBaseSerializer(serializers.Serializer):
+    verification_type = serializers.ChoiceField(
+        choices=OtpTypeEnum.choices,
+        write_only=True,
+        required=True,
+    )
+    otp_code = ""
+
+    def validate_to(self, attrs):
+        request = self.context.get("request")
+        user = request.user
+        verification_type = attrs.get("verification_type")
+
+        if verification_type == OtpTypeEnum.EMAIL:
+            target = TargetOtpEnum.EMAIL
+            to = user.email
+            if not to:
+                raise ValidationError({"email": "Email not found."})
+        elif verification_type == OtpTypeEnum.PHONE:
+            target = TargetOtpEnum.PHONE
+            to = user.phone
+            if not to:
+                raise ValidationError({"phone": "Phone number not found."})
+        else:
+            raise ValidationError({"verification_type": "Invalid verification type."})
+        return to, target, verification_type
+
+    def send_otp(
+        self,
+        to: str,
+        target: TargetOtpEnum,
+        full_name: str = "User",
+    ) -> None:
+        if target == TargetOtpEnum.EMAIL:
+            send_verification_email(to, self.otp_code, full_name)
+        elif target == TargetOtpEnum.PHONE:
+            pass
+
+    def create_otp(
+        self,
+        to: str,
+        target: TargetOtpEnum,
+        verification_type: OtpTypeEnum,
+    ):
+        self.otp_code = generate_otp()
+        OtpCode.objects.create(
+            to=to,
+            target=target,
+            type_otp=verification_type,
+            code=self.otp_code,
+        )
+
+    @staticmethod
+    def verify_otp(
+        to: str,
+        target: TargetOtpEnum,
+        verification_type: OtpTypeEnum,
+        code: str,
+    ) -> OTPVerificationStatusEnum:
+        otp_queryset = OtpCode.objects.filter(
+            to=to,
+            target=target,
+            type_otp=verification_type,
+        )
+        if not otp_queryset.exists():
+            raise NotFound(_("No OTP code found"))
+        otp_instance = otp_queryset.latest("created_at")
+
+        status_otp = otp_instance.verify(code)
+        if status_otp == OTPVerificationStatusEnum.INVALID:
+            raise ParseError(_("Invalid OTP code"))
+        elif status_otp == OTPVerificationStatusEnum.USED:
+            raise ParseError(_("OTP code has already been used"))
+        elif status_otp == OTPVerificationStatusEnum.EXPIRED:
+            raise ParseError(_("OTP code has expired"))
+
+        return status_otp
+
+
+class SendOTPSerializer(OTPBaseSerializer):
+    def validate(self, attrs):
+        to, target, verification_type = self.validate_to(attrs)
+
+        self.create_otp(to, target, verification_type)
+        self.send_otp(to, target)
+        return attrs
+
+
+class VerifyOTPSerializer(OTPBaseSerializer):
+    code = serializers.CharField(write_only=True, required=True)
+
+    def validate(self, attrs):
+        request = self.context.get("request")
+        user = request.user
+        code = attrs.get("code")
+        to, target, verification_type = self.validate_to(attrs)
+
+        status_otp = self.verify_otp(to, target, verification_type, code)
+
+        if status_otp == OTPVerificationStatusEnum.VERIFIED:
+            if getattr(user, f"is_{target}_verified", None) is False:
+                setattr(user, f"is_{target}_verified", True)
+                user.save(update_fields=[f"is_{target.value}_verified"])
+
+        return attrs

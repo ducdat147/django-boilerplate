@@ -1,6 +1,14 @@
-from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.generics import RetrieveUpdateAPIView, GenericAPIView
+from rest_framework import status
+from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema
 
-from controllers.user.serializers import MyProfileSerializer
+from controllers.user.serializers import (
+    MyProfileSerializer,
+    ResetPasswordSerializer,
+    SendOTPSerializer,
+    VerifyOTPSerializer,
+)
 
 
 class MyProfileView(RetrieveUpdateAPIView):
@@ -10,3 +18,33 @@ class MyProfileView(RetrieveUpdateAPIView):
         if self.request.user.is_anonymous_user:
             raise Exception("Anonymous user does not have profile")
         return self.request.user.userprofile
+
+
+class ResetPasswordView(GenericAPIView):
+    serializer_class = ResetPasswordSerializer
+
+    @extend_schema(responses={status.HTTP_204_NO_CONTENT: None})
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class SendOTPView(GenericAPIView):
+    serializer_class = SendOTPSerializer
+
+    @extend_schema(responses={status.HTTP_204_NO_CONTENT: None})
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class VerifyOTPView(GenericAPIView):
+    serializer_class = VerifyOTPSerializer
+
+    @extend_schema(responses={status.HTTP_204_NO_CONTENT: None})
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(status=status.HTTP_204_NO_CONTENT)
