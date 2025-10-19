@@ -34,7 +34,7 @@ test.html:
 	uv run coverage html
 
 run:
-	uv run python manage.py runserver 0.0.0.0:80
+	uv run python manage.py runserver 0.0.0.0:80 --noreload
 
 celery:
 	uv run celery -A configurations.celery worker --pool=threads --loglevel=INFO
