@@ -11,6 +11,8 @@ install: update-package
 
 update-package:
 	uv lock --upgrade
+	pnpm install
+	pnpm update --latest
 
 lint:
 	uv run ruff format
