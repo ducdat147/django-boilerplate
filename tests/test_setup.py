@@ -18,10 +18,12 @@ class TestSetup(APITestCase):
     def setUp(self):
         super().setUp()
         self.user = User.objects.create_user(
-            username=self.email,
+            username=self.username,
             email=self.email,
+            phone=self.phone,
             password=self.password,
         )
+        self.user.create_user_profile()
         refresh = RefreshToken.for_user(self.user)
         self.client.credentials(
             HTTP_AUTHORIZATION=f"Bearer {str(refresh.access_token)}"
