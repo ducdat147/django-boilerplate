@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-16 00:44+0700\n"
+"POT-Creation-Date: 2025-10-16 15:28+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -204,6 +204,12 @@ msgstr ""
 msgid "Back to homepage"
 msgstr ""
 
+msgid "Two Factor Authentication OTP"
+msgstr ""
+
+msgid "Two Step QR Code"
+msgstr ""
+
 msgid "User Setting"
 msgstr ""
 
@@ -214,9 +220,6 @@ msgid "Important dates"
 msgstr ""
 
 msgid "Permissions"
-msgstr ""
-
-msgid "Two Step QR Code"
 msgstr ""
 
 msgid "Male"

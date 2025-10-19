@@ -7,6 +7,7 @@ from opentelemetry.instrumentation.celery import CeleryInstrumentor
 from opentelemetry.instrumentation.django import DjangoInstrumentor
 from opentelemetry.instrumentation.logging import LoggingInstrumentor
 from opentelemetry.instrumentation.requests import RequestsInstrumentor
+from opentelemetry.instrumentation.threading import ThreadingInstrumentor
 from opentelemetry.sdk.resources import (
     DEPLOYMENT_ENVIRONMENT,
     SERVICE_NAME,
@@ -38,6 +39,7 @@ def init_instrumentation(provider: TracerProvider, is_service: bool = False):
         response_hook=response_hook,
         tracer_provider=provider,
     )
+    ThreadingInstrumentor().instrument(tracer_provider=provider)
     CeleryInstrumentor().instrument(tracer_provider=provider)
     if is_service:
         DjangoInstrumentor().instrument(

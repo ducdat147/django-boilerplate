@@ -10,6 +10,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language
 from phonenumber_field.modelfields import PhoneNumberField
 
 from common.models import BaseModel
@@ -38,7 +39,16 @@ class User(AbstractUser):
     )
 
     def __str__(self):
-        return f"{self.username or self.email or self.phone}"
+        return self.full_name
+
+    @property
+    def full_name(self):
+        userprofile = getattr(self, "userprofile", None)
+        if userprofile:
+            full_name = userprofile.full_name
+            if bool(full_name):
+                return full_name
+        return self.username
 
     @property
     def is_has_password(self):
@@ -53,13 +63,11 @@ class User(AbstractUser):
             UserProfile.objects.create(user=self)
         if not getattr(self, "usersetting", None):
             UserSetting.objects.create(user=self)
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-
-        if not self.is_anonymous_user:
-            if not getattr(self, "usersetting", None):
-                UserSetting.objects.create(user=self)
+        if not getattr(self, "twofactorauthenticationotp", None):
+            TwoFactorAuthenticationOTP.objects.create(
+                user=self,
+                is_active=False,
+            )
 
 
 class UserProfile(models.Model):
@@ -88,21 +96,30 @@ class UserProfile(models.Model):
     )
 
     def __str__(self):
-        return (
-            f"{self.full_name} ({self.user.username})"
-            if self.full_name
-            else self.user.username
-        )
+        return self.user.__str__()
 
     @property
     def full_name(self):
+        language = get_language()
+        if language == "vi":
+            return f"{self.last_name} {self.first_name}".strip()
         return f"{self.first_name} {self.last_name}".strip()
 
 
 class UserSetting(models.Model):
+    class LanguegeEnum(models.TextChoices):
+        EN = "en", _("English")
+        VI = "vi", _("Vietnamese")
+
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
+    )
+    language = models.CharField(
+        _("Language"),
+        max_length=6,
+        default=LanguegeEnum.EN,
+        choices=LanguegeEnum.choices,
     )
     config = models.JSONField(
         _("Config"),
@@ -110,6 +127,9 @@ class UserSetting(models.Model):
         null=True,
         blank=True,
     )
+
+    def __str__(self):
+        return self.user.__str__()
 
 
 class OtpCode(BaseModel):
@@ -138,10 +158,10 @@ class OtpCode(BaseModel):
         super().save(*args, **kwargs)
 
     @property
-    def is_expired(self):
+    def is_expired(self) -> bool:
         return timezone.now() > self.expires_at
 
-    def verify(self, code):
+    def verify(self, code) -> OTPVerificationStatusEnum:
         if self.code != code:
             return OTPVerificationStatusEnum.INVALID
         if self.is_used:
@@ -156,10 +176,7 @@ class OtpCode(BaseModel):
 class TwoFactorAuthenticationOTP(BaseModel):
     user = models.OneToOneField(
         User,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="two_factor_otp",
+        on_delete=models.CASCADE,
     )
     secret_key = models.CharField(
         max_length=255,
@@ -167,6 +184,9 @@ class TwoFactorAuthenticationOTP(BaseModel):
         blank=True,
     )
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.user.__str__()
 
     def save(self, *args, **kwargs):
         if not self.is_active or not self.secret_key:

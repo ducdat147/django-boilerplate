@@ -23,14 +23,59 @@ from core.sites import admin_site
 admin.site.unregister(Group)
 
 
+class TwoFactorAuthenticationOTPInline(StackedInline):
+    model = TwoFactorAuthenticationOTP
+    can_delete = False
+    verbose_name = _("Two Factor Authentication OTP")
+    extra = 0
+    fields = [
+        "is_active",
+    ]
+    tab = True
+
+    def qrcode(self, obj: TwoFactorAuthenticationOTP):
+        secret_key, qrcode = obj.get_qrcode
+        if qrcode:
+            return render_to_string("admin/qrcode.html", {"qrcode": qrcode})
+
+    qrcode.short_description = _("Two Step QR Code")
+
+    def get_readonly_fields(self, request, obj=None):
+        obj_2fa = getattr(obj, "twofactorauthenticationotp", None)
+        if not obj or not obj_2fa:
+            return []
+        return ["secret_key", "qrcode"]
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = self.fieldsets
+        obj_2fa: TwoFactorAuthenticationOTP = getattr(
+            obj, "twofactorauthenticationotp", None
+        )
+        if not obj_2fa:
+            fields = []
+        elif obj_2fa and obj_2fa.secret_key:
+            fields = [
+                "is_active",
+            ]
+            if obj_2fa.is_active:
+                fields.extend(["secret_key", "qrcode"])
+        fieldsets = (
+            (
+                "",
+                {
+                    "fields": fields,
+                },
+            ),
+        )
+        return fieldsets
+
+
 class UserSettingInline(StackedInline):
     model = UserSetting
     can_delete = False
     verbose_name = _("User Setting")
     extra = 0
-    fields = [
-        "config",
-    ]
+    # fields = "__all__"
     tab = True
 
 
@@ -63,11 +108,10 @@ class UserProfileInline(StackedInline):
 
 class UserAdmin(BaseUserAdmin, ModelAdmin):
     list_display = (
-        "username",
+        "__str__",
         "email",
         "phone",
         "is_active",
-        "last_login",
         "date_joined",
     )
     fieldsets = (
@@ -121,12 +165,16 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm
     readonly_fields = ("last_login", "date_joined")
+    change_form_show_cancel_button = True
+    ordering = ("-date_joined",)
+    list_filter_sheet = False
 
     def get_inlines(self, request, obj: User):
         if not obj.is_anonymous_user:
             return [
                 UserProfileInline,
                 UserSettingInline,
+                TwoFactorAuthenticationOTPInline,
             ]
         return []
 
@@ -136,51 +184,24 @@ class GroupAdmin(BaseGroupAdmin, ModelAdmin):
 
 
 class OtpCodeAdmin(ModelAdmin):
-    list_display = ["to", "type_otp", "target", "created_at"]
+    list_display = [
+        "to",
+        "type_otp",
+        "target",
+        "is_used",
+        "is_expired",
+        "created_at",
+    ]
     list_filter = ["type_otp", "target"]
+    ordering = ("-created_at",)
+    list_filter_sheet = False
 
+    def is_expired(self, obj: OtpCode):
+        return obj.is_expired
 
-class TwoFactorAuthenticationOTPAdmin(ModelAdmin):
-    list_display = ("user", "is_active")
-    list_filter = ("is_active",)
-    ordering = ["is_active"]
-    autocomplete_fields = ["user"]
-
-    def qrcode(self, obj: TwoFactorAuthenticationOTP):
-        secret_key, qrcode = obj.get_qrcode
-        if qrcode:
-            return render_to_string("admin/qrcode.html", {"qrcode": qrcode})
-
-    qrcode.short_description = _("Two Step QR Code")
-
-    def get_readonly_fields(self, request, obj=None):
-        if not obj or not obj.user:
-            return []
-        return ["user", "secret_key", "qrcode"]
-
-    def get_fieldsets(self, request, obj=None):
-        fieldsets = self.fieldsets
-        if not obj:
-            fields = ["user"]
-        elif obj and obj.secret_key:
-            fields = [
-                "user",
-                "is_active",
-            ]
-            if obj.is_active:
-                fields.extend(["secret_key", "qrcode"])
-        fieldsets = (
-            (
-                "",
-                {
-                    "fields": fields,
-                },
-            ),
-        )
-        return fieldsets
+    is_expired.boolean = True
 
 
 admin_site.register(User, UserAdmin)
 admin_site.register(Group, GroupAdmin)
 admin_site.register(OtpCode, OtpCodeAdmin)
-admin_site.register(TwoFactorAuthenticationOTP, TwoFactorAuthenticationOTPAdmin)

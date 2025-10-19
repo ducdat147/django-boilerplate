@@ -18,6 +18,7 @@ class OtpTypeEnum(models.TextChoices):
     PHONE = "phone", _("Phone Verification")
     PASSWORD = "password", _("Password Reset")
     TWO_FACTOR = "two_factor", _("Two Factor Authentication")
+    VERIFY_OTP = "verify_otp", _("Verify OTP")
 
 
 class OTPVerificationStatusEnum(models.TextChoices):

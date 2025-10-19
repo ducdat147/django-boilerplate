@@ -84,9 +84,8 @@ def cohort_random_data():
         for row in rows:
             total += row["cols"][index]["value"]
         for row in rows:
-            row["cols"][index][
-                "subtitle"
-            ] = f"{(row['cols'][index]['value'] / total * 100):.0f}%"
+            data = f"{(row['cols'][index]['value'] / total * 100):.0f}%"
+            row["cols"][index]["subtitle"] = data
 
         headers.append(
             {

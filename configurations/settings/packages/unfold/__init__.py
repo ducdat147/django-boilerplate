@@ -44,7 +44,7 @@ UNFOLD = {
     "SIDEBAR": {
         "show_search": True,
         "command_search": True,
-        "show_all_applications": True,
+        # "show_all_applications": True,
         "navigation": [
             {
                 "title": _("Navigation"),
@@ -60,7 +60,7 @@ UNFOLD = {
             {
                 "title": _("Accounts & Authentication"),
                 "separator": True,
-                "collapsible": True,
+                # "collapsible": True,
                 "items": [
                     {
                         "title": _("Users"),
@@ -68,6 +68,14 @@ UNFOLD = {
                         "link": reverse_lazy("admin:user_user_changelist"),
                         "permission": lambda request: request.user.has_perm(
                             "user.view_user"
+                        ),
+                    },
+                    {
+                        "title": _("OTP Codes"),
+                        "icon": "pin",
+                        "link": reverse_lazy("admin:user_otpcode_changelist"),
+                        "permission": lambda request: request.user.has_perm(
+                            "user.view_otpcode"
                         ),
                     },
                     {
@@ -79,7 +87,7 @@ UNFOLD = {
                 ],
             },
             {
-                "title": _("Configurations"),
+                "title": _("System Settings"),
                 "separator": True,
                 "collapsible": True,
                 "items": [
@@ -87,6 +95,52 @@ UNFOLD = {
                         "title": _("Constance"),
                         "icon": "settings",
                         "link": reverse_lazy("admin:constance_config_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                ],
+            },
+            {
+                "title": _("Celery Tasks"),
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": _("Clocked"),
+                        "icon": "hourglass_bottom",
+                        "link": reverse_lazy(
+                            "admin:django_celery_beat_clockedschedule_changelist"
+                        ),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Crontabs"),
+                        "icon": "update",
+                        "link": reverse_lazy(
+                            "admin:django_celery_beat_crontabschedule_changelist"
+                        ),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Intervals"),
+                        "icon": "timer",
+                        "link": reverse_lazy(
+                            "admin:django_celery_beat_intervalschedule_changelist"
+                        ),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Periodic tasks"),
+                        "icon": "task",
+                        "link": reverse_lazy(
+                            "admin:django_celery_beat_periodictask_changelist"
+                        ),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Solar events"),
+                        "icon": "event",
+                        "link": reverse_lazy(
+                            "admin:django_celery_beat_solarschedule_changelist"
+                        ),
                         "permission": lambda request: request.user.is_superuser,
                     },
                 ],

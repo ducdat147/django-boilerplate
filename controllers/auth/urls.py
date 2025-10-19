@@ -7,16 +7,20 @@ from rest_framework_simplejwt.views import (
 )
 
 from controllers.auth.views import (
+    ResetPasswordView,
     SendOTPView,
     VerifyOTPView,
     RegisterUserView,
 )
+
+app_name = "auth"
 
 urlpatterns = [
     path("token/", token_obtain_pair, name="token_obtain_pair"),
     path("token/blacklist/", token_blacklist, name="token_blacklist"),
     path("token/refresh/", token_refresh, name="token_refresh"),
     path("register/", RegisterUserView.as_view(), name="register"),
-    path("otp/send/", SendOTPView.as_view(), name="otp_send"),
-    path("otp/verify/", VerifyOTPView.as_view(), name="otp_verify"),
+    path("reset-password/", ResetPasswordView.as_view(), name="reset_password"),
+    path("send-otp/", SendOTPView.as_view(), name="send_otp"),
+    path("verify-otp/", VerifyOTPView.as_view(), name="verify_otp"),
 ]

@@ -5,6 +5,7 @@ from rest_framework.generics import GenericAPIView, CreateAPIView
 
 from controllers.auth.serializers import (
     LogoutSerializer,
+    ResetPasswordSerializer,
     SendOTPSerializer,
     RegisterUserSerializer,
     VerifyOTPSerializer,
@@ -16,7 +17,7 @@ class LogoutView(GenericAPIView):
     permission_classes = ()
     serializer_class = LogoutSerializer
 
-    @extend_schema(responses={204: None})
+    @extend_schema(responses={status.HTTP_204_NO_CONTENT: None})
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -29,21 +30,34 @@ class RegisterUserView(CreateAPIView):
     serializer_class = RegisterUserSerializer
 
 
-class SendOTPView(GenericAPIView):
-    serializer_class = SendOTPSerializer
+class ResetPasswordView(GenericAPIView):
     authentication_classes = ()
     permission_classes = ()
+    serializer_class = ResetPasswordSerializer
 
+    @extend_schema(responses={status.HTTP_204_NO_CONTENT: None})
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class SendOTPView(GenericAPIView):
+    authentication_classes = ()
+    permission_classes = ()
+    serializer_class = SendOTPSerializer
+
+    @extend_schema(responses={status.HTTP_204_NO_CONTENT: None})
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class VerifyOTPView(GenericAPIView):
-    serializer_class = VerifyOTPSerializer
     authentication_classes = ()
     permission_classes = ()
+    serializer_class = VerifyOTPSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
