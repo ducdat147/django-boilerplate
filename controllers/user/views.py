@@ -7,6 +7,7 @@ from controllers.user.serializers import (
     MyProfileSerializer,
     ResetPasswordSerializer,
     SendOTPSerializer,
+    UserSettingSerializer,
     VerifyOTPSerializer,
 )
 
@@ -48,3 +49,12 @@ class VerifyOTPView(GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserSettingView(RetrieveUpdateAPIView):
+    serializer_class = UserSettingSerializer
+
+    def get_object(self):
+        if self.request.user.is_anonymous_user:
+            raise Exception("Anonymous user does not have settings")
+        return self.request.user.usersetting

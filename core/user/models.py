@@ -13,6 +13,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language
 from phonenumber_field.modelfields import PhoneNumberField
 
+from common.encoders import PrettyJSONEncoder
 from common.models import BaseModel
 from core.user.enums import (
     GenderEnum,
@@ -126,6 +127,7 @@ class UserSetting(models.Model):
         default=dict,
         null=True,
         blank=True,
+        encoder=PrettyJSONEncoder,
     )
 
     def __str__(self):

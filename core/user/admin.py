@@ -28,9 +28,6 @@ class TwoFactorAuthenticationOTPInline(StackedInline):
     can_delete = False
     verbose_name = _("Two Factor Authentication OTP")
     extra = 0
-    fields = [
-        "is_active",
-    ]
     tab = True
 
     def qrcode(self, obj: TwoFactorAuthenticationOTP):
@@ -46,28 +43,17 @@ class TwoFactorAuthenticationOTPInline(StackedInline):
             return []
         return ["secret_key", "qrcode"]
 
-    def get_fieldsets(self, request, obj=None):
-        fieldsets = self.fieldsets
+    def get_fields(self, request, obj=None):
         obj_2fa: TwoFactorAuthenticationOTP = getattr(
             obj, "twofactorauthenticationotp", None
         )
-        if not obj_2fa:
-            fields = []
-        elif obj_2fa and obj_2fa.secret_key:
-            fields = [
-                "is_active",
-            ]
+        fields = [
+            "is_active",
+        ]
+        if obj_2fa and obj_2fa.secret_key:
             if obj_2fa.is_active:
                 fields.extend(["secret_key", "qrcode"])
-        fieldsets = (
-            (
-                "",
-                {
-                    "fields": fields,
-                },
-            ),
-        )
-        return fieldsets
+        return fields
 
 
 class UserSettingInline(StackedInline):
@@ -75,7 +61,7 @@ class UserSettingInline(StackedInline):
     can_delete = False
     verbose_name = _("User Setting")
     extra = 0
-    # fields = "__all__"
+    readonly_fields = ["config"]
     tab = True
 
 

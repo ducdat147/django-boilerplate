@@ -11,7 +11,7 @@ from django.contrib.auth import password_validation
 
 from controllers.auth.utils import generate_otp, send_verification_email
 from core.user.enums import OTPVerificationStatusEnum, OtpTypeEnum, TargetOtpEnum
-from core.user.models import OtpCode, UserProfile
+from core.user.models import OtpCode, UserProfile, UserSetting
 
 User = get_user_model()
 
@@ -207,3 +207,12 @@ class VerifyOTPSerializer(OTPBaseSerializer):
                 user.save(update_fields=[f"is_{target.value}_verified"])
 
         return attrs
+
+
+class UserSettingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserSetting
+        fields = [
+            "language",
+            "config",
+        ]
