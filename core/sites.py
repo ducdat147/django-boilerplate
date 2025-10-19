@@ -25,7 +25,11 @@ from rest_framework.exceptions import PermissionDenied, ParseError, NotFound
 from unfold.sites import UnfoldAdminSite
 
 from common.exceptions import DefaultException, exception_handler
-from controllers.admin.forms import AdminPasswordResetForm, AdminSetPasswordForm
+from controllers.admin.forms import (
+    AdminAuthenticationForm,
+    PasswordResetForm,
+    SetPasswordForm,
+)
 
 
 MESSAGE_ERROR = {
@@ -210,6 +214,10 @@ class AdminSite(UnfoldAdminSite):
     password_reset_subject_template = "admin/password_reset/subject.html"
     error_templates = "admin/handlers/error.html"
 
+    def __init__(self, name: str = "admin") -> None:
+        self.login_form = AdminAuthenticationForm
+        super().__init__(name)
+
     def each_context(self, request: HttpRequest) -> dict[str, Any]:
         context = super().each_context(request)
         update_context = convert_config(settings.CONSTANCE_CONFIG_FOR_UNFOLD)
@@ -312,7 +320,7 @@ class AdminSite(UnfoldAdminSite):
             return HttpResponseRedirect(index_path)
         url = reverse(f"{self.name}:admin_password_reset_done", current_app=self.name)
         defaults = {
-            "form_class": AdminPasswordResetForm,
+            "form_class": PasswordResetForm,
             "success_url": url,
             "extra_context": {**self.each_context(request), **(extra_context or {})},
             "template_name": self.password_reset_form_template,
@@ -355,7 +363,7 @@ class AdminSite(UnfoldAdminSite):
             f"{self.name}:admin_password_reset_complete", current_app=self.name
         )
         defaults = {
-            "form_class": AdminSetPasswordForm,
+            "form_class": SetPasswordForm,
             "success_url": url,
             "extra_context": {**self.each_context(request), **(extra_context or {})},
             "template_name": self.password_reset_confirm_template,

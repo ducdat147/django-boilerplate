@@ -37,7 +37,7 @@ CONSTANCE_CONFIG = {
     "OTP_CODE_EXPIRATION_TIME": [10, _("Expiration time in minutes")],
     "OTP_CODE_LENGTH": [6, _("OTP code length")],
     "PASSWORD_RESET_TIMEOUT": [
-        15 * 60,
+        1800,
         _("Password reset token expiration time in minutes"),
     ],
     "COLORS__BASE": [

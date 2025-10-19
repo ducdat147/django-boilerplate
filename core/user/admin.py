@@ -167,6 +167,7 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
     readonly_fields = ("last_login", "date_joined")
     change_form_show_cancel_button = True
     ordering = ("-date_joined",)
+    list_filter_sheet = False
 
     def get_inlines(self, request, obj: User):
         if not obj.is_anonymous_user:
@@ -193,6 +194,7 @@ class OtpCodeAdmin(ModelAdmin):
     ]
     list_filter = ["type_otp", "target"]
     ordering = ("-created_at",)
+    list_filter_sheet = False
 
     def is_expired(self, obj: OtpCode):
         return obj.is_expired

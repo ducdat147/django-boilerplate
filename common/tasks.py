@@ -9,11 +9,15 @@ logger = logging.getLogger(__name__)
 
 
 @app.task(name="send_email_task")
-def send_email_task(*args, **kwargs):
+def send_email_task(
+    subject,
+    emails,
+    body="",
+    html_message=None,
+    *args,
+    **kwargs,
+):
     try:
-        subject = kwargs.get("subject", None)
-        html_message = kwargs.get("html_message", None)
-        emails = kwargs.get("emails", [])
         logger.info(f'Sending email to {emails} with subject "{subject}"')
         if not subject or not html_message or not emails:
             logger.error("Subject, html_message, and emails are required")
@@ -21,7 +25,7 @@ def send_email_task(*args, **kwargs):
 
         send_mail(
             subject=subject,
-            message="",
+            message=body,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=emails,
             html_message=html_message,

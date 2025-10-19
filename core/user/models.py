@@ -10,6 +10,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language
 from phonenumber_field.modelfields import PhoneNumberField
 
 from common.models import BaseModel
@@ -38,12 +39,16 @@ class User(AbstractUser):
     )
 
     def __str__(self):
+        return self.full_name
+
+    @property
+    def full_name(self):
         userprofile = getattr(self, "userprofile", None)
         if userprofile:
             full_name = userprofile.full_name
-            if full_name:
-                return f"{full_name}"
-        return f"{self.phone or self.email or self.username}"
+            if bool(full_name):
+                return full_name
+        return self.username
 
     @property
     def is_has_password(self):
@@ -59,14 +64,10 @@ class User(AbstractUser):
         if not getattr(self, "usersetting", None):
             UserSetting.objects.create(user=self)
         if not getattr(self, "twofactorauthenticationotp", None):
-            TwoFactorAuthenticationOTP.objects.create(user=self, is_active=False)
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-
-        if not self.is_anonymous_user:
-            if not getattr(self, "usersetting", None):
-                UserSetting.objects.create(user=self)
+            TwoFactorAuthenticationOTP.objects.create(
+                user=self,
+                is_active=False,
+            )
 
 
 class UserProfile(models.Model):
@@ -99,6 +100,9 @@ class UserProfile(models.Model):
 
     @property
     def full_name(self):
+        language = get_language()
+        if language == "vi":
+            return f"{self.last_name} {self.first_name}".strip()
         return f"{self.first_name} {self.last_name}".strip()
 
 
