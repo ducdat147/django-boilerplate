@@ -31,7 +31,7 @@ class TracingMiddleware:
                     span,
                     attributes={
                         "log.severity": "INFO",
-                        "requests.body": json.dumps(body),
+                        "request.body": json.dumps(body),
                     },
                 )
             if request.method == "GET" and hasattr(request, "GET") and request.GET:
@@ -40,7 +40,7 @@ class TracingMiddleware:
                     span,
                     attributes={
                         "log.severity": "INFO",
-                        "requests.queryparams": json.dumps(params),
+                        "request.queryparams": json.dumps(params),
                     },
                 )
             response = self.get_response(request)

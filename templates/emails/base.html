@@ -55,7 +55,7 @@
   <body>
     <div class="container">
       <div class="card">
-        <p class="header">{% trans 'Dear' %} {{ name }},</p>
+        <p class="header">{% trans 'Dear' %} {{ user.full_name }},</p>
         {% block content %}{% endblock %}
       </div>
     </div>

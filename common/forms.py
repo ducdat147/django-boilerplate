@@ -1,6 +1,5 @@
 from django import forms
 from django.conf import settings
-
 from unfold.widgets import (
     UnfoldAdminCheckboxSelectMultiple,
     UnfoldAdminDateWidget,

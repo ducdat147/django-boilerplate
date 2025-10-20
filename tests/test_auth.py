@@ -16,7 +16,7 @@ class AuthTests(TestSetup):
         refresh = RefreshToken.for_user(self.user)
         self.run_tests(
             special_case=True,
-            path_name="token_refresh",
+            path_name="auth:token_refresh",
             method="post",
             status_code=status.HTTP_200_OK,
             format="json",
@@ -29,7 +29,7 @@ class AuthTests(TestSetup):
         refresh = RefreshToken.for_user(self.user)
         self.run_tests(
             special_case=True,
-            path_name="token_blacklist",
+            path_name="auth:token_blacklist",
             method="post",
             status_code=status.HTTP_200_OK,
             format="json",
@@ -37,7 +37,7 @@ class AuthTests(TestSetup):
         )
         self.run_tests(
             special_case=True,
-            path_name="token_blacklist",
+            path_name="auth:token_blacklist",
             method="post",
             status_code=status.HTTP_401_UNAUTHORIZED,
             format="json",

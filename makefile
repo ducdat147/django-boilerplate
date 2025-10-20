@@ -11,8 +11,11 @@ install: update-package
 
 update-package:
 	uv lock --upgrade
+	pnpm install
+	pnpm update --latest
 
 lint:
+	uv run ruff check --select I --fix .
 	uv run ruff format
 
 pre-commit:

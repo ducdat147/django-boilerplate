@@ -1,10 +1,12 @@
+from django.contrib.auth import get_user_model
 from django.urls import reverse
+from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework import status
 
-from core.user.models import User
 from .test_case import ALL_TEST_CASE, DATA_INIT
+
+User = get_user_model()
 
 
 class TestSetup(APITestCase):
@@ -16,10 +18,12 @@ class TestSetup(APITestCase):
     def setUp(self):
         super().setUp()
         self.user = User.objects.create_user(
-            username=self.email,
+            username=self.username,
             email=self.email,
+            phone=self.phone,
             password=self.password,
         )
+        self.user.create_user_profile()
         refresh = RefreshToken.for_user(self.user)
         self.client.credentials(
             HTTP_AUTHORIZATION=f"Bearer {str(refresh.access_token)}"

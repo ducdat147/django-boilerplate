@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 16:46+0000\n"
+"POT-Creation-Date: 2025-10-20 15:46+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,6 +75,9 @@ msgstr ""
 msgid "OTP code length"
 msgstr ""
 
+msgid "Password reset token expiration time in minutes"
+msgstr ""
+
 msgid "Base colors"
 msgstr ""
 
@@ -87,19 +90,13 @@ msgstr ""
 msgid "Sticky header"
 msgstr ""
 
-msgid "Header variant"
+msgid "Header dark"
 msgstr ""
 
-msgid "Sidebar variant"
+msgid "Sidebar dark"
 msgstr ""
 
-msgid "Layout style"
-msgstr ""
-
-msgid "On"
-msgstr ""
-
-msgid "Off"
+msgid "Boxed layout"
 msgstr ""
 
 msgid "Navigation"
@@ -114,19 +111,46 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
+msgid "OTP Codes"
+msgstr ""
+
 msgid "Groups"
 msgstr ""
 
-msgid "Configurations"
+msgid "System Settings"
 msgstr ""
 
 msgid "Constance"
 msgstr ""
 
-msgid "Username or email"
+msgid "Celery Tasks"
 msgstr ""
 
-msgid "Enter your username or email"
+msgid "Clocked"
+msgstr ""
+
+msgid "Crontabs"
+msgstr ""
+
+msgid "Intervals"
+msgstr ""
+
+msgid "Periodic tasks"
+msgstr ""
+
+msgid "Solar events"
+msgstr ""
+
+msgid "Enter your username"
+msgstr ""
+
+msgid "Enter your password"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Enter your email"
 msgstr ""
 
 msgid "Password"
@@ -171,10 +195,49 @@ msgstr ""
 msgid "Expenses"
 msgstr ""
 
-msgid "Email is required for email verification."
+msgid "No OTP code found"
 msgstr ""
 
-msgid "Invalid verification"
+msgid "Invalid OTP code"
+msgstr ""
+
+msgid "OTP code has already been used"
+msgstr ""
+
+msgid "OTP code has expired"
+msgstr ""
+
+msgid "User account is inactive"
+msgstr ""
+
+msgid "User is not verified"
+msgstr ""
+
+msgid "User not found."
+msgstr ""
+
+msgid "Invalid or expired token"
+msgstr ""
+
+msgid "User not found"
+msgstr ""
+
+msgid "Username may contain only letters, digits and @/./+/-/_ characters."
+msgstr ""
+
+msgid "Username must be between 3 and 150 characters."
+msgstr ""
+
+msgid "Either email or phone must be provided"
+msgstr ""
+
+msgid "Email or phone number is already registered."
+msgstr ""
+
+msgid "Username is already taken."
+msgstr ""
+
+msgid "New password must be different from old password."
 msgstr ""
 
 msgid "The server could not understand the request due to invalid syntax. Please do not repeat this request without modification."
@@ -201,13 +264,37 @@ msgstr ""
 msgid "Server error"
 msgstr ""
 
+msgid "Change password"
+msgstr ""
+
 msgid "Back to homepage"
+msgstr ""
+
+msgid "Two Factor Authentication OTP"
 msgstr ""
 
 msgid "Two Step QR Code"
 msgstr ""
 
-msgid "Email"
+msgid "User Setting"
+msgstr ""
+
+msgid "User Profile"
+msgstr ""
+
+msgid "Important dates"
+msgstr ""
+
+msgid "Permissions"
+msgstr ""
+
+msgid "Male"
+msgstr ""
+
+msgid "Female"
+msgstr ""
+
+msgid "Other"
 msgstr ""
 
 msgid "Phone"
@@ -216,10 +303,16 @@ msgstr ""
 msgid "Email Verification"
 msgstr ""
 
+msgid "Phone Verification"
+msgstr ""
+
 msgid "Password Reset"
 msgstr ""
 
 msgid "Two Factor Authentication"
+msgstr ""
+
+msgid "Verify OTP"
 msgstr ""
 
 msgid "Verified"
@@ -234,10 +327,43 @@ msgstr ""
 msgid "Used"
 msgstr ""
 
-msgid "Email Verified"
+msgid "email address"
+msgstr ""
+
+msgid "phone"
+msgstr ""
+
+msgid "email verified"
 msgstr ""
 
 msgid "If the email is verified, the user can login with the email."
+msgstr ""
+
+msgid "phone verified"
+msgstr ""
+
+msgid "If the phone is verified, the user can login with the phone."
+msgstr ""
+
+msgid "first name"
+msgstr ""
+
+msgid "last name"
+msgstr ""
+
+msgid "date of birth"
+msgstr ""
+
+msgid "gender"
+msgstr ""
+
+msgid "avatar"
+msgstr ""
+
+msgid "address"
+msgstr ""
+
+msgid "Language"
 msgstr ""
 
 msgid "Config"

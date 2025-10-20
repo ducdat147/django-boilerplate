@@ -1,3 +1,5 @@
+from constance.admin import Config
+from constance.admin import ConstanceAdmin as BaseConstanceAdmin
 from django.contrib import admin
 from django_celery_beat.admin import ClockedScheduleAdmin as BaseClockedScheduleAdmin
 from django_celery_beat.admin import CrontabScheduleAdmin as BaseCrontabScheduleAdmin
@@ -19,8 +21,6 @@ from rest_framework_simplejwt.token_blacklist.models import (
     BlacklistedToken,
     OutstandingToken,
 )
-from constance.admin import Config
-from constance.admin import ConstanceAdmin as BaseConstanceAdmin
 from unfold.admin import ModelAdmin
 from unfold.widgets import UnfoldAdminSelectWidget, UnfoldAdminTextInputWidget
 
@@ -49,35 +49,36 @@ class UnfoldPeriodicTaskForm(PeriodicTaskForm):
 
 
 class ConstanceAdmin(BaseConstanceAdmin, ModelAdmin):
-    pass
+    compressed_fields = True
 
 
 class PeriodicTaskAdmin(BasePeriodicTaskAdmin, ModelAdmin):
+    compressed_fields = True
     form = UnfoldPeriodicTaskForm
 
 
 class IntervalScheduleAdmin(ModelAdmin):
-    pass
+    compressed_fields = True
 
 
 class CrontabScheduleAdmin(BaseCrontabScheduleAdmin, ModelAdmin):
-    pass
+    compressed_fields = True
 
 
 class SolarScheduleAdmin(ModelAdmin):
-    pass
+    compressed_fields = True
 
 
 class ClockedScheduleAdmin(BaseClockedScheduleAdmin, ModelAdmin):
-    pass
+    compressed_fields = True
 
 
 class CustomBlacklistedTokenAdmin(BlacklistedTokenAdmin, ModelAdmin):
-    pass
+    compressed_fields = True
 
 
 class CustomOutstandingTokenAdmin(OutstandingTokenAdmin, ModelAdmin):
-    pass
+    compressed_fields = True
 
 
 admin_site.register([Config], ConstanceAdmin)

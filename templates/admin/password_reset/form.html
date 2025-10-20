@@ -10,10 +10,10 @@
   </h1>
   {% include 'unfold/helpers/messages.html' %}
   {% include 'unfold/helpers/messages/errornote.html' with errors=form.errors %}
-  {% include 'unfold/helpers/messages/error.html' with errors=form.username.errors %}
+  {% include 'unfold/helpers/messages/error.html' with errors=form.email.errors %}
   <form method="post">
     {% csrf_token %}
-    {% include 'unfold/helpers/field.html' with field=form.username %}
+    {% include 'unfold/helpers/field.html' with field=form.email %}
     <div class="submit-row">
       {% component 'unfold/components/button.html' with submit=1 class='flex flex-row font-semibold group items-center justify-center py-2 rounded text-sm text-white w-full' %}
       {% translate 'Reset my password' %}

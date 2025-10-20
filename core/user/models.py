@@ -5,49 +5,131 @@ from io import BytesIO
 import pyotp
 import qrcode
 from constance import config
-from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
+from phonenumber_field.modelfields import PhoneNumberField
 
+from common.encoders import PrettyJSONEncoder
 from common.models import BaseModel
-from core.user.enums import OTPVerificationStatusEnum, OtpTypeEnum, TargetOtpEnum
+from core.user.enums import (
+    GenderEnum,
+    OtpTypeEnum,
+    OTPVerificationStatusEnum,
+    TargetOtpEnum,
+)
 
 
 class User(AbstractUser):
+    first_name = None
+    last_name = None
+    email = models.EmailField(_("email address"), blank=True)
+    phone = PhoneNumberField(_("phone"), blank=True)
+    is_email_verified = models.BooleanField(
+        _("email verified"),
+        default=False,
+        help_text=_("If the email is verified, the user can login with the email."),
+    )
+    is_phone_verified = models.BooleanField(
+        _("phone verified"),
+        default=False,
+        help_text=_("If the phone is verified, the user can login with the phone."),
+    )
+
+    def __str__(self):
+        return self.full_name
+
     @property
     def full_name(self):
-        full_name = []
-        if self.first_name:
-            full_name.append(self.first_name)
-        if self.last_name:
-            full_name.append(self.last_name)
-        return " ".join(full_name)
+        userprofile = getattr(self, "userprofile", None)
+        if userprofile:
+            full_name = userprofile.full_name
+            if bool(full_name):
+                return full_name
+        return self.username
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not hasattr(self, "settings"):
-            self.settings = UserSettings.objects.create(user=self)
+    @property
+    def is_anonymous(self):
+        return super().is_anonymous or (
+            not super().is_anonymous and not getattr(self, "userprofile", None)
+        )
+
+    def create_user_profile(self):
+        if not getattr(self, "userprofile", None):
+            UserProfile.objects.create(user=self)
+        if not getattr(self, "usersetting", None):
+            UserSetting.objects.create(user=self)
+        if not getattr(self, "twofactorauthenticationotp", None):
+            TwoFactorAuthenticationOTP.objects.create(
+                user=self,
+                is_active=False,
+            )
 
 
-class UserSettings(models.Model):
+class UserProfile(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
-        related_name="settings",
     )
-    is_email_verified = models.BooleanField(
-        _("Email Verified"),
-        default=False,
-        help_text=_("If the email is verified, the user can login with the email."),
+    first_name = models.CharField(_("first name"), max_length=150, blank=True)
+    last_name = models.CharField(_("last name"), max_length=150, blank=True)
+    date_of_birth = models.DateField(_("date of birth"), null=True, blank=True)
+    gender = models.CharField(
+        _("gender"),
+        max_length=20,
+        choices=GenderEnum.choices,
+        default=GenderEnum.OTHER,
+    )
+    avatar = models.URLField(
+        _("avatar"),
+        max_length=255,
+        blank=True,
+    )
+    address = models.CharField(
+        _("address"),
+        max_length=255,
+        blank=True,
+    )
+
+    def __str__(self):
+        return self.user.__str__()
+
+    @property
+    def full_name(self):
+        language = get_language()
+        if language == "vi":
+            return f"{self.last_name} {self.first_name}".strip()
+        return f"{self.first_name} {self.last_name}".strip()
+
+
+class UserSetting(models.Model):
+    class LanguegeEnum(models.TextChoices):
+        EN = "en", _("English")
+        VI = "vi", _("Vietnamese")
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+    )
+    language = models.CharField(
+        _("Language"),
+        max_length=6,
+        default=LanguegeEnum.EN,
+        choices=LanguegeEnum.choices,
     )
     config = models.JSONField(
         _("Config"),
         default=dict,
         null=True,
         blank=True,
+        encoder=PrettyJSONEncoder,
     )
+
+    def __str__(self):
+        return self.user.__str__()
 
 
 class OtpCode(BaseModel):
@@ -76,10 +158,10 @@ class OtpCode(BaseModel):
         super().save(*args, **kwargs)
 
     @property
-    def is_expired(self):
+    def is_expired(self) -> bool:
         return timezone.now() > self.expires_at
 
-    def verify(self, code):
+    def verify(self, code) -> OTPVerificationStatusEnum:
         if self.code != code:
             return OTPVerificationStatusEnum.INVALID
         if self.is_used:
@@ -94,10 +176,7 @@ class OtpCode(BaseModel):
 class TwoFactorAuthenticationOTP(BaseModel):
     user = models.OneToOneField(
         User,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="two_factor_otp",
+        on_delete=models.CASCADE,
     )
     secret_key = models.CharField(
         max_length=255,
@@ -105,6 +184,9 @@ class TwoFactorAuthenticationOTP(BaseModel):
         blank=True,
     )
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.user.__str__()
 
     def save(self, *args, **kwargs):
         if not self.is_active or not self.secret_key:

@@ -31,9 +31,9 @@ def request_hook(span: Span, request: WSGIRequest):
             )
             body = getattr(request, "body", None)
             if bool(params) and MIN_LENGTH < len(params):
-                attributes["requests.queryparams"] = params
+                attributes["request.queryparams"] = params
             if bool(body) and MIN_LENGTH < len(body):
-                attributes["requests.body"] = body
+                attributes["request.body"] = body
             if bool(attributes):
                 add_event(span, attributes=attributes)
         except Exception as e:

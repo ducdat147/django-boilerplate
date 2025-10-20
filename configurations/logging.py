@@ -5,7 +5,6 @@ from typing import Any
 import json_log_formatter
 from django.conf import settings
 
-
 HIDDEN_FIELDS = [
     "password",
     "refresh",
