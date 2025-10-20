@@ -16,7 +16,7 @@ class MyProfileView(RetrieveUpdateAPIView):
     serializer_class = MyProfileSerializer
 
     def get_object(self):
-        if self.request.user.is_anonymous_user:
+        if self.request.user.is_anonymous:
             raise Exception("Anonymous user does not have profile")
         return self.request.user.userprofile
 
@@ -55,6 +55,6 @@ class UserSettingView(RetrieveUpdateAPIView):
     serializer_class = UserSettingSerializer
 
     def get_object(self):
-        if self.request.user.is_anonymous_user:
+        if self.request.user.is_anonymous:
             raise Exception("Anonymous user does not have settings")
         return self.request.user.usersetting

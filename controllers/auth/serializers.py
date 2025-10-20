@@ -4,7 +4,6 @@ from constance import config
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from django.utils.crypto import get_random_string
 from django.core.cache import cache
 from rest_framework import serializers
 from rest_framework.exceptions import (
@@ -13,31 +12,20 @@ from rest_framework.exceptions import (
     NotFound,
     PermissionDenied,
 )
-from rest_framework_simplejwt.tokens import RefreshToken, TokenError
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils.translation import gettext as _
 from phonenumber_field.serializerfields import PhoneNumberField
 
 from controllers.auth.utils import (
-    generate_otp,
     send_verification_email,
 )
 from core.user.enums import OTPVerificationStatusEnum, OtpTypeEnum, TargetOtpEnum
 from core.user.models import OtpCode
+from utils import generate_otp, generate_token
 
 User = get_user_model()
 
 PREFIX_PASSWORD_RESET = "password_reset_{token}_token"
-
-
-class LogoutSerializer(serializers.Serializer):
-    refresh = serializers.CharField()
-
-    def validate(self, attrs):
-        try:
-            RefreshToken(attrs["refresh"]).blacklist()
-        except TokenError:
-            raise ValidationError("Invalid or expired token")
-        return super().validate(attrs)
 
 
 class OTPBaseSerializer(serializers.Serializer):
@@ -153,7 +141,7 @@ class VerifyOTPSerializer(OTPBaseSerializer):
             except User.DoesNotExist:
                 raise NotFound(_("User not found."))
 
-            token = get_random_string(length=32)
+            token = generate_token()
             cache.set(
                 PREFIX_PASSWORD_RESET.format(token=token),
                 user.id,

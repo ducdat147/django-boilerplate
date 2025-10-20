@@ -4,24 +4,11 @@ from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView, CreateAPIView
 
 from controllers.auth.serializers import (
-    LogoutSerializer,
     ResetPasswordSerializer,
     SendOTPSerializer,
     RegisterUserSerializer,
     VerifyOTPSerializer,
 )
-
-
-class LogoutView(GenericAPIView):
-    authentication_classes = ()
-    permission_classes = ()
-    serializer_class = LogoutSerializer
-
-    @extend_schema(responses={status.HTTP_204_NO_CONTENT: None})
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class RegisterUserView(CreateAPIView):

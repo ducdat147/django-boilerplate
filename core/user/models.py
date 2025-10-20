@@ -52,12 +52,10 @@ class User(AbstractUser):
         return self.username
 
     @property
-    def is_has_password(self):
-        return self.password.startswith("!") or not bool(self.password)
-
-    @property
-    def is_anonymous_user(self):
-        return not getattr(self, "userprofile", None)
+    def is_anonymous(self):
+        return super().is_anonymous or (
+            not super().is_anonymous and not getattr(self, "userprofile", None)
+        )
 
     def create_user_profile(self):
         if not getattr(self, "userprofile", None):
