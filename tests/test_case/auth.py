@@ -2,7 +2,6 @@ from rest_framework import status
 
 from tests.test_case.data_init import DATA_INIT
 
-
 AUTH_TEST_CASE = {
     "test_auth.test_register_user": {
         "path_name": "auth:register",

@@ -1,3 +1,5 @@
+from constance.admin import Config
+from constance.admin import ConstanceAdmin as BaseConstanceAdmin
 from django.contrib import admin
 from django_celery_beat.admin import ClockedScheduleAdmin as BaseClockedScheduleAdmin
 from django_celery_beat.admin import CrontabScheduleAdmin as BaseCrontabScheduleAdmin
@@ -19,8 +21,6 @@ from rest_framework_simplejwt.token_blacklist.models import (
     BlacklistedToken,
     OutstandingToken,
 )
-from constance.admin import Config
-from constance.admin import ConstanceAdmin as BaseConstanceAdmin
 from unfold.admin import ModelAdmin
 from unfold.widgets import UnfoldAdminSelectWidget, UnfoldAdminTextInputWidget
 

@@ -5,11 +5,11 @@ from unfold.contrib.constance.settings import UNFOLD_CONSTANCE_ADDITIONAL_FIELDS
 
 from configurations.settings.base import env
 from configurations.settings.packages.unfold.color import (
-    convert_dict_key_to_choices_tuple,
-    get_default_value,
     UNFOLD_BASE,
     UNFOLD_FONT,
     UNFOLD_PRIMARY,
+    convert_dict_key_to_choices_tuple,
+    get_default_value,
 )
 
 CONSTANCE_SUPERUSER_ONLY = True

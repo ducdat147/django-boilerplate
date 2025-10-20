@@ -15,6 +15,7 @@ update-package:
 	pnpm update --latest
 
 lint:
+	uv run ruff check --select I --fix .
 	uv run ruff format
 
 pre-commit:

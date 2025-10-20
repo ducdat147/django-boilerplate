@@ -5,9 +5,9 @@ from functools import lru_cache
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
+from django.utils.timezone import now, timedelta
 from django.utils.translation import gettext_lazy as _
 from unfold.components import BaseComponent, register_component
-from django.utils.timezone import now, timedelta
 
 
 def dashboard_callback(request, context):

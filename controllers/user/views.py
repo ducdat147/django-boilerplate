@@ -1,7 +1,7 @@
-from rest_framework.generics import RetrieveUpdateAPIView, GenericAPIView
-from rest_framework import status
-from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
+from rest_framework import status
+from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
+from rest_framework.response import Response
 
 from controllers.user.serializers import (
     MyProfileSerializer,

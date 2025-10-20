@@ -5,20 +5,20 @@ from io import BytesIO
 import pyotp
 import qrcode
 from constance import config
-from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language
+from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 from common.encoders import PrettyJSONEncoder
 from common.models import BaseModel
 from core.user.enums import (
     GenderEnum,
-    OTPVerificationStatusEnum,
     OtpTypeEnum,
+    OTPVerificationStatusEnum,
     TargetOtpEnum,
 )
 

@@ -21,7 +21,7 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from rest_framework import status
-from rest_framework.exceptions import PermissionDenied, ParseError, NotFound
+from rest_framework.exceptions import NotFound, ParseError, PermissionDenied
 from unfold.sites import UnfoldAdminSite
 
 from common.exceptions import DefaultException, exception_handler
@@ -31,7 +31,6 @@ from controllers.admin.forms import (
     SetPasswordForm,
 )
 from utils import get_class_from_string
-
 
 MESSAGE_ERROR = {
     status.HTTP_400_BAD_REQUEST: _(

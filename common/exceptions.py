@@ -1,7 +1,6 @@
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, JsonResponse
 from django.utils.translation import gettext_lazy as _
-
 from rest_framework import exceptions, status
 from rest_framework.views import set_rollback
 

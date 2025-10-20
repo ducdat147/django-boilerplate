@@ -1,25 +1,25 @@
-from django.contrib.auth import password_validation
 import re
+
 from constance import config
+from django.contrib.auth import get_user_model, password_validation
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth import get_user_model
-from django.db.models import Q
 from django.core.cache import cache
-from rest_framework import serializers
-from rest_framework.exceptions import (
-    ParseError,
-    ValidationError,
-    NotFound,
-    PermissionDenied,
-)
-from rest_framework_simplejwt.tokens import RefreshToken
+from django.db.models import Q
 from django.utils.translation import gettext as _
 from phonenumber_field.serializerfields import PhoneNumberField
+from rest_framework import serializers
+from rest_framework.exceptions import (
+    NotFound,
+    ParseError,
+    PermissionDenied,
+    ValidationError,
+)
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from controllers.auth.utils import (
     send_verification_email,
 )
-from core.user.enums import OTPVerificationStatusEnum, OtpTypeEnum, TargetOtpEnum
+from core.user.enums import OtpTypeEnum, OTPVerificationStatusEnum, TargetOtpEnum
 from core.user.models import OtpCode
 from utils import generate_otp, generate_token
 
