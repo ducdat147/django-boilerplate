@@ -150,6 +150,16 @@ AUTHENTICATION_BACKENDS = (
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "OPTIONS": {
+            "user_attributes": (
+                "username",
+                "email",
+                "phone",
+                "userprofile__first_name",
+                "userprofile__last_name",
+            ),
+            "max_similarity": 0.7,
+        },
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
