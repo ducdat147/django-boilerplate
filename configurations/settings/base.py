@@ -167,7 +167,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "en"
+LANGUAGE_CODE = "vi"
 
 TIME_ZONE = "UTC"
 
@@ -248,7 +248,10 @@ EMAIL_PORT = env.int("EMAIL_PORT")
 EMAIL_USE_SSL = env.bool("EMAIL_USE_SSL", default=False)
 EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
-EMAIL_VERIFICATION_CODE_TIMEOUT = env.int("EMAIL_VERIFICATION_CODE_TIMEOUT", default=5)
+EMAIL_VERIFICATION_CODE_TIMEOUT = env.int(
+    "EMAIL_VERIFICATION_CODE_TIMEOUT",
+    default=5,
+)
 
 LOGIN_URL = reverse_lazy("admin:login")
 LOGOUT_URL = reverse_lazy("admin:logout")

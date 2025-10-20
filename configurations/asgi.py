@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/5.2/howto/deployment/asgi/
 import os
 
 from django.core.asgi import get_asgi_application
+from opentelemetry.instrumentation.asgi import OpenTelemetryMiddleware
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "configurations.settings")
 
@@ -28,3 +29,4 @@ except ImportError as e:
     print(f"Telemetry initialization failed: {e}")
 
 application = get_asgi_application()
+application = OpenTelemetryMiddleware(application)

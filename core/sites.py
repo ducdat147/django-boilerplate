@@ -16,17 +16,21 @@ from django.http import (
     HttpResponseRedirect,
 )
 from django.shortcuts import render
-from django.urls import URLPattern, path, reverse
+from django.urls import URLPattern, path, reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from rest_framework import status
-from rest_framework.exceptions import PermissionDenied, ParseError, NotFound
+from rest_framework.exceptions import NotFound, ParseError, PermissionDenied
 from unfold.sites import UnfoldAdminSite
 
 from common.exceptions import DefaultException, exception_handler
-from controllers.admin.forms import AdminPasswordResetForm, AdminSetPasswordForm
-
+from controllers.admin.forms import (
+    AdminAuthenticationForm,
+    PasswordResetForm,
+    SetPasswordForm,
+)
+from utils import get_class_from_string
 
 MESSAGE_ERROR = {
     status.HTTP_400_BAD_REQUEST: _(
@@ -78,7 +82,7 @@ def convert_to_dict(
         result[key] = value
 
 
-def convert_config(config, config_names: list):
+def convert_config(config_names: list):
     result = {}
 
     for key in config_names:
@@ -97,9 +101,7 @@ def convert_config(config, config_names: list):
     return result
 
 
-def callback_constance(config) -> dict:
-    from utils.performs import get_class_from_string
-
+def callback_constance() -> dict:
     result = {}
     for item in settings.CONSTANCE_CALLBACKS_UNFOLD:
         callback = item.get("callback", "utils.performs.ConstanceValue")
@@ -130,7 +132,7 @@ def callback_constance(config) -> dict:
     return result
 
 
-def get_element_classes(config) -> dict:
+def get_element_classes() -> dict:
     header = []
     page = []
     main = []
@@ -140,14 +142,14 @@ def get_element_classes(config) -> dict:
     navigation_inner = []
     pagination = []
 
-    if getattr(config, "EC_STICKY_HEADER", "") == "sticky":
+    if config.EC_STICKY_HEADER:
         header.extend(
             [
                 "md:sticky",
                 "top-0",
             ]
         )
-    if getattr(config, "EC_LAYOUT_STYLE", "") == "boxed":
+    if config.EC_BOXED_LAYOUT:
         header.extend(
             [
                 "rounded-t-default",
@@ -172,9 +174,9 @@ def get_element_classes(config) -> dict:
             ]
         )
         navigation.extend(["lg:border-r-0"])
-    elif getattr(config, "EC_SIDEBAR_VARIANT", "") == "dark":
+    elif config.EC_SIDEBAR_DARK:
         navigation.extend(["dark"])
-    elif getattr(config, "EC_HEADER_VARIANT", "") == "dark":
+    elif config.EC_HEADER_DARK:
         navigation_header.extend(
             [
                 "dark",
@@ -184,7 +186,7 @@ def get_element_classes(config) -> dict:
                 "dark:bg-base-900",
             ]
         )
-    if getattr(config, "EC_HEADER_VARIANT", "") == "dark":
+    if config.EC_HEADER_DARK:
         header.extend(["dark"])
 
     return {
@@ -210,11 +212,24 @@ class AdminSite(UnfoldAdminSite):
     password_reset_subject_template = "admin/password_reset/subject.html"
     error_templates = "admin/handlers/error.html"
 
+    def __init__(self, name: str = "admin") -> None:
+        self.login_form = AdminAuthenticationForm
+        super().__init__(name)
+
     def each_context(self, request: HttpRequest) -> dict[str, Any]:
         context = super().each_context(request)
-        update_context = convert_config(config, settings.CONSTANCE_CONFIG_FOR_UNFOLD)
-        update_context_callback = callback_constance(config)
-        update_context_element_classes = get_element_classes(config)
+        update_context = convert_config(settings.CONSTANCE_CONFIG_FOR_UNFOLD)
+        update_context_callback = callback_constance()
+        update_context_element_classes = get_element_classes()
+
+        if request.user.is_authenticated and request.user.has_usable_password():
+            context["account_links"].append(
+                {
+                    "title": _("Change password"),
+                    "link": reverse_lazy("admin:password_change"),
+                }
+            )
+
         if bool(update_context):
             context = {**context, **update_context}
         if bool(update_context_callback):
@@ -312,7 +327,7 @@ class AdminSite(UnfoldAdminSite):
             return HttpResponseRedirect(index_path)
         url = reverse(f"{self.name}:admin_password_reset_done", current_app=self.name)
         defaults = {
-            "form_class": AdminPasswordResetForm,
+            "form_class": PasswordResetForm,
             "success_url": url,
             "extra_context": {**self.each_context(request), **(extra_context or {})},
             "template_name": self.password_reset_form_template,
@@ -355,7 +370,7 @@ class AdminSite(UnfoldAdminSite):
             f"{self.name}:admin_password_reset_complete", current_app=self.name
         )
         defaults = {
-            "form_class": AdminSetPasswordForm,
+            "form_class": SetPasswordForm,
             "success_url": url,
             "extra_context": {**self.each_context(request), **(extra_context or {})},
             "template_name": self.password_reset_confirm_template,
