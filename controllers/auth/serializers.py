@@ -232,9 +232,8 @@ class RegisterUserSerializer(serializers.ModelSerializer):
             password_validation.validate_password(password=password, user=instance)
         except DjangoValidationError as e:
             raise ValidationError({"password": e.messages})
-
-        password = make_password(password)
         instance.set_password(password)
+        instance.save()
 
         refresh = RefreshToken.for_user(instance)
         instance.refresh = str(refresh)
