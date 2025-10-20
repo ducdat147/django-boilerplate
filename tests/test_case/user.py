@@ -2,7 +2,6 @@ from rest_framework import status
 
 from tests.test_case.data_init import DATA_INIT
 
-
 USER_TEST_CASE = {
     "test_user.test_profile": {
         "path_name": "user:my_profile",

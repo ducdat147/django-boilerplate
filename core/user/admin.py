@@ -2,23 +2,23 @@ from django.contrib import admin
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
+from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
 from unfold.admin import ModelAdmin, StackedInline
 from unfold.forms import (
     AdminPasswordChangeForm,
     UserChangeForm,
     UserCreationForm,
 )
-from django.template.loader import render_to_string
-from django.utils.translation import gettext_lazy as _
 
+from core.sites import admin_site
 from core.user.models import (
     OtpCode,
     TwoFactorAuthenticationOTP,
     User,
-    UserSetting,
     UserProfile,
+    UserSetting,
 )
-from core.sites import admin_site
 
 admin.site.unregister(Group)
 
@@ -28,9 +28,6 @@ class TwoFactorAuthenticationOTPInline(StackedInline):
     can_delete = False
     verbose_name = _("Two Factor Authentication OTP")
     extra = 0
-    fields = [
-        "is_active",
-    ]
     tab = True
 
     def qrcode(self, obj: TwoFactorAuthenticationOTP):
@@ -46,28 +43,17 @@ class TwoFactorAuthenticationOTPInline(StackedInline):
             return []
         return ["secret_key", "qrcode"]
 
-    def get_fieldsets(self, request, obj=None):
-        fieldsets = self.fieldsets
+    def get_fields(self, request, obj=None):
         obj_2fa: TwoFactorAuthenticationOTP = getattr(
             obj, "twofactorauthenticationotp", None
         )
-        if not obj_2fa:
-            fields = []
-        elif obj_2fa and obj_2fa.secret_key:
-            fields = [
-                "is_active",
-            ]
+        fields = [
+            "is_active",
+        ]
+        if obj_2fa and obj_2fa.secret_key:
             if obj_2fa.is_active:
                 fields.extend(["secret_key", "qrcode"])
-        fieldsets = (
-            (
-                "",
-                {
-                    "fields": fields,
-                },
-            ),
-        )
-        return fieldsets
+        return fields
 
 
 class UserSettingInline(StackedInline):
@@ -75,7 +61,7 @@ class UserSettingInline(StackedInline):
     can_delete = False
     verbose_name = _("User Setting")
     extra = 0
-    # fields = "__all__"
+    readonly_fields = ["config"]
     tab = True
 
 
@@ -107,6 +93,8 @@ class UserProfileInline(StackedInline):
 
 
 class UserAdmin(BaseUserAdmin, ModelAdmin):
+    compressed_fields = True
+    warn_unsaved_form = True
     list_display = (
         "__str__",
         "email",
@@ -119,16 +107,14 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
             None,
             {
                 "fields": (
-                    (
-                        "username",
-                        "password",
-                    ),
+                    "username",
+                    "password",
                     (
                         "email",
-                        "phone",
+                        "is_email_verified",
                     ),
                     (
-                        "is_email_verified",
+                        "phone",
                         "is_phone_verified",
                     ),
                 )
@@ -164,13 +150,18 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm
-    readonly_fields = ("last_login", "date_joined")
     change_form_show_cancel_button = True
     ordering = ("-date_joined",)
     list_filter_sheet = False
 
+    def get_readonly_fields(self, request, obj=None):
+        readonly_fields = ["last_login", "date_joined"]
+        if obj:
+            readonly_fields.append("username")
+        return readonly_fields
+
     def get_inlines(self, request, obj: User):
-        if not obj.is_anonymous_user:
+        if obj and not obj.is_anonymous:
             return [
                 UserProfileInline,
                 UserSettingInline,
@@ -180,10 +171,11 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
 
 
 class GroupAdmin(BaseGroupAdmin, ModelAdmin):
-    pass
+    compressed_fields = True
 
 
 class OtpCodeAdmin(ModelAdmin):
+    compressed_fields = True
     list_display = [
         "to",
         "type_otp",
@@ -200,6 +192,15 @@ class OtpCodeAdmin(ModelAdmin):
         return obj.is_expired
 
     is_expired.boolean = True
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 admin_site.register(User, UserAdmin)

@@ -16,12 +16,12 @@ from django.http import (
     HttpResponseRedirect,
 )
 from django.shortcuts import render
-from django.urls import URLPattern, path, reverse
+from django.urls import URLPattern, path, reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from rest_framework import status
-from rest_framework.exceptions import PermissionDenied, ParseError, NotFound
+from rest_framework.exceptions import NotFound, ParseError, PermissionDenied
 from unfold.sites import UnfoldAdminSite
 
 from common.exceptions import DefaultException, exception_handler
@@ -30,7 +30,7 @@ from controllers.admin.forms import (
     PasswordResetForm,
     SetPasswordForm,
 )
-
+from utils import get_class_from_string
 
 MESSAGE_ERROR = {
     status.HTTP_400_BAD_REQUEST: _(
@@ -102,8 +102,6 @@ def convert_config(config_names: list):
 
 
 def callback_constance() -> dict:
-    from utils.performs import get_class_from_string
-
     result = {}
     for item in settings.CONSTANCE_CALLBACKS_UNFOLD:
         callback = item.get("callback", "utils.performs.ConstanceValue")
@@ -223,6 +221,15 @@ class AdminSite(UnfoldAdminSite):
         update_context = convert_config(settings.CONSTANCE_CONFIG_FOR_UNFOLD)
         update_context_callback = callback_constance()
         update_context_element_classes = get_element_classes()
+
+        if request.user.is_authenticated and request.user.has_usable_password():
+            context["account_links"].append(
+                {
+                    "title": _("Change password"),
+                    "link": reverse_lazy("admin:password_change"),
+                }
+            )
+
         if bool(update_context):
             context = {**context, **update_context}
         if bool(update_context_callback):

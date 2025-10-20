@@ -4,6 +4,7 @@ from controllers.user.views import (
     MyProfileView,
     ResetPasswordView,
     SendOTPView,
+    UserSettingView,
     VerifyOTPView,
 )
 
@@ -25,5 +26,10 @@ urlpatterns = [
         "my-profile/verify-otp/",
         VerifyOTPView.as_view(),
         name="verify_otp",
+    ),
+    path(
+        "my-profile/settings/",
+        UserSettingView.as_view(),
+        name="settings",
     ),
 ]

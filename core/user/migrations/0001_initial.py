@@ -8,6 +8,8 @@ import phonenumber_field.modelfields
 from django.conf import settings
 from django.db import migrations, models
 
+import common
+
 
 class Migration(migrations.Migration):
     initial = True
@@ -300,7 +302,11 @@ class Migration(migrations.Migration):
                 (
                     "config",
                     models.JSONField(
-                        blank=True, default=dict, null=True, verbose_name="Config"
+                        blank=True,
+                        encoder=common.encoders.PrettyJSONEncoder,
+                        default=dict,
+                        null=True,
+                        verbose_name="Config",
                     ),
                 ),
                 (

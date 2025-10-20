@@ -1,17 +1,17 @@
-from rest_framework import serializers
-from rest_framework.exceptions import (
-    ParseError,
-    ValidationError,
-    NotFound,
-)
+from django.contrib.auth import get_user_model, password_validation
 from django.utils.translation import gettext as _
 from phonenumber_field.serializerfields import PhoneNumberField
-from django.contrib.auth import get_user_model
-from django.contrib.auth import password_validation
+from rest_framework import serializers
+from rest_framework.exceptions import (
+    NotFound,
+    ParseError,
+    ValidationError,
+)
 
-from controllers.auth.utils import generate_otp, send_verification_email
-from core.user.enums import OTPVerificationStatusEnum, OtpTypeEnum, TargetOtpEnum
-from core.user.models import OtpCode, UserProfile
+from controllers.auth.utils import send_verification_email
+from core.user.enums import OtpTypeEnum, OTPVerificationStatusEnum, TargetOtpEnum
+from core.user.models import OtpCode, UserProfile, UserSetting
+from utils import generate_otp
 
 User = get_user_model()
 
@@ -207,3 +207,12 @@ class VerifyOTPSerializer(OTPBaseSerializer):
                 user.save(update_fields=[f"is_{target.value}_verified"])
 
         return attrs
+
+
+class UserSettingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserSetting
+        fields = [
+            "language",
+            "config",
+        ]

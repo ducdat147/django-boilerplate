@@ -5,19 +5,20 @@ from io import BytesIO
 import pyotp
 import qrcode
 from constance import config
-from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language
+from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
+from common.encoders import PrettyJSONEncoder
 from common.models import BaseModel
 from core.user.enums import (
     GenderEnum,
-    OTPVerificationStatusEnum,
     OtpTypeEnum,
+    OTPVerificationStatusEnum,
     TargetOtpEnum,
 )
 
@@ -51,12 +52,10 @@ class User(AbstractUser):
         return self.username
 
     @property
-    def is_has_password(self):
-        return self.password.startswith("!") or not bool(self.password)
-
-    @property
-    def is_anonymous_user(self):
-        return not getattr(self, "userprofile", None)
+    def is_anonymous(self):
+        return super().is_anonymous or (
+            not super().is_anonymous and not getattr(self, "userprofile", None)
+        )
 
     def create_user_profile(self):
         if not getattr(self, "userprofile", None):
@@ -126,6 +125,7 @@ class UserSetting(models.Model):
         default=dict,
         null=True,
         blank=True,
+        encoder=PrettyJSONEncoder,
     )
 
     def __str__(self):

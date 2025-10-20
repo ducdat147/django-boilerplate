@@ -11,8 +11,11 @@ install: update-package
 
 update-package:
 	uv lock --upgrade
+	pnpm install
+	pnpm update --latest
 
 lint:
+	uv run ruff check --select I --fix .
 	uv run ruff format
 
 pre-commit:
@@ -34,7 +37,7 @@ test.html:
 	uv run coverage html
 
 run:
-	uv run python manage.py runserver 0.0.0.0:80 --noreload
+	uv run python manage.py runserver 0.0.0.0:80
 
 celery:
 	uv run celery -A configurations.celery worker --pool=threads --loglevel=INFO

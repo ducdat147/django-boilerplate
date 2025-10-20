@@ -1,6 +1,7 @@
 from django import forms
-from django.contrib.auth.forms import SetPasswordForm as BaseSetPasswordForm
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordResetForm as BasePasswordResetForm
+from django.contrib.auth.forms import SetPasswordForm as BaseSetPasswordForm
 from django.contrib.auth.password_validation import (
     password_validators_help_text_html,
 )
@@ -14,7 +15,6 @@ from unfold.widgets import (
 )
 
 from common.tasks import send_email_task
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
