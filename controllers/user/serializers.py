@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model, password_validation
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.utils.translation import gettext as _
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
@@ -77,10 +78,6 @@ class ResetPasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True)
     new_password = serializers.CharField(write_only=True)
 
-    def validate_new_password(self, value):
-        password_validation.validate_password(value)
-        return value
-
     def validate_old_password(self, value):
         user = self.context["request"].user
         if not user.check_password(value):
@@ -93,10 +90,16 @@ class ResetPasswordSerializer(serializers.Serializer):
         user = self.context["request"].user
         old_password = attrs.get("old_password")
         new_password = attrs.get("new_password")
+        try:
+            password_validation.validate_password(password=new_password, user=user)
+        except DjangoValidationError as e:
+            raise ValidationError({"new_password": e.messages})
+
         if old_password == new_password:
             raise ValidationError(
                 {"new_password": _("New password must be different from old password.")}
             )
+
         user.set_password(new_password)
         user.save()
         return attrs

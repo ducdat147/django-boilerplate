@@ -1,9 +1,11 @@
 import re
 
 from constance import config
-from django.contrib.auth import get_user_model, password_validation
+from django.contrib.auth import password_validation
 from django.contrib.auth.hashers import make_password
 from django.core.cache import cache
+from django.core.exceptions import ValidationError as DjangoValidationError
+from django.db import transaction
 from django.db.models import Q
 from django.utils.translation import gettext as _
 from phonenumber_field.serializerfields import PhoneNumberField
@@ -20,10 +22,8 @@ from controllers.auth.utils import (
     send_verification_email,
 )
 from core.user.enums import OtpTypeEnum, OTPVerificationStatusEnum, TargetOtpEnum
-from core.user.models import OtpCode
+from core.user.models import OtpCode, User
 from utils import generate_otp, generate_token
-
-User = get_user_model()
 
 PREFIX_PASSWORD_RESET = "password_reset_{token}_token"
 
@@ -156,10 +156,6 @@ class ResetPasswordSerializer(serializers.Serializer):
     token = serializers.CharField(write_only=True, required=False)
     new_password = serializers.CharField(write_only=True)
 
-    def validate_new_password(self, value):
-        password_validation.validate_password(value)
-        return value
-
     def validate(self, attrs):
         try:
             user_id = cache.get(PREFIX_PASSWORD_RESET.format(token=attrs.get("token")))
@@ -168,8 +164,14 @@ class ResetPasswordSerializer(serializers.Serializer):
             user = User.objects.get(id=user_id)
             if not user.is_active:
                 raise PermissionDenied(_("User account is inactive"))
+            password_validation.validate_password(
+                password=attrs.get("new_password"),
+                user=user,
+            )
         except User.DoesNotExist:
             raise NotFound(_("User not found"))
+        except DjangoValidationError as e:
+            raise ValidationError({"new_password": e.messages})
         else:
             user.set_password(attrs.get("new_password"))
             user.save()
@@ -207,10 +209,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
             raise ValidationError(_("Username must be between 3 and 150 characters."))
         return value
 
-    def validate_password(self, value):
-        password_validation.validate_password(value)
-        return value
-
+    @transaction.atomic
     def create(self, validated_data):
         if not validated_data.get("email") and not validated_data.get("phone"):
             raise ParseError(_("Either email or phone must be provided"))
@@ -221,9 +220,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
             raise ParseError(_("Email or phone number is already registered."))
 
         validated_data["is_active"] = True
-        password = validated_data.get("password")
-        password = make_password(password)
-        validated_data["password"] = password
+        password = validated_data.pop("password")
 
         instance, is_created = User.objects.get_or_create(
             username=validated_data["username"],
@@ -231,6 +228,12 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         )
         if not is_created:
             raise ParseError(_("Username is already taken."))
+        try:
+            password_validation.validate_password(password=password, user=instance)
+        except DjangoValidationError as e:
+            raise ValidationError({"password": e.messages})
+        instance.set_password(password)
+        instance.save()
 
         refresh = RefreshToken.for_user(instance)
         instance.refresh = str(refresh)
