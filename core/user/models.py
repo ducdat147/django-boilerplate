@@ -199,8 +199,7 @@ class TwoFactorAuthenticationOTP(BaseModel):
         _secret = secret_key or self.secret_key
         if _secret and self.is_active:
             totp = pyotp.TOTP(_secret)
-            if code == totp.now():
-                return True
+            return code == totp.now()
         return False
 
     @property
