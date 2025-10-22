@@ -1,7 +1,7 @@
-from django.apps import AppConfig
+from django.apps import AppConfig as DjangoAppConfig
 from django.conf import settings
 
 
-class UserConfig(AppConfig):
+class AppConfig(DjangoAppConfig):
     default_auto_field = settings.DEFAULT_AUTO_FIELD
     name = "core.user"
