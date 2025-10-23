@@ -9,10 +9,9 @@ from rest_framework.exceptions import (
     ValidationError,
 )
 
-from controllers.auth.utils import send_verification_email, send_verification_phone
 from core.user.enums import OtpTypeUserEnum, OTPVerificationStatusEnum, TargetOtpEnum
 from core.user.models import OtpCode, User, UserProfile, UserSetting
-from utils import generate_otp
+from utils import generate_otp, send_verification_email, send_verification_phone
 
 
 class MyProfileSerializer(serializers.ModelSerializer):

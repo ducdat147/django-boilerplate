@@ -17,17 +17,18 @@ from rest_framework.exceptions import (
 )
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from controllers.auth.utils import (
-    send_verification_email,
-    send_verification_phone,
-)
 from core.user.enums import (
     OtpTypeAuthEnum,
     OTPVerificationStatusEnum,
     TargetOtpEnum,
 )
 from core.user.models import OtpCode, User
-from utils import generate_otp, generate_token
+from utils import (
+    generate_otp,
+    generate_token,
+    send_verification_email,
+    send_verification_phone,
+)
 
 PREFIX_PASSWORD_RESET = "password_reset_{token}_token"
 
