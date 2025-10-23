@@ -1,4 +1,4 @@
-from django.contrib.auth import password_validation
+from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.utils.translation import gettext as _
 from phonenumber_field.serializerfields import PhoneNumberField
@@ -9,7 +9,7 @@ from rest_framework.exceptions import (
     ValidationError,
 )
 
-from controllers.auth.utils import send_verification_email
+from controllers.auth.utils import send_verification_email, send_verification_phone
 from core.user.enums import OtpTypeUserEnum, OTPVerificationStatusEnum, TargetOtpEnum
 from core.user.models import OtpCode, User, UserProfile, UserSetting
 from utils import generate_otp
@@ -89,7 +89,7 @@ class ResetPasswordSerializer(serializers.Serializer):
         old_password = attrs.get("old_password")
         new_password = attrs.get("new_password")
         try:
-            password_validation.validate_password(password=new_password, user=user)
+            validate_password(password=new_password, user=user)
         except DjangoValidationError as e:
             raise ValidationError({"new_password": e.messages})
 
@@ -139,7 +139,7 @@ class OTPBaseSerializer(serializers.Serializer):
         if target == TargetOtpEnum.EMAIL:
             send_verification_email(to, self.otp_code, full_name)
         elif target == TargetOtpEnum.PHONE:
-            pass
+            send_verification_phone(to, self.otp_code, full_name)
 
     def create_otp(
         self,

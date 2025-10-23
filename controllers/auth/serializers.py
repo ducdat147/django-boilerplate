@@ -1,7 +1,7 @@
 import re
 
 from constance import config
-from django.contrib.auth import password_validation
+from django.contrib.auth.password_validation import validate_password
 from django.core.cache import cache
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import transaction
@@ -19,6 +19,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from controllers.auth.utils import (
     send_verification_email,
+    send_verification_phone,
 )
 from core.user.enums import (
     OtpTypeAuthEnum,
@@ -66,7 +67,7 @@ class OTPBaseSerializer(serializers.Serializer):
         if target == TargetOtpEnum.EMAIL:
             send_verification_email(to, self.otp_code, full_name)
         elif target == TargetOtpEnum.PHONE:
-            pass
+            send_verification_phone(to, self.otp_code, full_name)
 
     def create_otp(
         self,
@@ -164,7 +165,7 @@ class ResetPasswordSerializer(serializers.Serializer):
             user = User.objects.get(id=user_id)
             if not user.is_active:
                 raise PermissionDenied(_("User account is inactive"))
-            password_validation.validate_password(
+            validate_password(
                 password=attrs.get("new_password"),
                 user=user,
             )
@@ -229,7 +230,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         if not is_created:
             raise ParseError(_("Username is already taken."))
         try:
-            password_validation.validate_password(password=password, user=instance)
+            validate_password(password=password, user=instance)
         except DjangoValidationError as e:
             raise ValidationError({"password": e.messages})
         instance.set_password(password)
