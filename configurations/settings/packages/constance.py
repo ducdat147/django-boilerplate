@@ -1,16 +1,36 @@
+import json
 from collections import OrderedDict
 
 from django.utils.translation import gettext_lazy as _
 from unfold.contrib.constance.settings import UNFOLD_CONSTANCE_ADDITIONAL_FIELDS
 
 from configurations.settings.base import env
-from configurations.settings.packages.unfold.color import (
-    UNFOLD_BASE,
-    UNFOLD_FONT,
-    UNFOLD_PRIMARY,
-    convert_dict_key_to_choices_tuple,
-    get_default_value,
-)
+
+
+def convert_dict_key_to_choices_tuple(dict_keys: list, default_value="-") -> tuple:
+    return tuple(
+        (
+            k,
+            str(k.replace("_", " ") if k != default_value else "default").capitalize(),
+        )
+        for k in dict_keys
+    )
+
+
+def get_default_value(dict_keys: list) -> str:
+    return list(dict_keys)[0]
+
+
+UNFOLD_COLOR_DATA = {}
+try:
+    with open("resources/unfold_color.json") as f:
+        UNFOLD_COLOR_DATA = json.load(f)
+except Exception:
+    pass
+
+UNFOLD_COLOR_PRIMARY = UNFOLD_COLOR_DATA.get("primary", {})
+UNFOLD_COLOR_BASE = UNFOLD_COLOR_DATA.get("base", {})
+UNFOLD_COLOR_FONT = UNFOLD_COLOR_DATA.get("font", {})
 
 CONSTANCE_SUPERUSER_ONLY = True
 
@@ -41,17 +61,17 @@ CONSTANCE_CONFIG = {
         _("Password reset token expiration time in minutes"),
     ],
     "COLORS__BASE": [
-        get_default_value(UNFOLD_BASE.keys()),
+        get_default_value(UNFOLD_COLOR_BASE.keys()),
         _("Base colors"),
         "choise_color_base",
     ],
     "COLORS__PRIMARY": [
-        get_default_value(UNFOLD_PRIMARY.keys()),
+        get_default_value(UNFOLD_COLOR_PRIMARY.keys()),
         _("Primary colors"),
         "choise_color_primary",
     ],
     "COLORS__FONT": [
-        get_default_value(UNFOLD_FONT.keys()),
+        get_default_value(UNFOLD_COLOR_FONT.keys()),
         _("Font colors"),
         "choise_color_font",
     ],
@@ -140,7 +160,7 @@ CONSTANCE_ADDITIONAL_FIELDS = {
         {
             "widget": "unfold.widgets.UnfoldAdminSelectWidget",
             "choices": convert_dict_key_to_choices_tuple(
-                UNFOLD_BASE.keys(),
+                UNFOLD_COLOR_BASE.keys(),
                 CONSTANCE_DEFAULT_VALUE,
             ),
         },
@@ -150,7 +170,7 @@ CONSTANCE_ADDITIONAL_FIELDS = {
         {
             "widget": "unfold.widgets.UnfoldAdminSelectWidget",
             "choices": convert_dict_key_to_choices_tuple(
-                UNFOLD_PRIMARY.keys(),
+                UNFOLD_COLOR_PRIMARY.keys(),
                 CONSTANCE_DEFAULT_VALUE,
             ),
         },
@@ -160,7 +180,7 @@ CONSTANCE_ADDITIONAL_FIELDS = {
         {
             "widget": "unfold.widgets.UnfoldAdminSelectWidget",
             "choices": convert_dict_key_to_choices_tuple(
-                UNFOLD_FONT.keys(),
+                UNFOLD_COLOR_FONT.keys(),
                 CONSTANCE_DEFAULT_VALUE,
             ),
         },
@@ -189,16 +209,16 @@ CONSTANCE_CALLBACKS_UNFOLD = [
     {
         "callback": "utils.performs.ConstanceValue",
         "field": "COLORS__BASE",
-        "meta_data": UNFOLD_BASE,
+        "meta_data": UNFOLD_COLOR_BASE,
     },
     {
         "callback": "utils.performs.ConstanceValue",
         "field": "COLORS__PRIMARY",
-        "meta_data": UNFOLD_PRIMARY,
+        "meta_data": UNFOLD_COLOR_PRIMARY,
     },
     {
         "callback": "utils.performs.ConstanceValue",
         "field": "COLORS__FONT",
-        "meta_data": UNFOLD_FONT,
+        "meta_data": UNFOLD_COLOR_FONT,
     },
 ]
