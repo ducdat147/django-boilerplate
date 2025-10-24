@@ -88,7 +88,6 @@ r.dev:
 app:
 	if test ! -d core/$(filter-out $@,$(MAKECMDGOALS)); then mkdir core/$(filter-out $@,$(MAKECMDGOALS)); fi
 	if test ! -d core/$(filter-out $@,$(MAKECMDGOALS))/migrations; then mkdir core/$(filter-out $@,$(MAKECMDGOALS))/migrations; fi
-	if test ! -d controllers/$(filter-out $@,$(MAKECMDGOALS)); then mkdir controllers/$(filter-out $@,$(MAKECMDGOALS)); fi
 	touch \
 	core/$(filter-out $@,$(MAKECMDGOALS))/__init__.py \
 	core/$(filter-out $@,$(MAKECMDGOALS))/migrations/__init__.py \
@@ -96,10 +95,9 @@ app:
 	core/$(filter-out $@,$(MAKECMDGOALS))/admin.py \
 	core/$(filter-out $@,$(MAKECMDGOALS))/enums.py \
 	core/$(filter-out $@,$(MAKECMDGOALS))/models.py \
-	controllers/$(filter-out $@,$(MAKECMDGOALS))/__init__.py \
-	controllers/$(filter-out $@,$(MAKECMDGOALS))/urls.py \
-	controllers/$(filter-out $@,$(MAKECMDGOALS))/views.py \
-	controllers/$(filter-out $@,$(MAKECMDGOALS))/serializers.py
+	core/$(filter-out $@,$(MAKECMDGOALS))/urls.py \
+	core/$(filter-out $@,$(MAKECMDGOALS))/views.py \
+	core/$(filter-out $@,$(MAKECMDGOALS))/serializers.py
 	echo "from django.apps import AppConfig as DjangoAppConfig\nfrom django.conf import settings\n\n\nclass AppConfig(DjangoAppConfig):\n\tdefault_auto_field = settings.DEFAULT_AUTO_FIELD\n\tname = \"core.$(filter-out $@,$(MAKECMDGOALS))\"" > core/$(filter-out $@,$(MAKECMDGOALS))/apps.py
 
 prune:

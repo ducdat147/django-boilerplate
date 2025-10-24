@@ -12,7 +12,7 @@ from core.user.views import (
     AuthVerifyOTPView,
 )
 
-app_name = __name__
+app_name = "auth"
 
 urlpatterns = [
     path("token/", token_obtain_pair, name="token_obtain_pair"),

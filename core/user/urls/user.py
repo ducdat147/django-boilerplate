@@ -8,7 +8,7 @@ from core.user.views import (
     UserVerifyOTPView,
 )
 
-app_name = __name__
+app_name = "user"
 
 urlpatterns = [
     path("my-profile/", UserMyProfileView.as_view(), name="my_profile"),
