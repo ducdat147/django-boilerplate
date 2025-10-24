@@ -6,9 +6,9 @@ from rest_framework.response import Response
 from controllers.user.serializers import (
     MyProfileSerializer,
     ResetPasswordSerializer,
-    SendOTPSerializer,
+    UserSendOTPSerializer,
     UserSettingSerializer,
-    VerifyOTPSerializer,
+    UserVerifyOTPSerializer,
 )
 
 
@@ -32,7 +32,7 @@ class ResetPasswordView(GenericAPIView):
 
 
 class SendOTPView(GenericAPIView):
-    serializer_class = SendOTPSerializer
+    serializer_class = UserSendOTPSerializer
 
     @extend_schema(responses={status.HTTP_204_NO_CONTENT: None})
     def post(self, request, *args, **kwargs):
@@ -42,7 +42,7 @@ class SendOTPView(GenericAPIView):
 
 
 class VerifyOTPView(GenericAPIView):
-    serializer_class = VerifyOTPSerializer
+    serializer_class = UserVerifyOTPSerializer
 
     @extend_schema(responses={status.HTTP_204_NO_CONTENT: None})
     def post(self, request, *args, **kwargs):

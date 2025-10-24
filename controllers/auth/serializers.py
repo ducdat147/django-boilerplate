@@ -1,8 +1,7 @@
 import re
 
 from constance import config
-from django.contrib.auth import password_validation
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.password_validation import validate_password
 from django.core.cache import cache
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import transaction
@@ -18,12 +17,18 @@ from rest_framework.exceptions import (
 )
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from controllers.auth.utils import (
-    send_verification_email,
+from core.user.enums import (
+    OtpTypeAuthEnum,
+    OTPVerificationStatusEnum,
+    TargetOtpEnum,
 )
-from core.user.enums import OtpTypeEnum, OTPVerificationStatusEnum, TargetOtpEnum
 from core.user.models import OtpCode, User
-from utils import generate_otp, generate_token
+from utils import (
+    generate_otp,
+    generate_token,
+    send_verification_email,
+    send_verification_phone,
+)
 
 PREFIX_PASSWORD_RESET = "password_reset_{token}_token"
 
@@ -32,18 +37,15 @@ class OTPBaseSerializer(serializers.Serializer):
     email = serializers.EmailField(write_only=True, required=False)
     phone = PhoneNumberField(write_only=True, required=False)
     verification_type = serializers.ChoiceField(
-        choices=OtpTypeEnum.choices,
+        choices=OtpTypeAuthEnum.choices,
         write_only=True,
         required=False,
-        default=OtpTypeEnum.VERIFY_OTP,
+        default=OtpTypeAuthEnum.VERIFY_OTP,
     )
     otp_code = ""
 
     def validate_to(self, attrs):
         verification_type = attrs.get("verification_type")
-        if verification_type not in [OtpTypeEnum.VERIFY_OTP, OtpTypeEnum.PASSWORD]:
-            raise ValidationError({"verification_type": "Invalid verification type."})
-
         if attrs.get("email"):
             target = TargetOtpEnum.EMAIL
             to = attrs.get("email")
@@ -66,13 +68,13 @@ class OTPBaseSerializer(serializers.Serializer):
         if target == TargetOtpEnum.EMAIL:
             send_verification_email(to, self.otp_code, full_name)
         elif target == TargetOtpEnum.PHONE:
-            pass
+            send_verification_phone(to, self.otp_code, full_name)
 
     def create_otp(
         self,
         to: str,
         target: TargetOtpEnum,
-        verification_type: OtpTypeEnum,
+        verification_type: OtpTypeAuthEnum,
     ):
         self.otp_code = generate_otp()
         OtpCode.objects.create(
@@ -86,7 +88,7 @@ class OTPBaseSerializer(serializers.Serializer):
     def verify_otp(
         to: str,
         target: TargetOtpEnum,
-        verification_type: OtpTypeEnum,
+        verification_type: OtpTypeAuthEnum,
         code: str,
     ) -> OTPVerificationStatusEnum:
         otp_queryset = OtpCode.objects.filter(
@@ -108,7 +110,7 @@ class OTPBaseSerializer(serializers.Serializer):
         return status_otp
 
 
-class SendOTPSerializer(OTPBaseSerializer):
+class AuthSendOTPSerializer(OTPBaseSerializer):
     def validate(self, attrs):
         to, target, verification_type = self.validate_to(attrs)
 
@@ -117,7 +119,7 @@ class SendOTPSerializer(OTPBaseSerializer):
         return attrs
 
 
-class VerifyOTPSerializer(OTPBaseSerializer):
+class AuthVerifyOTPSerializer(OTPBaseSerializer):
     code = serializers.CharField(write_only=True, required=True)
     token = serializers.CharField(read_only=True, default=None)
 
@@ -129,7 +131,7 @@ class VerifyOTPSerializer(OTPBaseSerializer):
 
         if (
             status_otp == OTPVerificationStatusEnum.VERIFIED
-            and verification_type == OtpTypeEnum.PASSWORD
+            and verification_type == OtpTypeAuthEnum.PASSWORD
         ):
             try:
                 user = User.objects.get(**{f"{target}": to})
@@ -164,7 +166,7 @@ class ResetPasswordSerializer(serializers.Serializer):
             user = User.objects.get(id=user_id)
             if not user.is_active:
                 raise PermissionDenied(_("User account is inactive"))
-            password_validation.validate_password(
+            validate_password(
                 password=attrs.get("new_password"),
                 user=user,
             )
@@ -229,7 +231,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         if not is_created:
             raise ParseError(_("Username is already taken."))
         try:
-            password_validation.validate_password(password=password, user=instance)
+            validate_password(password=password, user=instance)
         except DjangoValidationError as e:
             raise ValidationError({"password": e.messages})
         instance.set_password(password)
