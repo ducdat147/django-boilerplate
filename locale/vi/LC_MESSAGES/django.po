@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-20 15:46+0700\n"
+"POT-Creation-Date: 2025-10-24 11:10+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -240,6 +240,9 @@ msgstr ""
 msgid "New password must be different from old password."
 msgstr ""
 
+msgid "Two-factor authentication is not enabled."
+msgstr ""
+
 msgid "The server could not understand the request due to invalid syntax. Please do not repeat this request without modification."
 msgstr ""
 
@@ -306,10 +309,10 @@ msgstr ""
 msgid "Phone Verification"
 msgstr ""
 
-msgid "Password Reset"
+msgid "Two Factor Authentication"
 msgstr ""
 
-msgid "Two Factor Authentication"
+msgid "Password Reset"
 msgstr ""
 
 msgid "Verify OTP"
