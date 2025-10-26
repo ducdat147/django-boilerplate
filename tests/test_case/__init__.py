@@ -1,11 +1,19 @@
-from .auth import AUTH_TEST_CASE
-from .data_init import DATA_INIT
-from .user import USER_TEST_CASE
+import json
 
-ALL_TEST_CASE = {
-    **AUTH_TEST_CASE,
-    **USER_TEST_CASE,
-}
+JSON_FILE = [
+    "auth.json",
+    "user.json",
+]
+
+ALL_TEST_CASE = {}
+DATA_INIT = None
+
+for item in JSON_FILE:
+    with open(f"tests/test_case/{item}", "r") as f:
+        ALL_TEST_CASE.update(json.load(f))
+
+with open("tests/test_case/data_init.json", "r") as f:
+    DATA_INIT = json.load(f)
 
 __all__ = [
     "ALL_TEST_CASE",

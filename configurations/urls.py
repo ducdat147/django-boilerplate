@@ -35,7 +35,7 @@ def index(request):
 
 urlpatterns = [
     path("", index),
-    path("api/", include("controllers.urls")),
+    path("api/", include("core.urls")),
     path("i18n/", include("django.conf.urls.i18n")),
 ]
 

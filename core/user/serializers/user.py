@@ -71,7 +71,7 @@ class MyProfileSerializer(serializers.ModelSerializer):
         return instance
 
 
-class ResetPasswordSerializer(serializers.Serializer):
+class UserResetPasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True)
     new_password = serializers.CharField(write_only=True)
 

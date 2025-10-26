@@ -3,24 +3,24 @@ from rest_framework import status
 from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.response import Response
 
-from controllers.auth.serializers import (
+from core.user.serializers import (
+    AuthRegisterUserSerializer,
+    AuthResetPasswordSerializer,
     AuthSendOTPSerializer,
     AuthVerifyOTPSerializer,
-    RegisterUserSerializer,
-    ResetPasswordSerializer,
 )
 
 
-class RegisterUserView(CreateAPIView):
+class AuthRegisterUserView(CreateAPIView):
     authentication_classes = ()
     permission_classes = ()
-    serializer_class = RegisterUserSerializer
+    serializer_class = AuthRegisterUserSerializer
 
 
-class ResetPasswordView(GenericAPIView):
+class AuthResetPasswordView(GenericAPIView):
     authentication_classes = ()
     permission_classes = ()
-    serializer_class = ResetPasswordSerializer
+    serializer_class = AuthResetPasswordSerializer
 
     @extend_schema(responses={status.HTTP_204_NO_CONTENT: None})
     def post(self, request, *args, **kwargs):
@@ -29,7 +29,7 @@ class ResetPasswordView(GenericAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class SendOTPView(GenericAPIView):
+class AuthSendOTPView(GenericAPIView):
     authentication_classes = ()
     permission_classes = ()
     serializer_class = AuthSendOTPSerializer
@@ -41,7 +41,7 @@ class SendOTPView(GenericAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class VerifyOTPView(GenericAPIView):
+class AuthVerifyOTPView(GenericAPIView):
     authentication_classes = ()
     permission_classes = ()
     serializer_class = AuthVerifyOTPSerializer

@@ -2,11 +2,13 @@ from tests.test_setup import TestSetup
 
 
 class UserTests(TestSetup):
+    app_name = "user"
+
     def test_profile(self):
-        self.run_tests(func_name="test_user.test_profile")
+        self.run_tests(func_name=self.f_name)
 
     def test_update_profile(self):
-        self.run_tests(func_name="test_user.test_update_profile")
+        self.run_tests(func_name=self.f_name)
 
     def test_reset_password(self):
-        self.run_tests(func_name="test_user.test_reset_password")
+        self.run_tests(func_name=self.f_name)

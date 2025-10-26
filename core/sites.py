@@ -25,7 +25,7 @@ from rest_framework.exceptions import NotFound, ParseError, PermissionDenied
 from unfold.sites import UnfoldAdminSite
 
 from common.exceptions import DefaultException, exception_handler
-from controllers.admin.forms import (
+from core.user.forms import (
     AdminAuthenticationForm,
     PasswordResetForm,
     SetPasswordForm,

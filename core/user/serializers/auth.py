@@ -154,7 +154,7 @@ class AuthVerifyOTPSerializer(OTPBaseSerializer):
         return attrs
 
 
-class ResetPasswordSerializer(serializers.Serializer):
+class AuthResetPasswordSerializer(serializers.Serializer):
     token = serializers.CharField(write_only=True, required=False)
     new_password = serializers.CharField(write_only=True)
 
@@ -182,7 +182,7 @@ class ResetPasswordSerializer(serializers.Serializer):
         return attrs
 
 
-class RegisterUserSerializer(serializers.ModelSerializer):
+class AuthRegisterUserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(write_only=True)
     email = serializers.EmailField(write_only=True, required=False)
     phone = PhoneNumberField(write_only=True, required=False)

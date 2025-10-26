@@ -1,6 +1,0 @@
-DATA_INIT = {
-    "username": "newusertest",
-    "phone": "+84369000000",
-    "email": "test@yopmail.com",
-    "password": "1StrongPassword!",
-}
