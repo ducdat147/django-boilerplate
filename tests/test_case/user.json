@@ -1,0 +1,116 @@
+{
+  "user.test_profile": {
+    "path": null,
+    "path_name": "user:my_profile",
+    "is_authenticated": true,
+    "is_detail": true,
+    "method": "get",
+    "test_case": [
+      {
+        "status_code": 200,
+        "format": "json",
+        "request_body": {},
+        "fields": [
+          "id",
+          "username",
+          "email",
+          "is_email_verified",
+          "phone",
+          "is_phone_verified",
+          "first_name",
+          "last_name",
+          "full_name",
+          "date_of_birth",
+          "gender",
+          "avatar",
+          "address"
+        ],
+        "response_body": null
+      }
+    ]
+  },
+  "user.test_update_profile": {
+    "path": null,
+    "path_name": "user:my_profile",
+    "is_authenticated": true,
+    "is_detail": true,
+    "method": "put",
+    "test_case": [
+      {
+        "status_code": 200,
+        "format": "json",
+        "request_body": {
+          "email": "email@mail.com",
+          "phone": "+84369000000",
+          "first_name": "First Name",
+          "last_name": "Last Name",
+          "date_of_birth": "2000-01-01",
+          "gender": "male",
+          "avatar": "",
+          "address": "address"
+        },
+        "fields": [
+          "id",
+          "username",
+          "email",
+          "is_email_verified",
+          "phone",
+          "is_phone_verified",
+          "first_name",
+          "last_name",
+          "full_name",
+          "date_of_birth",
+          "gender",
+          "avatar",
+          "address"
+        ],
+        "response_body": {
+          "username": "newusertest",
+          "email": "email@mail.com",
+          "is_email_verified": false,
+          "phone": "+84369000000",
+          "is_phone_verified": false,
+          "first_name": "First Name",
+          "last_name": "Last Name",
+          "full_name": "Last Name First Name",
+          "date_of_birth": "2000-01-01",
+          "gender": "male",
+          "address": "address"
+        }
+      }
+    ]
+  },
+  "user.test_reset_password": {
+    "path": null,
+    "path_name": "user:reset_password",
+    "is_authenticated": true,
+    "is_detail": true,
+    "method": "post",
+    "test_case": [
+      {
+        "status_code": 204,
+        "format": "json",
+        "request_body": {
+          "old_password": "1StrongPassword!",
+          "new_password": "1StrongPassword!1"
+        }
+      },
+      {
+        "status_code": 400,
+        "format": "json",
+        "request_body": {
+          "old_password": "1StrongPassword!",
+          "new_password": "1StrongPassword!1"
+        }
+      },
+      {
+        "status_code": 400,
+        "format": "json",
+        "request_body": {
+          "old_password": "1StrongPassword!1",
+          "new_password": "1"
+        }
+      }
+    ]
+  }
+}

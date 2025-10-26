@@ -1,45 +1,38 @@
 from rest_framework import status
-from rest_framework_simplejwt.tokens import RefreshToken
 
 from tests.test_setup import TestSetup
 
 
 class AuthTests(TestSetup):
+    app_name = "auth"
+
     def test_register_user(self):
-        self.run_tests(func_name="test_auth.test_register_user")
-        self.run_tests(func_name="test_auth.test_register_user__login")
+        self.run_tests(func_name=self.f_name)
+        self.run_test(
+            path=None,
+            path_name="auth:token_obtain_pair",
+            method="post",
+            status_code=status.HTTP_200_OK,
+            format="json",
+            fields=["access", "refresh"],
+            request_body={"username": "newusertest2", "password": "1StrongPassword!"},
+            is_authenticated=False,
+            is_detail=True,
+        )
 
     def test_login(self):
-        self.run_tests(func_name="test_auth.test_login")
+        self.run_tests(func_name=self.f_name)
 
     def test_refresh_token(self):
-        refresh = RefreshToken.for_user(self.user)
-        self.run_tests(
-            special_case=True,
+        self.run_test(
+            path=None,
             path_name="auth:token_refresh",
             method="post",
             status_code=status.HTTP_200_OK,
             format="json",
             fields=["access", "refresh"],
-            request_body={"refresh": str(refresh)},
+            request_body={"refresh": str(self.refresh_token)},
+            is_authenticated=False,
+            is_detail=True,
         )
-        self.run_tests("test_auth.test_refresh_token__invalid")
-
-    def test_logout(self):
-        refresh = RefreshToken.for_user(self.user)
-        self.run_tests(
-            special_case=True,
-            path_name="auth:token_blacklist",
-            method="post",
-            status_code=status.HTTP_200_OK,
-            format="json",
-            request_body={"refresh": str(refresh)},
-        )
-        self.run_tests(
-            special_case=True,
-            path_name="auth:token_blacklist",
-            method="post",
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            format="json",
-            request_body={"refresh": str(refresh)},
-        )
+        self.run_tests(func_name=self.f_name)
