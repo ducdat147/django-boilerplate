@@ -28,7 +28,7 @@ class TestSetup(APITestCase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for key, value in DATA_INIT.items():
+        for key, value in DATA_INIT["user"].items():
             setattr(self, key, value)
 
     @property

@@ -203,6 +203,24 @@ def get_element_classes() -> dict:
     }
 
 
+def account_links(request: HttpRequest) -> List[Dict[str, str]]:
+    links = [
+        {
+            "title": _("Constance"),
+            "link": reverse_lazy("admin:constance_config_changelist"),
+        }
+    ]
+
+    if request.user.is_authenticated and request.user.has_usable_password():
+        links.append(
+            {
+                "title": _("Change password"),
+                "link": reverse_lazy("admin:password_change"),
+            }
+        )
+    return links
+
+
 class AdminSite(UnfoldAdminSite):
     password_reset_form_template = "admin/password_reset/form.html"
     password_reset_email_template = "admin/password_reset/email.html"
@@ -222,13 +240,7 @@ class AdminSite(UnfoldAdminSite):
         update_context_callback = callback_constance()
         update_context_element_classes = get_element_classes()
 
-        if request.user.is_authenticated and request.user.has_usable_password():
-            context["account_links"].append(
-                {
-                    "title": _("Change password"),
-                    "link": reverse_lazy("admin:password_change"),
-                }
-            )
+        context["account_links"] = account_links(request)
 
         if bool(update_context):
             context = {**context, **update_context}
