@@ -27,13 +27,44 @@ shell:
 seed_data:
 	uv run python manage.py seed_data
 
+# Testing commands
 test:
+	uv run pytest
+
+test.unit:
+	uv run pytest -m unit
+
+test.integration:
+	uv run pytest -m integration
+
+test.fast:
+	uv run pytest -m "not slow"
+
+test.coverage:
+	uv run pytest --cov --cov-report=html --cov-report=term
+
+test.watch:
+	uv run pytest-watch
+
+test.parallel:
+	uv run pytest -n auto
+
+test.verbose:
+	uv run pytest -vv
+
+test.failed:
+	uv run pytest --lf
+
+test.file:
+	uv run pytest $(filter-out $@,$(MAKECMDGOALS))
+
+test.django:
 	uv run coverage run manage.py test
 
-test.report:
+test.django.report:
 	uv run coverage report -m
 
-test.html:
+test.django.html:
 	uv run coverage html
 
 run:
