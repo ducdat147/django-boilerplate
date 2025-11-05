@@ -129,7 +129,7 @@ app:
 	core/$(filter-out $@,$(MAKECMDGOALS))/urls.py \
 	core/$(filter-out $@,$(MAKECMDGOALS))/views.py \
 	core/$(filter-out $@,$(MAKECMDGOALS))/serializers.py
-	echo "from django.apps import AppConfig as DjangoAppConfig\nfrom django.conf import settings\n\n\nclass AppConfig(DjangoAppConfig):\n\tdefault_auto_field = settings.DEFAULT_AUTO_FIELD\n\tname = \"core.$(filter-out $@,$(MAKECMDGOALS))\"" > core/$(filter-out $@,$(MAKECMDGOALS))/apps.py
+	echo "from django.apps import AppConfig as DjangoAppConfig\nfrom django.conf import settings\n\n\nclass AppConfig(DjangoAppConfig):\n    default_auto_field = settings.DEFAULT_AUTO_FIELD\n    name = \"core.$(filter-out $@,$(MAKECMDGOALS))\"" > core/$(filter-out $@,$(MAKECMDGOALS))/apps.py
 
 prune:
 	docker system prune -a --volumes -f

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-24 11:10+0700\n"
+"POT-Creation-Date: 2025-11-04 15:51+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,108 +141,6 @@ msgstr ""
 msgid "Solar events"
 msgstr ""
 
-msgid "Enter your username"
-msgstr ""
-
-msgid "Enter your password"
-msgstr ""
-
-msgid "Email"
-msgstr ""
-
-msgid "Enter your email"
-msgstr ""
-
-msgid "Password"
-msgstr ""
-
-msgid "Enter your new password"
-msgstr ""
-
-msgid "Password confirmation"
-msgstr ""
-
-msgid "Enter the same password as before, for verification."
-msgstr ""
-
-msgid "Confirm your new password"
-msgstr ""
-
-msgid "Analytics"
-msgstr ""
-
-msgid "Settings"
-msgstr ""
-
-msgid "All"
-msgstr ""
-
-msgid "New"
-msgstr ""
-
-msgid "Last week revenue"
-msgstr ""
-
-msgid "Last week expenses"
-msgstr ""
-
-msgid "Day"
-msgstr ""
-
-msgid "Income"
-msgstr ""
-
-msgid "Expenses"
-msgstr ""
-
-msgid "No OTP code found"
-msgstr ""
-
-msgid "Invalid OTP code"
-msgstr ""
-
-msgid "OTP code has already been used"
-msgstr ""
-
-msgid "OTP code has expired"
-msgstr ""
-
-msgid "User account is inactive"
-msgstr ""
-
-msgid "User is not verified"
-msgstr ""
-
-msgid "User not found."
-msgstr ""
-
-msgid "Invalid or expired token"
-msgstr ""
-
-msgid "User not found"
-msgstr ""
-
-msgid "Username may contain only letters, digits and @/./+/-/_ characters."
-msgstr ""
-
-msgid "Username must be between 3 and 150 characters."
-msgstr ""
-
-msgid "Either email or phone must be provided"
-msgstr ""
-
-msgid "Email or phone number is already registered."
-msgstr ""
-
-msgid "Username is already taken."
-msgstr ""
-
-msgid "New password must be different from old password."
-msgstr ""
-
-msgid "Two-factor authentication is not enabled."
-msgstr ""
-
 msgid "The server could not understand the request due to invalid syntax. Please do not repeat this request without modification."
 msgstr ""
 
@@ -300,6 +198,9 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
+msgid "Email"
+msgstr ""
+
 msgid "Phone"
 msgstr ""
 
@@ -328,6 +229,30 @@ msgid "Invalid"
 msgstr ""
 
 msgid "Used"
+msgstr ""
+
+msgid "Enter your username"
+msgstr ""
+
+msgid "Enter your password"
+msgstr ""
+
+msgid "Enter your email"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Enter your new password"
+msgstr ""
+
+msgid "Password confirmation"
+msgstr ""
+
+msgid "Enter the same password as before, for verification."
+msgstr ""
+
+msgid "Confirm your new password"
 msgstr ""
 
 msgid "email address"
@@ -388,6 +313,81 @@ msgid "Expires At"
 msgstr ""
 
 msgid "Is Used"
+msgstr ""
+
+msgid "No OTP code found"
+msgstr ""
+
+msgid "Invalid OTP code"
+msgstr ""
+
+msgid "OTP code has already been used"
+msgstr ""
+
+msgid "OTP code has expired"
+msgstr ""
+
+msgid "User account is inactive"
+msgstr ""
+
+msgid "User is not verified"
+msgstr ""
+
+msgid "User not found."
+msgstr ""
+
+msgid "Invalid or expired token"
+msgstr ""
+
+msgid "User not found"
+msgstr ""
+
+msgid "Username may contain only letters, digits and @/./+/-/_ characters."
+msgstr ""
+
+msgid "Username must be between 3 and 150 characters."
+msgstr ""
+
+msgid "Either email or phone must be provided"
+msgstr ""
+
+msgid "Email or phone number is already registered."
+msgstr ""
+
+msgid "Username is already taken."
+msgstr ""
+
+msgid "New password must be different from old password."
+msgstr ""
+
+msgid "Two-factor authentication is not enabled."
+msgstr ""
+
+msgid "Analytics"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "New"
+msgstr ""
+
+msgid "Last week revenue"
+msgstr ""
+
+msgid "Last week expenses"
+msgstr ""
+
+msgid "Day"
+msgstr ""
+
+msgid "Income"
+msgstr ""
+
+msgid "Expenses"
 msgstr ""
 
 msgid "Django site admin"
