@@ -84,6 +84,7 @@ THIRD_PARTY_APPS = [
     "guardian",
     "import_export",
     "crispy_forms",
+    "rosetta",
 ]
 
 LOCAL_APPS = [

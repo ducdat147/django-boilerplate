@@ -2,6 +2,8 @@ from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
+from configurations.settings.base import DEBUG
+
 # Settings for the unfold package
 # https://unfoldadmin.com/docs/configuration/settings/
 # Icon: https://fonts.google.com/icons
@@ -48,6 +50,24 @@ UNFOLD = {
     },
 }
 
+SYSTEM_SETTING_ITEMS = [
+    {
+        "title": _("Constance"),
+        "icon": "settings",
+        "link": reverse_lazy("admin:constance_config_changelist"),
+        "permission": lambda request: request.user.is_superuser,
+    },
+]
+if DEBUG:
+    SYSTEM_SETTING_ITEMS.append(
+        {
+            "title": _("Translations"),
+            "icon": "translate",
+            "link": reverse_lazy("rosetta-old-home-redirect"),
+            "permission": lambda request: request.user.is_superuser,
+        }
+    )
+
 UNFOLD["SIDEBAR"]["navigation"] = [
     {
         "title": _("Navigation"),
@@ -91,14 +111,7 @@ UNFOLD["SIDEBAR"]["navigation"] = [
         "title": _("System Settings"),
         "separator": True,
         "collapsible": True,
-        "items": [
-            {
-                "title": _("Constance"),
-                "icon": "settings",
-                "link": reverse_lazy("admin:constance_config_changelist"),
-                "permission": lambda request: request.user.is_superuser,
-            },
-        ],
+        "items": SYSTEM_SETTING_ITEMS,
     },
     {
         "title": _("Celery Tasks"),

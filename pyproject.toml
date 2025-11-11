@@ -28,6 +28,7 @@ dependencies = [
     "flower>=2.0.1",
     "json-log-formatter>=1.1.1",
     "markdown>=3.9",
+    "markupsafe>=3.0.3",
     "oauthlib>=3.3.1",
     "opentelemetry-exporter-otlp>=1.37.0",
     "opentelemetry-instrumentation-asgi>=0.58b0",
@@ -45,6 +46,7 @@ dependencies = [
     "pyupgrade>=3.20.0",
     "qrcode>=8.2",
     "redis>=6.4.0",
+    "rosetta>=0.3",
     "uwsgi>=2.0.30",
     "whitenoise>=6.11.0",
 ]
