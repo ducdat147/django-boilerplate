@@ -61,6 +61,7 @@ UNFOLD_APPS = [
 ]
 
 DJANGO_APPS = [
+    "modeltranslation",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -70,7 +71,6 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    "modeltranslation",
     "corsheaders",
     "django_celery_beat",
     "drf_spectacular",

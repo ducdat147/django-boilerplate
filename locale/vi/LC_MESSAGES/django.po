@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-04 15:51+0700\n"
+"POT-Creation-Date: 2025-11-17 08:59+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -99,6 +99,12 @@ msgstr ""
 msgid "Boxed layout"
 msgstr ""
 
+msgid "Constance"
+msgstr ""
+
+msgid "Translations"
+msgstr ""
+
 msgid "Navigation"
 msgstr ""
 
@@ -118,9 +124,6 @@ msgid "Groups"
 msgstr ""
 
 msgid "System Settings"
-msgstr ""
-
-msgid "Constance"
 msgstr ""
 
 msgid "Celery Tasks"
