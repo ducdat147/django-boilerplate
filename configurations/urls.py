@@ -44,7 +44,9 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += i18n_patterns(path("admin/", admin_site.urls))
 
 if settings.DEBUG:
-    urlpatterns += i18n_patterns(path("rosetta/", include("rosetta.urls")))
+    urlpatterns += i18n_patterns(
+        path("rosetta/", include("core.third_party.urls.rosetta"))
+    )
     urlpatterns += [
         path("schema/", SpectacularAPIView.as_view(), name="schema"),
         path(

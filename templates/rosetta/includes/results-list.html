@@ -1,0 +1,105 @@
+{% load admin_list rosetta static i18n %}
+
+<tbody>
+  <tr class="border-base-200 dark:border-base-800 *:font-semibold *:px-3 *:py-2 *:text-left *:text-font-important-light dark:*:text-font-important-dark">
+    <th class="bg-base-50 border-t border-base-200 font-semibold px-3 py-2 text-left text-font-important-light dark:text-font-important-dark dark:border-base-800 dark:bg-white/[.04] border-t-0">
+      {% trans 'Original' %}
+    </th>
+    {% if main_language %}
+      <th class="bg-base-50 border-t border-base-200 font-semibold px-3 py-2 text-left text-font-important-light dark:text-font-important-dark dark:border-base-800 dark:bg-white/[.04] border-t-0">{{ main_language }}</th>
+    {% endif %}
+    <th class="bg-base-50 border-t border-base-200 font-semibold px-3 py-2 text-left text-font-important-light dark:text-font-important-dark dark:border-base-800 dark:bg-white/[.04] border-t-0">{{ rosetta_i18n_lang_name }}</th>
+    <th class="bg-base-50 border-t border-base-200 font-semibold px-3 py-2 text-left text-font-important-light dark:text-font-important-dark dark:border-base-800 dark:bg-white/[.04] border-t-0">
+      {% trans 'Fuzzy' %}
+    </th>
+    {% if rosetta_settings.SHOW_OCCURRENCES %}
+      <th class="bg-base-50 border-t border-base-200 font-semibold px-3 py-2 text-left text-font-important-light dark:text-font-important-dark dark:border-base-800 dark:bg-white/[.04] border-t-0">
+        {% trans 'Occurrences(s)' %}
+      </th>
+    {% endif %}
+  </tr>
+
+  {% for message in rosetta_messages %}
+    <tr class="border-t border-base-200 h-[55px] *:px-3 *:py-2 *:align-middle dark:border-base-800">
+      {% if message.msgid_plural %}
+        <th class="content-start text-wrap max-w-sm font-normal text-left pb-5">
+          <div class="plural-container">
+            <span class="part">{{ message.msgid|format_message|linebreaksbr }}</span>
+            <span class="part">{{ message.msgid_plural|format_message|linebreaksbr }}</span>
+          </div>
+        </th>
+        <td>
+          {% for k, msgstr in message.msgstr_plural.items %}
+            <label for="m_{{ message.md5hash }}_{{ k }}">{{ k }}:</label>
+            <span class="hidden">{% trans 'Unmatched variables' %}</span>
+
+            <textarea rows="4" cols="40" id="m_{{ message.md5hash }}_{{ k }}" name="m_{{ message.md5hash }}_{{ k }}" tabindex="{% increment tab_idx %}" class="vLargeTextField border border-base-200 bg-white font-medium min-w-20 placeholder-base-400 rounded-default shadow-xs text-font-default-light text-sm focus:outline-2 focus:-outline-offset-2 focus:outline-primary-600 group-[.errors]:border-red-600 focus:group-[.errors]:outline-red-600 dark:bg-base-900 dark:border-base-700 dark:text-font-default-dark dark:group-[.errors]:border-red-500 dark:focus:group-[.errors]:outline-red-500 dark:scheme-dark group-[.primary]:border-transparent disabled:!bg-base-50 dark:disabled:!bg-base-800 px-3 py-2 w-full max-w-4xl appearance-none expandable transition transition-height duration-75 ease-in-out">{{ msgstr }}</textarea>
+            {% if rosetta_settings.ENABLE_TRANSLATION_SUGGESTIONS %}
+              <a href="#">{% trans 'suggest' %}</a>
+            {% endif %}
+          {% endfor %}
+        </td>
+      {% else %}
+        <td class="content-start text-wrap max-w-sm font-normal text-left pb-5">
+          {% if rosetta_settings.ENABLE_REFLANG %}
+            <span class="message">{{ message.ref_txt|format_message|linebreaksbr }}</span>
+          {% else %}
+            <span class="message">{{ message.msgid|format_message|linebreaksbr }}</span>
+          {% endif %}
+        </td>
+        {% if main_language %}
+          <td class="original">{{ message.main_lang|format_message|linebreaksbr }}</td>
+        {% endif %}
+        <td>
+          <span class="hidden">{% trans 'Unmatched variables' %}</span>
+          <textarea rows="4" cols="40" name="m_{{ message.md5hash }}" tabindex="{% increment tab_idx %}" class="vLargeTextField border border-base-200 bg-white font-medium min-w-20 placeholder-base-400 rounded-default shadow-xs text-font-default-light text-sm focus:outline-2 focus:-outline-offset-2 focus:outline-primary-600 group-[.errors]:border-red-600 focus:group-[.errors]:outline-red-600 dark:bg-base-900 dark:border-base-700 dark:text-font-default-dark dark:group-[.errors]:border-red-500 dark:focus:group-[.errors]:outline-red-500 dark:scheme-dark group-[.primary]:border-transparent disabled:!bg-base-50 dark:disabled:!bg-base-800 px-3 py-2 w-full max-w-4xl appearance-none expandable transition transition-height duration-75 ease-in-out">{{ message.msgstr }}</textarea>
+          {% if rosetta_settings.ENABLE_TRANSLATION_SUGGESTIONS %}
+            <a href="#">{% trans 'suggest' %}</a>
+          {% endif %}
+        </td>
+      {% endif %}
+      <td class="content-start !py-5">
+        {% if message|is_fuzzy %}
+          <input type="checkbox" name="f_{{ message.md5hash }}" value="1" checked="checked" class="appearance-none bg-base-300 block cursor-pointer h-5 relative rounded-full transition-colors w-8 min-w-8 disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none after:absolute after:bg-white after:content-[''] after:bg-red-300 after:h-3 after:rounded-full after:shadow-xs after:transition-all after:left-1 after:top-1 after:w-3 checked:bg-green-500 checked:after:left-4 dark:bg-base-600 dark:checked:bg-green-700" />
+        {% else %}
+          <input type="checkbox" name="f_{{ message.md5hash }}" value="1" class="appearance-none bg-base-300 block cursor-pointer h-5 relative rounded-full transition-colors w-8 min-w-8 disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none after:absolute after:bg-white after:content-[''] after:bg-red-300 after:h-3 after:rounded-full after:shadow-xs after:transition-all after:left-1 after:top-1 after:w-3 checked:bg-green-500 checked:after:left-4 dark:bg-base-600 dark:checked:bg-green-700" />
+        {% endif %}
+      </td>
+      {% if rosetta_settings.SHOW_OCCURRENCES %}
+        <td class="flex flex-col gap-1">
+          {% for fn, lineno in message.occurrences %}
+            {% if forloop.counter|gt:'3' %}
+              <code class="hide">
+                {{ fn }}{% if lineno %}
+                  :{{ lineno }}
+                {% endif %}
+              </code>
+            {% else %}
+              <code>
+                {{ fn }}{% if lineno %}
+                  :{{ lineno }}
+                {% endif %}
+              </code>
+            {% endif %}
+          {% endfor %}
+          {% if message.occurrences|length|gt:'3' %}
+            <a href="#" data-prev-text="{% trans 'Show less' %}">&hellip; ({% blocktrans count message.occurrences|length|minus:'3' as more_count %}{{ more_count }} more{% plural %}{{ more_count }} more{% endblocktrans %})</a>
+          {% endif %}
+          {% if message.msgctxt or message.comment %}
+            <span class="context">
+              {% trans 'Context hint' %}:{% if message.msgctxt %}
+                {{ message.msgctxt|safe }}
+              {% endif %}
+              {% if message.msgctxt and message.comment %}
+                <br />
+              {% endif %}
+              {% if message.comment %}
+                {{ message.comment|safe }}
+              {% endif %}
+            </span>
+          {% endif %}
+        </td>
+      {% endif %}
+    </tr>
+  {% endfor %}
+</tbody>

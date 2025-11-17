@@ -1,0 +1,55 @@
+{% extends 'admin/base.html' %}
+
+{% load i18n static unfold %}
+
+{% block breadcrumbs %}
+
+{% endblock %}
+
+{% block title %}
+  {{ title }} | {{ site_title|default:_('Django site admin') }}
+{% endblock %}
+
+{% block extrahead %}
+  {{ block.super }}
+{% endblock %}
+
+{% block branding %}
+  {% include 'unfold/helpers/site_branding.html' %}
+{% endblock %}
+
+{% block content %}
+  {% include 'unfold/helpers/messages.html' %}
+
+  {% component 'unfold/components/container.html' %}
+  <div class="flex flex-col gap-8 mb-12">
+    <div class="flex flex-col gap-4 sm:flex-row">
+      {% component 'unfold/components/navigation.html' with items=navigation %}
+      {% endcomponent %}
+
+      {% component 'unfold/components/navigation.html' with class='sm:ml-auto' items=filters %}
+      {% endcomponent %}
+    </div>
+
+    <div class="flex flex-col gap-6">
+      {% if has_pos %}
+        {% for data in data_languages %}
+          <div class="flex flex-col gap-2">
+            <div class="text-lg">{{ data.title }}</div>
+            {% component 'unfold/components/table.html' with table=data.data %}
+            {% endcomponent %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <h1>{% trans 'Nothing to translate!' %}</h1>
+        <p>
+          {% trans "You haven't specified any languages in your settings file, or haven't yet generated a batch of translation catalogs." %}
+        </p>
+        <p>
+          {% blocktrans with 'http://docs.djangoproject.com/en/dev/topics/i18n/#topics-i18n' as i18n_doc_link %}Please refer to <a href="{{ i18n_doc_link }}">Django's I18N documentation</a> for a guide on how to set up internationalization for your project.{% endblocktrans %}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+  {% endcomponent %}
+{% endblock %}

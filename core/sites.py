@@ -16,7 +16,7 @@ from django.http import (
     HttpResponseRedirect,
 )
 from django.shortcuts import render
-from django.urls import URLPattern, path, reverse, reverse_lazy
+from django.urls import URLPattern, include, path, reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
@@ -221,6 +221,23 @@ def account_links(request: HttpRequest) -> List[Dict[str, str]]:
     return links
 
 
+def each_context(request: HttpRequest) -> dict[str, Any]:
+    context = UnfoldAdminSite().each_context(request)
+    update_context = convert_config(settings.CONSTANCE_CONFIG_FOR_UNFOLD)
+    update_context_callback = callback_constance()
+    update_context_element_classes = get_element_classes()
+
+    context["account_links"] = account_links(request)
+
+    if bool(update_context):
+        context = {**context, **update_context}
+    if bool(update_context_callback):
+        context = {**context, **update_context_callback}
+    if bool(update_context_element_classes):
+        context = {**context, **update_context_element_classes}
+    return context
+
+
 class AdminSite(UnfoldAdminSite):
     password_reset_form_template = "admin/password_reset/form.html"
     password_reset_email_template = "admin/password_reset/email.html"
@@ -235,23 +252,16 @@ class AdminSite(UnfoldAdminSite):
         super().__init__(name)
 
     def each_context(self, request: HttpRequest) -> dict[str, Any]:
-        context = super().each_context(request)
-        update_context = convert_config(settings.CONSTANCE_CONFIG_FOR_UNFOLD)
-        update_context_callback = callback_constance()
-        update_context_element_classes = get_element_classes()
-
-        context["account_links"] = account_links(request)
-
-        if bool(update_context):
-            context = {**context, **update_context}
-        if bool(update_context_callback):
-            context = {**context, **update_context_callback}
-        if bool(update_context_element_classes):
-            context = {**context, **update_context_element_classes}
+        context = each_context(request)
         return context
 
     def get_urls(self) -> List[URLPattern]:
-        urlpatterns = [
+        urlpatterns = []
+        if settings.DEBUG:
+            urlpatterns += [
+                path("rosetta/", include("core.third_party.urls.admin")),
+            ]
+        urlpatterns += [
             path(
                 "password-reset/",
                 self.password_reset,

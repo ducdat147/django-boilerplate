@@ -63,7 +63,7 @@ if DEBUG:
         {
             "title": _("Translations"),
             "icon": "translate",
-            "link": reverse_lazy("rosetta-old-home-redirect"),
+            "link": reverse_lazy("admin:rosetta-old-home-redirect"),
             "permission": lambda request: request.user.is_superuser,
         }
     )

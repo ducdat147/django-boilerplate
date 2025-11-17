@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-17 08:59+0700\n"
+"POT-Creation-Date: 2025-11-17 10:07+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -172,6 +172,51 @@ msgid "Change password"
 msgstr ""
 
 msgid "Back to homepage"
+msgstr ""
+
+msgid "Translation File List"
+msgstr ""
+
+msgid "Application"
+msgstr ""
+
+msgid "Progress"
+msgstr ""
+
+msgid "Messages"
+msgstr ""
+
+msgid "Translated"
+msgstr ""
+
+msgid "Fuzzy"
+msgstr ""
+
+msgid "Obsolete"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "Project"
+msgstr ""
+
+msgid "Third-Party"
+msgstr ""
+
+msgid "Django"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Untranslated only"
+msgstr ""
+
+msgid "Translated only"
+msgstr ""
+
+msgid "Fuzzy only"
 msgstr ""
 
 msgid "Two Factor Authentication OTP"
@@ -372,9 +417,6 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-msgid "All"
-msgstr ""
-
 msgid "New"
 msgstr ""
 
@@ -492,4 +534,48 @@ msgid "Note: This code will expire in"
 msgstr ""
 
 msgid "minutes"
+msgstr ""
+
+msgid "Nothing to translate!"
+msgstr ""
+
+msgid "You haven't specified any languages in your settings file, or haven't yet generated a batch of translation catalogs."
+msgstr ""
+
+#, python-format
+msgid "Please refer to <a href=\"%(i18n_doc_link)s\">Django's I18N documentation</a> for a guide on how to set up internationalization for your project."
+msgstr ""
+
+msgid "Type to search"
+msgstr ""
+
+#, python-format
+msgid "%(hits)s/%(message_number)s message"
+msgid_plural "%(hits)s/%(message_number)s messages"
+msgstr[0] ""
+
+msgid "Save and translate next block"
+msgstr ""
+
+msgid "Original"
+msgstr ""
+
+msgid "Occurrences(s)"
+msgstr ""
+
+msgid "Unmatched variables"
+msgstr ""
+
+msgid "suggest"
+msgstr ""
+
+msgid "Show less"
+msgstr ""
+
+#, python-format
+msgid "%(more_count)s more"
+msgid_plural "%(more_count)s more"
+msgstr[0] ""
+
+msgid "Context hint"
 msgstr ""

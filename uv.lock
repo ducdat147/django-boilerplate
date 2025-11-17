@@ -434,9 +434,9 @@ dependencies = [
     { name = "django-modeltranslation" },
     { name = "django-money" },
     { name = "django-phonenumber-field", extra = ["phonenumbers"] },
+    { name = "django-rosetta" },
     { name = "django-simple-history" },
     { name = "django-unfold" },
-    { name = "djangorestframework" },
     { name = "djangorestframework-simplejwt" },
     { name = "drf-spectacular" },
     { name = "flower" },
@@ -462,7 +462,6 @@ dependencies = [
     { name = "pyupgrade" },
     { name = "qrcode" },
     { name = "redis" },
-    { name = "rosetta" },
     { name = "scipy" },
     { name = "uwsgi" },
     { name = "whitenoise" },
@@ -498,9 +497,9 @@ requires-dist = [
     { name = "django-modeltranslation", specifier = ">=0.19.17" },
     { name = "django-money", specifier = ">=3.5.4" },
     { name = "django-phonenumber-field", extras = ["phonenumbers"], specifier = ">=8.3.0" },
+    { name = "django-rosetta", specifier = ">=0.10.2" },
     { name = "django-simple-history", specifier = ">=3.10.1" },
     { name = "django-unfold", specifier = ">=0.71.0" },
-    { name = "djangorestframework", specifier = ">=3.16.1" },
     { name = "djangorestframework-simplejwt", specifier = ">=5.5.1" },
     { name = "drf-spectacular", specifier = ">=0.29.0" },
     { name = "flower", specifier = ">=2.0.1" },
@@ -526,7 +525,6 @@ requires-dist = [
     { name = "pyupgrade", specifier = ">=3.21.1" },
     { name = "qrcode", specifier = ">=8.2" },
     { name = "redis", specifier = ">=7.0.1" },
-    { name = "rosetta", specifier = ">=0.3" },
     { name = "scipy", specifier = ">=1.16.3" },
     { name = "uwsgi", specifier = ">=2.0.31" },
     { name = "whitenoise", specifier = ">=6.11.0" },
@@ -684,6 +682,20 @@ wheels = [
 [package.optional-dependencies]
 phonenumbers = [
     { name = "phonenumbers" },
+]
+
+[[package]]
+name = "django-rosetta"
+version = "0.10.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "polib" },
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ff/d0/7c5de2e1479f9a97af8d86a6173ea635ec819b3848f5c4ea852b3f22b173/django_rosetta-0.10.2.tar.gz", hash = "sha256:7e02427fe43b578dc12e02d6ce2cb4d045cc751a91b6e7f2c5ef4f706e1fb3d0", size = 262724, upload-time = "2025-04-03T13:05:36.432Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0f/0b/0a0088fa3721c0bddbd52177b072b0e8065be9ced68f9b579c55bd01d706/django_rosetta-0.10.2-py3-none-any.whl", hash = "sha256:44bd2b9ff2b88322d1a1f0cae62d8dfd4996b465f4a22a31f016cfd64d022352", size = 122592, upload-time = "2025-04-03T13:05:34.914Z" },
 ]
 
 [[package]]
@@ -1500,6 +1512,15 @@ wheels = [
 ]
 
 [[package]]
+name = "polib"
+version = "1.2.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/10/9a/79b1067d27e38ddf84fe7da6ec516f1743f31f752c6122193e7bce38bdbf/polib-1.2.0.tar.gz", hash = "sha256:f3ef94aefed6e183e342a8a269ae1fc4742ba193186ad76f175938621dbfc26b", size = 161658, upload-time = "2023-02-23T17:53:56.873Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6b/99/45bb1f9926efe370c6dbe324741c749658e44cb060124f28dad201202274/polib-1.2.0-py2.py3-none-any.whl", hash = "sha256:1c77ee1b81feb31df9bca258cbc58db1bbb32d10214b173882452c73af06d62d", size = 20634, upload-time = "2023-02-23T17:53:59.919Z" },
+]
+
+[[package]]
 name = "pre-commit"
 version = "4.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1912,12 +1933,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/c9/74/b3ff8e6c8446842c3
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1e/db/4254e3eabe8020b458f1a747140d32277ec7a271daf1d235b70dc0b4e6e3/requests-2.32.5-py3-none-any.whl", hash = "sha256:2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6", size = 64738, upload-time = "2025-08-18T20:46:00.542Z" },
 ]
-
-[[package]]
-name = "rosetta"
-version = "0.3"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/4e/16/0af309decfc2ed109c6bcb0b6ea71fccbdb98aefa37452288d6c0ae2ba72/rosetta-0.3.tar.gz", hash = "sha256:bc89b4153ceaa15913410f7eb0cb833ab7379f1f6f4032e1ff8c2635c55e4719", size = 108372, upload-time = "2015-08-18T23:32:53.415Z" }
 
 [[package]]
 name = "rpds-py"
