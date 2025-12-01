@@ -204,20 +204,10 @@ def get_element_classes() -> dict:
 
 
 def account_links(request: HttpRequest) -> List[Dict[str, str]]:
-    links = [
-        {
-            "title": _("Constance"),
-            "link": reverse_lazy("admin:constance_config_changelist"),
-        }
-    ]
+    links = [{"title": _("Constance"), "link": reverse_lazy("admin:constance_config_changelist")}]
 
     if request.user.is_authenticated and request.user.has_usable_password():
-        links.append(
-            {
-                "title": _("Change password"),
-                "link": reverse_lazy("admin:password_change"),
-            }
-        )
+        links.append({"title": _("Change password"), "link": reverse_lazy("admin:password_change")})
     return links
 
 
@@ -258,30 +248,12 @@ class AdminSite(UnfoldAdminSite):
     def get_urls(self) -> List[URLPattern]:
         urlpatterns = []
         if settings.DEBUG:
-            urlpatterns += [
-                path("rosetta/", include("core.third_party.urls.admin")),
-            ]
+            urlpatterns += [path("rosetta/", include("core.third_party.urls.admin"))]
         urlpatterns += [
-            path(
-                "password-reset/",
-                self.password_reset,
-                name="admin_password_reset",
-            ),
-            path(
-                "password-reset/done/",
-                self.password_reset_done,
-                name="admin_password_reset_done",
-            ),
-            path(
-                "password-reset/<uidb64>/<token>/",
-                self.password_reset_confirm,
-                name="admin_password_reset_confirm",
-            ),
-            path(
-                "password-reset/complete/",
-                self.password_reset_complete,
-                name="admin_password_reset_complete",
-            ),
+            path("password-reset/", self.password_reset, name="admin_password_reset"),
+            path("password-reset/done/", self.password_reset_done, name="admin_password_reset_done"),
+            path("password-reset/<uidb64>/<token>/", self.password_reset_confirm, name="admin_password_reset_confirm"),
+            path("password-reset/complete/", self.password_reset_complete, name="admin_password_reset_complete"),
         ] + super().get_urls()
         return urlpatterns
 
@@ -340,9 +312,7 @@ class AdminSite(UnfoldAdminSite):
 
     @method_decorator(never_cache)
     @login_not_required
-    def password_reset(
-        self, request: HttpRequest, extra_context: Optional[Dict[str, Any]] = None
-    ) -> HttpResponse:
+    def password_reset(self, request: HttpRequest, extra_context: Optional[Dict[str, Any]] = None) -> HttpResponse:
         if request.method == "GET" and self.has_permission(request):
             # Already logged-in, redirect to admin index
             index_path = reverse("admin:index", current_app=self.name)
@@ -361,9 +331,7 @@ class AdminSite(UnfoldAdminSite):
 
     @method_decorator(never_cache)
     @login_not_required
-    def password_reset_done(
-        self, request: HttpRequest, extra_context: Optional[Dict[str, Any]] = None
-    ) -> HttpResponse:
+    def password_reset_done(self, request: HttpRequest, extra_context: Optional[Dict[str, Any]] = None) -> HttpResponse:
         if request.method == "GET" and self.has_permission(request):
             # Already logged-in, redirect to admin index
             index_path = reverse("admin:index", current_app=self.name)
@@ -388,9 +356,7 @@ class AdminSite(UnfoldAdminSite):
             # Already logged-in, redirect to admin index
             index_path = reverse("admin:index", current_app=self.name)
             return HttpResponseRedirect(index_path)
-        url = reverse(
-            f"{self.name}:admin_password_reset_complete", current_app=self.name
-        )
+        url = reverse(f"{self.name}:admin_password_reset_complete", current_app=self.name)
         defaults = {
             "form_class": SetPasswordForm,
             "success_url": url,

@@ -3,8 +3,10 @@ from constance.admin import ConstanceAdmin as BaseConstanceAdmin
 from django.contrib import admin
 from django_celery_beat.admin import ClockedScheduleAdmin as BaseClockedScheduleAdmin
 from django_celery_beat.admin import CrontabScheduleAdmin as BaseCrontabScheduleAdmin
+from django_celery_beat.admin import IntervalScheduleAdmin as BaseIntervalScheduleAdmin
 from django_celery_beat.admin import PeriodicTaskAdmin as BasePeriodicTaskAdmin
 from django_celery_beat.admin import PeriodicTaskForm, TaskSelectWidget
+from django_celery_beat.admin import SolarScheduleAdmin as BaseSolarScheduleAdmin
 from django_celery_beat.models import (
     ClockedSchedule,
     CrontabSchedule,
@@ -54,23 +56,29 @@ class ConstanceAdmin(BaseConstanceAdmin, ModelAdmin):
 
 class PeriodicTaskAdmin(BasePeriodicTaskAdmin, ModelAdmin):
     compressed_fields = True
+    autocomplete_fields = ["clocked", "crontab", "interval", "solar"]
     form = UnfoldPeriodicTaskForm
+    search_fields = ["id", "name", "task"]
 
 
-class IntervalScheduleAdmin(ModelAdmin):
+class IntervalScheduleAdmin(BaseIntervalScheduleAdmin, ModelAdmin):
     compressed_fields = True
+    search_fields = ["id"]
 
 
 class CrontabScheduleAdmin(BaseCrontabScheduleAdmin, ModelAdmin):
     compressed_fields = True
+    search_fields = ["id"]
 
 
-class SolarScheduleAdmin(ModelAdmin):
+class SolarScheduleAdmin(BaseSolarScheduleAdmin, ModelAdmin):
     compressed_fields = True
+    search_fields = ["id"]
 
 
 class ClockedScheduleAdmin(BaseClockedScheduleAdmin, ModelAdmin):
     compressed_fields = True
+    search_fields = ["id"]
 
 
 class CustomBlacklistedTokenAdmin(BlacklistedTokenAdmin, ModelAdmin):

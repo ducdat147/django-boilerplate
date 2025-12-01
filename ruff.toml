@@ -1,0 +1,7 @@
+# Same as Black.
+line-length = 120
+indent-width = 4
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []

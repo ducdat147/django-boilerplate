@@ -1,4 +1,5 @@
 import base64
+import uuid
 from datetime import timedelta
 from io import BytesIO
 
@@ -17,13 +18,20 @@ from common.encoders import PrettyJSONEncoder
 from common.models import BaseModel
 from core.user.enums import (
     GenderEnum,
+    LanguegeEnum,
     OtpTypeEnum,
     OTPVerificationStatusEnum,
     TargetOtpEnum,
 )
 
 
+class UserQuerySet(models.QuerySet):
+    def with_user_data(self):
+        return self.select_related("userprofile", "usersetting", "twofactorauthenticationotp")
+
+
 class User(AbstractUser):
+    uid = models.UUIDField("uid", unique=True, editable=False, default=uuid.uuid4)
     first_name = None
     last_name = None
     email = models.EmailField(_("email address"), blank=True)
@@ -38,6 +46,7 @@ class User(AbstractUser):
         default=False,
         help_text=_("If the phone is verified, the user can login with the phone."),
     )
+    objects = UserQuerySet.as_manager()
 
     def __str__(self):
         return self.full_name
@@ -53,9 +62,7 @@ class User(AbstractUser):
 
     @property
     def is_anonymous(self):
-        return super().is_anonymous or (
-            not super().is_anonymous and not getattr(self, "userprofile", None)
-        )
+        return super().is_anonymous or (not super().is_anonymous and not getattr(self, "userprofile", None))
 
     def create_user_profile(self):
         if not getattr(self, "userprofile", None):
@@ -70,29 +77,13 @@ class User(AbstractUser):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(_("first name"), max_length=150, blank=True)
     last_name = models.CharField(_("last name"), max_length=150, blank=True)
     date_of_birth = models.DateField(_("date of birth"), null=True, blank=True)
-    gender = models.CharField(
-        _("gender"),
-        max_length=20,
-        choices=GenderEnum.choices,
-        default=GenderEnum.OTHER,
-    )
-    avatar = models.URLField(
-        _("avatar"),
-        max_length=255,
-        blank=True,
-    )
-    address = models.CharField(
-        _("address"),
-        max_length=255,
-        blank=True,
-    )
+    gender = models.CharField(_("gender"), max_length=20, choices=GenderEnum.choices, default=GenderEnum.OTHER)
+    avatar = models.URLField(_("avatar"), max_length=255, blank=True)
+    address = models.CharField(_("address"), max_length=255, blank=True)
 
     def __str__(self):
         return self.user.__str__()
@@ -106,44 +97,21 @@ class UserProfile(models.Model):
 
 
 class UserSetting(models.Model):
-    class LanguegeEnum(models.TextChoices):
-        EN = "en", _("English")
-        VI = "vi", _("Vietnamese")
-
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-    )
-    language = models.CharField(
-        _("Language"),
-        max_length=6,
-        default=LanguegeEnum.EN,
-        choices=LanguegeEnum.choices,
-    )
-    config = models.JSONField(
-        _("Config"),
-        default=dict,
-        null=True,
-        blank=True,
-        encoder=PrettyJSONEncoder,
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    language = models.CharField(_("Language"), max_length=6, default=LanguegeEnum.EN, choices=LanguegeEnum.choices)
+    config = models.JSONField(_("Config"), default=dict, null=True, blank=True, encoder=PrettyJSONEncoder)
 
     def __str__(self):
         return self.user.__str__()
 
 
 class OtpCode(BaseModel):
+    uid = models.UUIDField("uid", unique=True, editable=False, default=uuid.uuid4)
     to = models.CharField(verbose_name=_("To"), max_length=255)
-    target = models.CharField(
-        verbose_name=_("Target"), max_length=255, choices=TargetOtpEnum.choices
-    )
+    target = models.CharField(verbose_name=_("Target"), max_length=255, choices=TargetOtpEnum.choices)
     code = models.CharField(verbose_name=_("OTP Code"), max_length=50)
-    type_otp = models.CharField(
-        verbose_name=_("OTP Type"), max_length=20, choices=OtpTypeEnum.choices
-    )
-    expires_at = models.DateTimeField(
-        verbose_name=_("Expires At"),
-    )
+    type_otp = models.CharField(verbose_name=_("OTP Type"), max_length=20, choices=OtpTypeEnum.choices)
+    expires_at = models.DateTimeField(verbose_name=_("Expires At"))
     is_used = models.BooleanField(verbose_name=_("Is Used"), default=False)
 
     def __str__(self):
@@ -151,9 +119,7 @@ class OtpCode(BaseModel):
 
     def save(self, *args, **kwargs):
         if not self.expires_at:
-            self.expires_at = timezone.now() + timedelta(
-                minutes=config.OTP_CODE_EXPIRATION_TIME
-            )
+            self.expires_at = timezone.now() + timedelta(minutes=config.OTP_CODE_EXPIRATION_TIME)
 
         super().save(*args, **kwargs)
 
@@ -174,15 +140,8 @@ class OtpCode(BaseModel):
 
 
 class TwoFactorAuthenticationOTP(BaseModel):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-    )
-    secret_key = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    secret_key = models.CharField(max_length=255, null=True, blank=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
@@ -205,8 +164,7 @@ class TwoFactorAuthenticationOTP(BaseModel):
     @property
     def get_uri(self):
         provisioning_uri = pyotp.totp.TOTP(self.secret_key).provisioning_uri(
-            self.user.email,
-            issuer_name=settings.SERVICE_NAME,
+            self.user.email, issuer_name=settings.SERVICE_NAME
         )
         return provisioning_uri
 

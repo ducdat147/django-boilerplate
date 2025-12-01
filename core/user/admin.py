@@ -44,12 +44,8 @@ class TwoFactorAuthenticationOTPInline(StackedInline):
         return ["secret_key", "qrcode"]
 
     def get_fields(self, request, obj=None):
-        obj_2fa: TwoFactorAuthenticationOTP = getattr(
-            obj, "twofactorauthenticationotp", None
-        )
-        fields = [
-            "is_active",
-        ]
+        obj_2fa: TwoFactorAuthenticationOTP = getattr(obj, "twofactorauthenticationotp", None)
+        fields = ["is_active"]
         if obj_2fa and obj_2fa.secret_key:
             if obj_2fa.is_active:
                 fields.extend(["secret_key", "qrcode"])
@@ -75,14 +71,8 @@ class UserProfileInline(StackedInline):
             None,
             {
                 "fields": (
-                    (
-                        "first_name",
-                        "last_name",
-                    ),
-                    (
-                        "date_of_birth",
-                        "gender",
-                    ),
+                    ("first_name", "last_name"),
+                    ("date_of_birth", "gender"),
                     "address",
                     "avatar",
                 )
@@ -109,14 +99,8 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
                 "fields": (
                     "username",
                     "password",
-                    (
-                        "email",
-                        "is_email_verified",
-                    ),
-                    (
-                        "phone",
-                        "is_phone_verified",
-                    ),
+                    ("email", "is_email_verified"),
+                    ("phone", "is_phone_verified"),
                 )
             },
         ),
@@ -124,10 +108,7 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
             _("Important dates"),
             {
                 "classes": ["tab"],
-                "fields": (
-                    "last_login",
-                    "date_joined",
-                ),
+                "fields": ("last_login", "date_joined"),
             },
         ),
         (
@@ -135,11 +116,7 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
             {
                 "classes": ["tab"],
                 "fields": (
-                    (
-                        "is_active",
-                        "is_staff",
-                        "is_superuser",
-                    ),
+                    ("is_active", "is_staff", "is_superuser"),
                     "groups",
                     "user_permissions",
                 ),

@@ -1,30 +1,35 @@
-from django.db import models
+from django.db.models import TextChoices
 from django.utils.translation import gettext_lazy as _
 
 
-class GenderEnum(models.TextChoices):
+class LanguegeEnum(TextChoices):
+    EN = "en", _("English")
+    VI = "vi", _("Vietnamese")
+
+
+class GenderEnum(TextChoices):
     MALE = "male", _("Male")
     FEMALE = "female", _("Female")
     OTHER = "other", _("Other")
 
 
-class TargetOtpEnum(models.TextChoices):
+class TargetOtpEnum(TextChoices):
     EMAIL = "email", _("Email")
     PHONE = "phone", _("Phone")
 
 
-class OtpTypeUserEnum(models.TextChoices):
+class OtpTypeUserEnum(TextChoices):
     EMAIL = "email", _("Email Verification")
     PHONE = "phone", _("Phone Verification")
     TWO_FACTOR = "two_factor", _("Two Factor Authentication")
 
 
-class OtpTypeAuthEnum(models.TextChoices):
+class OtpTypeAuthEnum(TextChoices):
     PASSWORD = "password", _("Password Reset")
     VERIFY_OTP = "verify_otp", _("Verify OTP")
 
 
-class OtpTypeEnum(models.TextChoices):
+class OtpTypeEnum(TextChoices):
     EMAIL = "email", _("Email Verification")
     PHONE = "phone", _("Phone Verification")
     PASSWORD = "password", _("Password Reset")
@@ -32,7 +37,7 @@ class OtpTypeEnum(models.TextChoices):
     VERIFY_OTP = "verify_otp", _("Verify OTP")
 
 
-class OTPVerificationStatusEnum(models.TextChoices):
+class OTPVerificationStatusEnum(TextChoices):
     VERIFIED = "verified", _("Verified")
     EXPIRED = "expired", _("Expired")
     INVALID = "invalid", _("Invalid")

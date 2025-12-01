@@ -64,3 +64,12 @@ dev = [
     "pytest-xdist>=3.8.0",
     "ruff>=0.13.1",
 ]
+
+[tool.ruff]
+# Same as Black.
+line-length = 120
+indent-width = 4
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
