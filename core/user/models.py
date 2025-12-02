@@ -25,11 +25,6 @@ from core.user.enums import (
 )
 
 
-class UserQuerySet(models.QuerySet):
-    def with_user_data(self):
-        return self.select_related("userprofile", "usersetting", "twofactorauthenticationotp")
-
-
 class User(AbstractUser):
     uid = models.UUIDField("uid", unique=True, editable=False, default=uuid.uuid4)
     first_name = None
@@ -46,7 +41,6 @@ class User(AbstractUser):
         default=False,
         help_text=_("If the phone is verified, the user can login with the phone."),
     )
-    objects = UserQuerySet.as_manager()
 
     def __str__(self):
         return self.full_name
