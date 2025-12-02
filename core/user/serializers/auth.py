@@ -53,9 +53,7 @@ class OTPBaseSerializer(serializers.Serializer):
             target = TargetOtpEnum.PHONE
             to = attrs.get("phone")
         else:
-            raise ValidationError(
-                {"to": "Either email or phone number must be provided."}
-            )
+            raise ValidationError({"to": "Either email or phone number must be provided."})
 
         return to, target, verification_type
 
@@ -129,10 +127,7 @@ class AuthVerifyOTPSerializer(OTPBaseSerializer):
 
         status_otp = self.verify_otp(to, target, verification_type, code)
 
-        if (
-            status_otp == OTPVerificationStatusEnum.VERIFIED
-            and verification_type == OtpTypeAuthEnum.PASSWORD
-        ):
+        if status_otp == OTPVerificationStatusEnum.VERIFIED and verification_type == OtpTypeAuthEnum.PASSWORD:
             try:
                 user = User.objects.get(**{f"{target}": to})
                 if not user.is_active:
@@ -204,9 +199,7 @@ class AuthRegisterUserSerializer(serializers.ModelSerializer):
     def validate_username(self, value):
         value = value.lower()
         if not re.match(r"^[\w.@+-]+$", value):
-            raise ValidationError(
-                _("Username may contain only letters, digits and @/./+/-/_ characters.")
-            )
+            raise ValidationError(_("Username may contain only letters, digits and @/./+/-/_ characters."))
         if len(value) < 3 or len(value) > 150:
             raise ValidationError(_("Username must be between 3 and 150 characters."))
         return value
@@ -214,7 +207,7 @@ class AuthRegisterUserSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         if not validated_data.get("email") and not validated_data.get("phone"):
-            raise ParseError(_("Either email or phone must be provided"))
+            raise ParseError(_("Either email or phone number must be provided"))
         if User.objects.filter(
             Q(phone=validated_data.get("phone"), phone__isnull=False)
             | Q(email=validated_data.get("email"), email__isnull=False)

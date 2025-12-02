@@ -64,10 +64,10 @@ def django_response_hook(span: Span, request: WSGIRequest, response: Response):
         user = getattr(request, "user", None)
         if user and request.user.is_authenticated:
             tags_span["user.id"] = user.id
-            phone_number = getattr(user, "phone_number", None)
+            phone = getattr(user, "phone", None)
             email = getattr(user, "email", None)
-            if not span.attributes.get("phone_number") and phone_number:
-                tags_span["user.phone_number"] = phone_number
+            if not span.attributes.get("phone") and phone:
+                tags_span["user.phone"] = phone
             if not span.attributes.get("email") and email:
                 tags_span["user.email"] = email
             span.set_attributes(tags_span)
@@ -77,7 +77,7 @@ def django_response_hook(span: Span, request: WSGIRequest, response: Response):
 
 
 def get_formatted_message(record: LogRecord) -> str:
-    """Helper function để format message"""
+    """Helper function format message"""
     if isinstance(record.msg, dict):
         return json.dumps(record.msg, indent=2, ensure_ascii=False)
     elif isinstance(record.msg, bytes):
@@ -112,18 +112,12 @@ def log_hook(span: Span, record: LogRecord):
             if record.exc_info:
                 attributes["exception.type"] = record.exc_info[0].__name__
                 attributes["exception.message"] = str(record.exc_info[1])
-                attributes["exception.lineno"] = (
-                    record.exc_info[2].tb_lineno if record.exc_info[2] else None
-                )
-                attributes["exception.filepath"] = (
-                    f"{filepath or record.filename} :{record.lineno}"
-                )
+                attributes["exception.lineno"] = record.exc_info[2].tb_lineno if record.exc_info[2] else None
+                attributes["exception.filepath"] = f"{filepath or record.filename} :{record.lineno}"
             else:
                 attributes["log.message"] = content
                 attributes["log.lineno"] = record.lineno
-                attributes["log.filepath"] = (
-                    f"{filepath or record.filename} :{record.lineno}"
-                )
+                attributes["log.filepath"] = f"{filepath or record.filename} :{record.lineno}"
 
             add_event(span, attributes=attributes)
     except Exception as e:

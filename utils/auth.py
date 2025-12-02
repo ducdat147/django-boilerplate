@@ -29,7 +29,7 @@ def send_verification_email(email, otp_code, name=None):
 
 
 @tracer.start_as_current_span("send_verification_phone")
-def send_verification_phone(phone_number, otp_code, name=None):
+def send_verification_phone(phone, otp_code, name=None):
     """Send verification SMS with OTP code"""
     # TODO: Implement SMS sending logic here
     return

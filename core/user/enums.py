@@ -15,12 +15,12 @@ class GenderEnum(TextChoices):
 
 class TargetOtpEnum(TextChoices):
     EMAIL = "email", _("Email")
-    PHONE = "phone", _("Phone")
+    PHONE = "phone", _("Phone Number")
 
 
 class OtpTypeUserEnum(TextChoices):
     EMAIL = "email", _("Email Verification")
-    PHONE = "phone", _("Phone Verification")
+    PHONE = "phone", _("Phone Number Verification")
     TWO_FACTOR = "two_factor", _("Two Factor Authentication")
 
 
@@ -31,7 +31,7 @@ class OtpTypeAuthEnum(TextChoices):
 
 class OtpTypeEnum(TextChoices):
     EMAIL = "email", _("Email Verification")
-    PHONE = "phone", _("Phone Verification")
+    PHONE = "phone", _("Phone Number Verification")
     PASSWORD = "password", _("Password Reset")
     TWO_FACTOR = "two_factor", _("Two Factor Authentication")
     VERIFY_OTP = "verify_otp", _("Verify OTP")

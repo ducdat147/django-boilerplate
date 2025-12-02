@@ -30,16 +30,16 @@ class User(AbstractUser):
     first_name = None
     last_name = None
     email = models.EmailField(_("email address"), blank=True)
-    phone = PhoneNumberField(_("phone"), blank=True)
+    phone = PhoneNumberField(_("phone number"), blank=True)
     is_email_verified = models.BooleanField(
         _("email verified"),
         default=False,
         help_text=_("If the email is verified, the user can login with the email."),
     )
     is_phone_verified = models.BooleanField(
-        _("phone verified"),
+        _("phone number verified"),
         default=False,
-        help_text=_("If the phone is verified, the user can login with the phone."),
+        help_text=_("If the phone number is verified, the user can login with the phone number."),
     )
 
     def __str__(self):
