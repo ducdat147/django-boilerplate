@@ -17,6 +17,6 @@
     {% trans 'Please do not share this code with anyone.' %}
   </p>
   <p class="note">
-    {% trans 'Note: This code will expire in' %} {{ expiration_time }} {% trans 'minutes' %}.
+    {% blocktranslate %}Note: This code will expire in <b>{{ expiration_time }}</b> minutes.{% endblocktranslate %}
   </p>
 {% endblock %}

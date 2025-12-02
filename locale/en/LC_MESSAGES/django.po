@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-17 10:07+0700\n"
+"POT-Creation-Date: 2025-12-02 14:08+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,566 +18,816 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: common/contexttranslate.py:4
+msgid "Search apps and models..."
+msgstr ""
+
+#: common/contexttranslate.py:5
+msgid "No results found"
+msgstr ""
+
+#: common/contexttranslate.py:6
+msgid ""
+"This page yielded into no results. Create a new item or reset your filters."
+msgstr ""
+
+#: common/contexttranslate.py:7
+msgid "Reset filters"
+msgstr ""
+
+#: common/contexttranslate.py:8
+msgid "Hide counts"
+msgstr ""
+
+#: common/contexttranslate.py:9
+msgid "Show counts"
+msgstr ""
+
+#: common/exceptions.py:37
 msgid "A server error occurred."
 msgstr ""
 
+#: configurations/settings/base.py:189 core/user/enums.py:6
 msgid "English"
 msgstr ""
 
+#: configurations/settings/base.py:190 core/user/enums.py:7
 msgid "Vietnamese"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:43
 msgid "Website URL"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:44
 msgid "Website title"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:45
 msgid "Website header"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:46
 msgid "Website subheader"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:47
 msgid "Login page background image URL"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:48
 msgid "Website symbol"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:49
 msgid "Border radius"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:50
 msgid "Website logo"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:51
 msgid "Website logo for light mode"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:52
 msgid "Website logo for dark mode"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:53
 msgid "Website icon"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:54
 msgid "Website icon for light mode"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:55
 msgid "Website icon for dark mode"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:56
 msgid "Website theme"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:57
 msgid "Expiration time in minutes"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:58
 msgid "OTP code length"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:61
 msgid "Password reset token expiration time in minutes"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:65
 msgid "Base colors"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:70
 msgid "Primary colors"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:75
 msgid "Font colors"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:78
 msgid "Sticky header"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:79
 msgid "Header dark"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:80
 msgid "Sidebar dark"
 msgstr ""
 
+#: configurations/settings/packages/constance.py:81
 msgid "Boxed layout"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:55 core/sites.py:207
 msgid "Constance"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:64
 msgid "Translations"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:73
 msgid "Navigation"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:76 core/user/views/admin.py:21
+#: templates/admin/index.html:10
 msgid "Dashboard"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:84
 msgid "Accounts & Authentication"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:89
 msgid "Users"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:95
 msgid "OTP Codes"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:103
 msgid "Groups"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:111
 msgid "System Settings"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:117
 msgid "Celery Tasks"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:121
 msgid "Clocked"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:129
 msgid "Crontabs"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:137
 msgid "Intervals"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:145
 msgid "Periodic tasks"
 msgstr ""
 
+#: configurations/settings/packages/unfold.py:153
 msgid "Solar events"
 msgstr ""
 
-msgid "The server could not understand the request due to invalid syntax. Please do not repeat this request without modification."
+#: core/sites.py:37
+msgid ""
+"The server could not understand the request due to invalid syntax. Please do "
+"not repeat this request without modification."
 msgstr ""
 
-msgid "You do not have permission to access this resource. Please contact the administrator if you believe this is an error."
+#: core/sites.py:41
+msgid ""
+"You do not have permission to access this resource. Please contact the "
+"administrator if you believe this is an error."
 msgstr ""
 
+#: core/sites.py:44
 msgid "Sorry, we can't find that path. Please try again."
 msgstr ""
 
-msgid "The server encountered an internal error or misconfiguration and was unable to complete your request."
+#: core/sites.py:46
+msgid ""
+"The server encountered an internal error or misconfiguration and was unable "
+"to complete your request."
 msgstr ""
 
+#: core/sites.py:50
 msgid "Bad request"
 msgstr ""
 
+#: core/sites.py:51
 msgid "Permission denied"
 msgstr ""
 
+#: core/sites.py:52
 msgid "Something's missing"
 msgstr ""
 
+#: core/sites.py:53
 msgid "Server error"
 msgstr ""
 
+#: core/sites.py:210
 msgid "Change password"
 msgstr ""
 
+#: core/sites.py:278
 msgid "Back to homepage"
 msgstr ""
 
+#: core/third_party/views/admin.py:15
 msgid "Translation File List"
 msgstr ""
 
+#: core/third_party/views/admin.py:21
 msgid "Application"
 msgstr ""
 
+#: core/third_party/views/admin.py:22
 msgid "Progress"
 msgstr ""
 
+#: core/third_party/views/admin.py:23
 msgid "Messages"
 msgstr ""
 
+#: core/third_party/views/admin.py:24
 msgid "Translated"
 msgstr ""
 
+#: core/third_party/views/admin.py:25
+#: templates/rosetta/includes/results-list.html:13
 msgid "Fuzzy"
 msgstr ""
 
+#: core/third_party/views/admin.py:26
 msgid "Obsolete"
 msgstr ""
 
+#: core/third_party/views/admin.py:27
 msgid "File"
 msgstr ""
 
+#: core/third_party/views/admin.py:62
 msgid "Project"
 msgstr ""
 
+#: core/third_party/views/admin.py:69
 msgid "Third-Party"
 msgstr ""
 
+#: core/third_party/views/admin.py:76
 msgid "Django"
 msgstr ""
 
+#: core/third_party/views/admin.py:83 core/third_party/views/admin.py:100
+#: core/user/views/admin.py:164
 msgid "All"
 msgstr ""
 
+#: core/third_party/views/admin.py:105
 msgid "Untranslated only"
 msgstr ""
 
+#: core/third_party/views/admin.py:110
 msgid "Translated only"
 msgstr ""
 
+#: core/third_party/views/admin.py:115
 msgid "Fuzzy only"
 msgstr ""
 
+#: core/user/admin.py:29
 msgid "Two Factor Authentication OTP"
 msgstr ""
 
+#: core/user/admin.py:38
 msgid "Two Step QR Code"
 msgstr ""
 
+#: core/user/admin.py:58
 msgid "User Setting"
 msgstr ""
 
+#: core/user/admin.py:67
 msgid "User Profile"
 msgstr ""
 
+#: core/user/admin.py:108
 msgid "Important dates"
 msgstr ""
 
+#: core/user/admin.py:115
 msgid "Permissions"
 msgstr ""
 
+#: core/user/enums.py:11
 msgid "Male"
 msgstr ""
 
+#: core/user/enums.py:12
 msgid "Female"
 msgstr ""
 
+#: core/user/enums.py:13
 msgid "Other"
 msgstr ""
 
+#: core/user/enums.py:17 core/user/forms.py:37
 msgid "Email"
 msgstr ""
 
-msgid "Phone"
+#: core/user/enums.py:18
+msgid "Phone Number"
 msgstr ""
 
+#: core/user/enums.py:22 core/user/enums.py:33
+#: templates/emails/verify_email.html:6
 msgid "Email Verification"
 msgstr ""
 
-msgid "Phone Verification"
+#: core/user/enums.py:23 core/user/enums.py:34
+msgid "Phone Number Verification"
 msgstr ""
 
+#: core/user/enums.py:24 core/user/enums.py:36
 msgid "Two Factor Authentication"
 msgstr ""
 
+#: core/user/enums.py:28 core/user/enums.py:35
+#: templates/admin/password_reset/email.html:6
 msgid "Password Reset"
 msgstr ""
 
+#: core/user/enums.py:29 core/user/enums.py:37
 msgid "Verify OTP"
 msgstr ""
 
+#: core/user/enums.py:41
 msgid "Verified"
 msgstr ""
 
+#: core/user/enums.py:42
 msgid "Expired"
 msgstr ""
 
+#: core/user/enums.py:43
 msgid "Invalid"
 msgstr ""
 
+#: core/user/enums.py:44
 msgid "Used"
 msgstr ""
 
+#: core/user/forms.py:31
 msgid "Enter your username"
 msgstr ""
 
+#: core/user/forms.py:32
 msgid "Enter your password"
 msgstr ""
 
+#: core/user/forms.py:43
 msgid "Enter your email"
 msgstr ""
 
+#: core/user/forms.py:74
 msgid "Password"
 msgstr ""
 
+#: core/user/forms.py:81
 msgid "Enter your new password"
 msgstr ""
 
+#: core/user/forms.py:86
 msgid "Password confirmation"
 msgstr ""
 
+#: core/user/forms.py:89
 msgid "Enter the same password as before, for verification."
 msgstr ""
 
+#: core/user/forms.py:93
 msgid "Confirm your new password"
 msgstr ""
 
+#: core/user/models.py:37
 msgid "email address"
 msgstr ""
 
-msgid "phone"
+#: core/user/models.py:38
+msgid "phone_number"
 msgstr ""
 
+#: core/user/models.py:40
 msgid "email verified"
 msgstr ""
 
+#: core/user/models.py:42
 msgid "If the email is verified, the user can login with the email."
 msgstr ""
 
-msgid "phone verified"
+#: core/user/models.py:45
+msgid "phone number verified"
 msgstr ""
 
-msgid "If the phone is verified, the user can login with the phone."
+#: core/user/models.py:47
+msgid ""
+"If the phone number is verified, the user can login with the phone number."
 msgstr ""
 
+#: core/user/models.py:80
 msgid "first name"
 msgstr ""
 
+#: core/user/models.py:81
 msgid "last name"
 msgstr ""
 
+#: core/user/models.py:82
 msgid "date of birth"
 msgstr ""
 
+#: core/user/models.py:83
 msgid "gender"
 msgstr ""
 
+#: core/user/models.py:84
 msgid "avatar"
 msgstr ""
 
+#: core/user/models.py:85
 msgid "address"
 msgstr ""
 
+#: core/user/models.py:102
 msgid "Language"
 msgstr ""
 
+#: core/user/models.py:103
 msgid "Config"
 msgstr ""
 
+#: core/user/models.py:111
 msgid "To"
 msgstr ""
 
+#: core/user/models.py:112
 msgid "Target"
 msgstr ""
 
+#: core/user/models.py:113
 msgid "OTP Code"
 msgstr ""
 
+#: core/user/models.py:114
 msgid "OTP Type"
 msgstr ""
 
+#: core/user/models.py:115
 msgid "Expires At"
 msgstr ""
 
+#: core/user/models.py:116
 msgid "Is Used"
 msgstr ""
 
+#: core/user/serializers/auth.py:100 core/user/serializers/user.py:158
 msgid "No OTP code found"
 msgstr ""
 
+#: core/user/serializers/auth.py:104 core/user/serializers/user.py:163
+#: core/user/serializers/user.py:193
 msgid "Invalid OTP code"
 msgstr ""
 
+#: core/user/serializers/auth.py:106 core/user/serializers/user.py:165
 msgid "OTP code has already been used"
 msgstr ""
 
+#: core/user/serializers/auth.py:108 core/user/serializers/user.py:167
 msgid "OTP code has expired"
 msgstr ""
 
+#: core/user/serializers/auth.py:139 core/user/serializers/auth.py:168
 msgid "User account is inactive"
 msgstr ""
 
+#: core/user/serializers/auth.py:142
 msgid "User is not verified"
 msgstr ""
 
+#: core/user/serializers/auth.py:144
 msgid "User not found."
 msgstr ""
 
+#: core/user/serializers/auth.py:165
 msgid "Invalid or expired token"
 msgstr ""
 
+#: core/user/serializers/auth.py:174
 msgid "User not found"
 msgstr ""
 
+#: core/user/serializers/auth.py:208
 msgid "Username may contain only letters, digits and @/./+/-/_ characters."
 msgstr ""
 
+#: core/user/serializers/auth.py:211
 msgid "Username must be between 3 and 150 characters."
 msgstr ""
 
-msgid "Either email or phone must be provided"
+#: core/user/serializers/auth.py:217
+msgid "Either email or phone number must be provided"
 msgstr ""
 
+#: core/user/serializers/auth.py:222
 msgid "Email or phone number is already registered."
 msgstr ""
 
+#: core/user/serializers/auth.py:232
 msgid "Username is already taken."
 msgstr ""
 
+#: core/user/serializers/user.py:86
 msgid "New password must be different from old password."
 msgstr ""
 
+#: core/user/serializers/user.py:191
 msgid "Two-factor authentication is not enabled."
 msgstr ""
 
+#: core/user/views/admin.py:25
 msgid "Analytics"
 msgstr ""
 
+#: core/user/views/admin.py:26
 msgid "Settings"
 msgstr ""
 
+#: core/user/views/admin.py:166
 msgid "New"
 msgstr ""
 
+#: core/user/views/admin.py:281
 msgid "Last week revenue"
 msgstr ""
 
+#: core/user/views/admin.py:299
 msgid "Last week expenses"
 msgstr ""
 
+#: core/user/views/admin.py:318
 msgid "Day"
 msgstr ""
 
+#: core/user/views/admin.py:318
 msgid "Income"
 msgstr ""
 
+#: core/user/views/admin.py:318
 msgid "Expenses"
 msgstr ""
 
+#: templates/admin/index.html:10 templates/rosetta/file-list.html:10
+#: templates/rosetta/form.html:10
 msgid "Django site admin"
 msgstr ""
 
+#: templates/admin/index.html:43
 msgid "Last 7 days"
 msgstr ""
 
+#: templates/admin/index.html:62
 msgid "Product performance in last 28 days"
 msgstr ""
 
+#: templates/admin/index.html:68
 msgid "Top earnings"
 msgstr ""
 
+#: templates/admin/index.html:75
 msgid "The most trending products in last 2 weeks"
 msgstr ""
 
+#: templates/admin/index.html:79
 #, python-format
-msgid "Total revenue between <strong class=\"font-semibold text-font-important-light dark:text-font-important-dark dark:text-white\">1 - 31 October</strong>. Increase <span class=\"text-green-700 font-semibold dark:text-green-400\">+3.14%%</span> comparing to previous month <strong class=\"font-semibold text-font-important-light dark:text-font-important-dark dark:text-white\">1 - 30 September</strong>."
+msgid ""
+"Total revenue between <strong class=\"font-semibold text-font-important-"
+"light dark:text-font-important-dark dark:text-white\">1 - 31 October</"
+"strong>. Increase <span class=\"text-green-700 font-semibold dark:text-"
+"green-400\">+3.14%%</span> comparing to previous month <strong class=\"font-"
+"semibold text-font-important-light dark:text-font-important-dark dark:text-"
+"white\">1 - 30 September</strong>."
 msgstr ""
 
+#: templates/admin/index.html:97
 msgid "View detailed analytics"
 msgstr ""
 
+#: templates/admin/index.html:105
 msgid "Current system health"
 msgstr ""
 
+#: templates/admin/password_reset/complete.html:7
 msgid "Password reset complete"
 msgstr ""
 
+#: templates/admin/password_reset/complete.html:8
 msgid "Your password has been set.  You may go ahead and log in now."
 msgstr ""
 
+#: templates/admin/password_reset/complete.html:13
 msgid "Log in"
 msgstr ""
 
+#: templates/admin/password_reset/confirm.html:8
+#: templates/admin/password_reset/confirm.html:28
+#: templates/admin/password_reset/form.html:7
 msgid "Forgotten password"
 msgstr ""
 
+#: templates/admin/password_reset/confirm.html:9
+#: templates/admin/password_reset/form.html:8
 msgid "Forgotten your password?"
 msgstr ""
 
-msgid "Enter your email address below, and we’ll email instructions for setting a new one."
+#: templates/admin/password_reset/confirm.html:10
+#: templates/admin/password_reset/form.html:9
+msgid ""
+"Enter your email address below, and we’ll email instructions for setting a "
+"new one."
 msgstr ""
 
+#: templates/admin/password_reset/confirm.html:22
 msgid "Change my password"
 msgstr ""
 
-msgid "The password reset link was invalid, possibly because it has already been used. Please request a new password reset."
+#: templates/admin/password_reset/confirm.html:29
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used. Please request a new password reset."
 msgstr ""
 
+#: templates/admin/password_reset/confirm.html:34
+#: templates/admin/password_reset/form.html:19
 msgid "Reset my password"
 msgstr ""
 
+#: templates/admin/password_reset/done.html:6
 msgid "Success!"
 msgstr ""
 
-msgid "We’ve emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly."
+#: templates/admin/password_reset/done.html:8
+msgid ""
+"We’ve emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
 msgstr ""
 
-msgid "If you don’t receive an email, please make sure you’ve entered the address you registered with, and check your spam folder."
+#: templates/admin/password_reset/done.html:9
+msgid ""
+"If you don’t receive an email, please make sure you’ve entered the address "
+"you registered with, and check your spam folder."
 msgstr ""
 
-msgid "You’re receiving this email because you requested a password reset for your user account at "
+#: templates/admin/password_reset/email.html:11
+msgid ""
+"You’re receiving this email because you requested a password reset for your "
+"user account at "
 msgstr ""
 
+#: templates/admin/password_reset/email.html:14
 msgid "Please go to the following page and choose a new password:"
 msgstr ""
 
+#: templates/admin/password_reset/email.html:15
 msgid "Reset Password"
 msgstr ""
 
+#: templates/admin/password_reset/email.html:18
 msgid "Your username, in case you’ve forgotten:"
 msgstr ""
 
+#: templates/admin/password_reset/email.html:21
 msgid "Thanks for using our site!"
 msgstr ""
 
+#: templates/admin/password_reset/subject.html:3
 #, python-format
 msgid "Password reset on %(site_name)s"
 msgstr ""
 
-msgid "Scan the following barcode with your phone’s OTP app (e.g. Google Authenticator)."
+#: templates/admin/qrcode.html:6
+msgid ""
+"Scan the following barcode with your phone’s OTP app (e.g. Google "
+"Authenticator)."
 msgstr ""
 
+#: templates/admin/qrcode.html:7
 msgid "Install Google Authenticator?"
 msgstr ""
 
+#: templates/emails/base.html:58
 msgid "Dear"
 msgstr ""
 
+#: templates/emails/verify_email.html:11
 msgid "Your verification code is:"
 msgstr ""
 
+#: templates/emails/verify_email.html:17
 msgid "Please do not share this code with anyone."
 msgstr ""
 
-msgid "Note: This code will expire in"
+#: templates/emails/verify_email.html:20
+#, python-format
+msgid "Note: This code will expire in <b>%(expiration_time)s</b> minutes."
 msgstr ""
 
-msgid "minutes"
-msgstr ""
-
+#: templates/rosetta/file-list.html:44
 msgid "Nothing to translate!"
 msgstr ""
 
-msgid "You haven't specified any languages in your settings file, or haven't yet generated a batch of translation catalogs."
+#: templates/rosetta/file-list.html:46
+msgid ""
+"You haven't specified any languages in your settings file, or haven't yet "
+"generated a batch of translation catalogs."
 msgstr ""
 
+#: templates/rosetta/file-list.html:49
 #, python-format
-msgid "Please refer to <a href=\"%(i18n_doc_link)s\">Django's I18N documentation</a> for a guide on how to set up internationalization for your project."
+msgid ""
+"Please refer to <a href=\"%(i18n_doc_link)s\">Django's I18N documentation</"
+"a> for a guide on how to set up internationalization for your project."
 msgstr ""
 
+#: templates/rosetta/form.html:40
 msgid "Type to search"
 msgstr ""
 
+#: templates/rosetta/form.html:77
 #, python-format
 msgid "%(hits)s/%(message_number)s message"
 msgid_plural "%(hits)s/%(message_number)s messages"
 msgstr[0] ""
 msgstr[1] ""
 
+#: templates/rosetta/form.html:83
 msgid "Save and translate next block"
 msgstr ""
 
+#: templates/rosetta/includes/results-list.html:6
 msgid "Original"
 msgstr ""
 
+#: templates/rosetta/includes/results-list.html:17
 msgid "Occurrences(s)"
 msgstr ""
 
+#: templates/rosetta/includes/results-list.html:34
+#: templates/rosetta/includes/results-list.html:54
 msgid "Unmatched variables"
 msgstr ""
 
+#: templates/rosetta/includes/results-list.html:38
+#: templates/rosetta/includes/results-list.html:57
 msgid "suggest"
 msgstr ""
 
+#: templates/rosetta/includes/results-list.html:86
 msgid "Show less"
 msgstr ""
 
+#: templates/rosetta/includes/results-list.html:86
 #, python-format
 msgid "%(more_count)s more"
 msgid_plural "%(more_count)s more"
 msgstr[0] ""
 msgstr[1] ""
 
+#: templates/rosetta/includes/results-list.html:90
 msgid "Context hint"
 msgstr ""
