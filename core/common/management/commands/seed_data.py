@@ -29,10 +29,6 @@ class Command(BaseCommand):
                 password=password,
             )
             user.create_user_profile()
-            self.stdout.write(
-                self.style.SUCCESS(f"Superuser '{username}' created successfully.")
-            )
+            self.stdout.write(self.style.SUCCESS(f"Superuser '{username}' created successfully."))
         else:
-            self.stdout.write(
-                self.style.WARNING(f"Superuser '{username}' already exists.")
-            )
+            self.stdout.write(self.style.WARNING(f"Superuser '{username}' already exists."))

@@ -43,8 +43,7 @@ class TranslationFileListView(BaseTranslationFileListView):
                                 )
                             ),
                             po.percent_translated(),
-                            len(po.translated_entries())
-                            + len(po.untranslated_entries()),
+                            len(po.translated_entries()) + len(po.untranslated_entries()),
                             len(po.translated_entries()),
                             len(po.fuzzy_entries()),
                             len(po.obsolete_entries()),
@@ -60,23 +59,17 @@ class TranslationFileListView(BaseTranslationFileListView):
         context["navigation"] = [
             {
                 "title": _("Project"),
-                "link": reverse_lazy(
-                    "rosetta-file-list", kwargs={"po_filter": "project"}
-                ),
+                "link": reverse_lazy("rosetta-file-list", kwargs={"po_filter": "project"}),
                 "active": self.po_filter == "project",
             },
             {
                 "title": _("Third-Party"),
-                "link": reverse_lazy(
-                    "rosetta-file-list", kwargs={"po_filter": "third-party"}
-                ),
+                "link": reverse_lazy("rosetta-file-list", kwargs={"po_filter": "third-party"}),
                 "active": self.po_filter == "third-party",
             },
             {
                 "title": _("Django"),
-                "link": reverse_lazy(
-                    "rosetta-file-list", kwargs={"po_filter": "django"}
-                ),
+                "link": reverse_lazy("rosetta-file-list", kwargs={"po_filter": "django"}),
                 "active": self.po_filter == "django",
             },
             {

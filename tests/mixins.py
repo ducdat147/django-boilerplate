@@ -16,9 +16,7 @@ class APITestMixin:
     def assert_response_excludes_keys(self, response, excluded_keys):
         """Assert response does not contain specified keys."""
         for key in excluded_keys:
-            assert key not in response.data, (
-                f"Key '{key}' should not be in response data"
-            )
+            assert key not in response.data, f"Key '{key}' should not be in response data"
 
     def assert_paginated_response(self, response):
         """Assert response is properly paginated."""
@@ -171,9 +169,7 @@ class PerformanceTestMixin:
         with django_assert_num_queries(expected_count):
             callable()
 
-    def assert_max_query_count(
-        self, django_assert_max_num_queries, max_count, callable
-    ):
+    def assert_max_query_count(self, django_assert_max_num_queries, max_count, callable):
         """Assert query count doesn't exceed maximum."""
         with django_assert_max_num_queries(max_count):
             callable()

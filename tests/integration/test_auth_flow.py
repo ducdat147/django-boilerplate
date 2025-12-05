@@ -136,9 +136,7 @@ class TestAuthenticationFlow:
 class TestUserProfileFlow:
     """Test complete user profile management flow."""
 
-    def test_profile_update_and_retrieval_flow(
-        self, authenticated_client, verified_user
-    ):
+    def test_profile_update_and_retrieval_flow(self, authenticated_client, verified_user):
         """Test updating profile and retrieving updated data."""
         profile_url = reverse("user:my_profile")
 
@@ -155,9 +153,7 @@ class TestUserProfileFlow:
             "phone": "+84369000100",
         }
 
-        update_response = authenticated_client.put(
-            profile_url, update_data, format="json"
-        )
+        update_response = authenticated_client.put(profile_url, update_data, format="json")
         assert update_response.status_code == status.HTTP_200_OK
         assert update_response.data["email"] == "updated@example.com"
         assert update_response.data["first_name"] == "Updated"

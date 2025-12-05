@@ -81,9 +81,7 @@ class TestSetup(APITestCase):
         self.assertIn(method, ["get", "post", "put", "patch", "delete"])
 
         if is_authenticated:
-            self.client.credentials(
-                HTTP_AUTHORIZATION=f"{settings.AUTH_HEADER_TYPE} {str(self.access_token)}"
-            )
+            self.client.credentials(HTTP_AUTHORIZATION=f"{settings.AUTH_HEADER_TYPE} {str(self.access_token)}")
 
         response = getattr(self.client, method)(url, data=request_body, format=format)
         if status_code:
@@ -96,11 +94,7 @@ class TestSetup(APITestCase):
                 self.assertIn(field, response.data)
         if bool(response_body):
             obj_data = response.data
-            if (
-                not is_detail
-                and "results" in response.data
-                and status_code == status.HTTP_200_OK
-            ):
+            if not is_detail and "results" in response.data and status_code == status.HTTP_200_OK:
                 results = response.data["results"]
                 self.assertIsInstance(results, list)
                 self.assertGreaterEqual(len(results), 1)

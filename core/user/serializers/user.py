@@ -18,13 +18,9 @@ class MyProfileSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(source="user.id", read_only=True)
     username = serializers.CharField(source="user.username", read_only=True)
     email = serializers.EmailField(source="user.email")
-    is_email_verified = serializers.BooleanField(
-        source="user.is_email_verified", read_only=True
-    )
+    is_email_verified = serializers.BooleanField(source="user.is_email_verified", read_only=True)
     phone = PhoneNumberField(source="user.phone")
-    is_phone_verified = serializers.BooleanField(
-        source="user.is_phone_verified", read_only=True
-    )
+    is_phone_verified = serializers.BooleanField(source="user.is_phone_verified", read_only=True)
 
     class Meta:
         model = UserProfile
@@ -51,17 +47,13 @@ class MyProfileSerializer(serializers.ModelSerializer):
 
         if email and instance.user.email != email:
             if User.objects.filter(email=email).exclude(id=instance.user.id).exists():
-                raise serializers.ValidationError(
-                    {"email": "This email is already in use."}
-                )
+                raise serializers.ValidationError({"email": "This email is already in use."})
             instance.user.email = email
             instance.user.is_email_verified = False  # Reset email verification status
 
         if phone and instance.user.phone != phone:
             if User.objects.filter(phone=phone).exclude(id=instance.user.id).exists():
-                raise serializers.ValidationError(
-                    {"phone": "This phone number is already in use."}
-                )
+                raise serializers.ValidationError({"phone": "This phone number is already in use."})
             instance.user.phone = phone
             instance.user.is_phone_verified = False  # Reset phone verification status
 
@@ -78,9 +70,7 @@ class UserResetPasswordSerializer(serializers.Serializer):
     def validate_old_password(self, value):
         user = self.context["request"].user
         if not user.check_password(value):
-            raise serializers.ValidationError(
-                {"old_password": "Old password is not correct."}
-            )
+            raise serializers.ValidationError({"old_password": "Old password is not correct."})
         return value
 
     def validate(self, attrs):
@@ -93,9 +83,7 @@ class UserResetPasswordSerializer(serializers.Serializer):
             raise ValidationError({"new_password": e.messages})
 
         if old_password == new_password:
-            raise ValidationError(
-                {"new_password": _("New password must be different from old password.")}
-            )
+            raise ValidationError({"new_password": _("New password must be different from old password.")})
 
         user.set_password(new_password)
         user.save()
@@ -199,10 +187,7 @@ class UserVerifyOTPSerializer(OTPBaseSerializer):
         code = attrs.get("code")
         verification_type = attrs.get("verification_type")
         if verification_type == OtpTypeUserEnum.TWO_FACTOR:
-            if (
-                not getattr(user, "twofactorauthenticationotp", None)
-                or not user.twofactorauthenticationotp.is_active
-            ):
+            if not getattr(user, "twofactorauthenticationotp", None) or not user.twofactorauthenticationotp.is_active:
                 raise ParseError(_("Two-factor authentication is not enabled."))
             if not user.twofactorauthenticationotp.verify_code(code):
                 raise ParseError(_("Invalid OTP code"))

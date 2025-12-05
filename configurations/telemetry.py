@@ -60,9 +60,7 @@ def init_telemetry(is_service: bool = False, **kwargs):
     resource = Resource.create(
         {
             DEPLOYMENT_ENVIRONMENT: os.getenv("DEPLOYMENT_ENVIRONMENT", "production"),
-            SERVICE_NAME: kwargs.get(
-                "service_name", os.getenv("OTEL_SERVICE_NAME", "prisvio")
-            ),
+            SERVICE_NAME: kwargs.get("service_name", os.getenv("OTEL_SERVICE_NAME", "prisvio")),
             SERVICE_VERSION: "1.0.0",
         }
     )
@@ -72,9 +70,7 @@ def init_telemetry(is_service: bool = False, **kwargs):
         sampler=ALWAYS_ON,
     )
 
-    otlp_endpoint = kwargs.get(
-        "otlp_endpoint", os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT", default=None)
-    )
+    otlp_endpoint = kwargs.get("otlp_endpoint", os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT", default=None))
 
     if otlp_endpoint and isinstance(otlp_endpoint, str):
         span_processor = BatchSpanProcessor(OTLPSpanExporter(endpoint=otlp_endpoint))

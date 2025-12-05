@@ -29,9 +29,7 @@ def get_class_from_string(class_path: str):
     """
     if "." not in class_path:
         logger.error("Class path must include module name.")
-        raise ValueError(
-            "Class path must include module name, e.g., 'my_module.MyClass'"
-        )
+        raise ValueError("Class path must include module name, e.g., 'my_module.MyClass'")
     try:
         module_name, class_name = class_path.rsplit(".", 1)
         module = importlib.import_module(module_name)

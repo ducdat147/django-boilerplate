@@ -19,12 +19,8 @@ AUTH_HEADER_TYPE = "Bearer"
 # Simple JWT settings
 # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html#settings
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(
-        minutes=env.int("ACCESS_TOKEN_LIFETIME", default=5)
-    ),
-    "REFRESH_TOKEN_LIFETIME": timedelta(
-        days=env.int("REFRESH_TOKEN_LIFETIME", default=1)
-    ),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=env.int("ACCESS_TOKEN_LIFETIME", default=5)),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=env.int("REFRESH_TOKEN_LIFETIME", default=1)),
     "ROTATE_REFRESH_TOKENS": env.bool("ROTATE_REFRESH_TOKENS", default=True),
     "BLACKLIST_AFTER_ROTATION": env.bool("BLACKLIST_AFTER_ROTATION", default=True),
     "UPDATE_LAST_LOGIN": env.bool("UPDATE_LAST_LOGIN", default=True),
@@ -46,12 +42,8 @@ SIMPLE_JWT = {
     "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
     "JTI_CLAIM": "jti",
     "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(
-        minutes=env.int("SLIDING_TOKEN_LIFETIME", default=5)
-    ),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(
-        days=env.int("SLIDING_TOKEN_REFRESH_LIFETIME", default=1)
-    ),
+    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=env.int("SLIDING_TOKEN_LIFETIME", default=5)),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=env.int("SLIDING_TOKEN_REFRESH_LIFETIME", default=1)),
     "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
     "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
     "TOKEN_VERIFY_SERIALIZER": "rest_framework_simplejwt.serializers.TokenVerifySerializer",
@@ -63,9 +55,7 @@ SIMPLE_JWT = {
 # Django REST Framework settings
 # https://www.django-rest-framework.org/api-guide/settings/
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",

@@ -95,9 +95,7 @@ UNFOLD["SIDEBAR"]["navigation"] = [
                 "title": _("OTP Codes"),
                 "icon": "pin",
                 "link": reverse_lazy("admin:user_otpcode_changelist"),
-                "permission": lambda request: request.user.has_perm(
-                    "user.view_otpcode"
-                ),
+                "permission": lambda request: request.user.has_perm("user.view_otpcode"),
             },
             {
                 "title": _("Groups"),
@@ -120,41 +118,31 @@ UNFOLD["SIDEBAR"]["navigation"] = [
             {
                 "title": _("Clocked"),
                 "icon": "hourglass_bottom",
-                "link": reverse_lazy(
-                    "admin:django_celery_beat_clockedschedule_changelist"
-                ),
+                "link": reverse_lazy("admin:django_celery_beat_clockedschedule_changelist"),
                 "permission": lambda request: request.user.is_superuser,
             },
             {
                 "title": _("Crontabs"),
                 "icon": "update",
-                "link": reverse_lazy(
-                    "admin:django_celery_beat_crontabschedule_changelist"
-                ),
+                "link": reverse_lazy("admin:django_celery_beat_crontabschedule_changelist"),
                 "permission": lambda request: request.user.is_superuser,
             },
             {
                 "title": _("Intervals"),
                 "icon": "timer",
-                "link": reverse_lazy(
-                    "admin:django_celery_beat_intervalschedule_changelist"
-                ),
+                "link": reverse_lazy("admin:django_celery_beat_intervalschedule_changelist"),
                 "permission": lambda request: request.user.is_superuser,
             },
             {
                 "title": _("Periodic tasks"),
                 "icon": "task",
-                "link": reverse_lazy(
-                    "admin:django_celery_beat_periodictask_changelist"
-                ),
+                "link": reverse_lazy("admin:django_celery_beat_periodictask_changelist"),
                 "permission": lambda request: request.user.is_superuser,
             },
             {
                 "title": _("Solar events"),
                 "icon": "event",
-                "link": reverse_lazy(
-                    "admin:django_celery_beat_solarschedule_changelist"
-                ),
+                "link": reverse_lazy("admin:django_celery_beat_solarschedule_changelist"),
                 "permission": lambda request: request.user.is_superuser,
             },
         ],

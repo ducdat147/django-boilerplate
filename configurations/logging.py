@@ -24,9 +24,7 @@ def _sanitize_recursive(
         for key, value in data.items():
             # Check if current key should be hidden
             key_to_check = key.lower() if not case_sensitive else key
-            fields_to_check = [
-                f.lower() if not case_sensitive else f for f in hidden_fields
-            ]
+            fields_to_check = [f.lower() if not case_sensitive else f for f in hidden_fields]
 
             if key_to_check in fields_to_check:
                 data[key] = mask_value
@@ -90,9 +88,7 @@ class JSONFormatter(json_log_formatter.JSONFormatter):
         if record.levelname in ["ERROR", "CRITICAL"] and not extra.get("error"):
             extra_attributes["error"] = True
         if str(settings.BASE_DIR) in record.pathname:
-            extra_attributes["filepath"] = record.pathname.replace(
-                str(settings.BASE_DIR), ""
-            )
+            extra_attributes["filepath"] = record.pathname.replace(str(settings.BASE_DIR), "")
         else:
             extra_attributes["logtype"] = "lib"
         extra.update(

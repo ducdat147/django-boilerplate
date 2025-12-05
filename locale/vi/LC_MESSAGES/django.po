@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-02 14:08+0700\n"
-"PO-Revision-Date: 2025-12-02 13:48+0700\n"
+"POT-Creation-Date: 2025-12-05 10:25+0700\n"
+"PO-Revision-Date: 2025-12-05 10:12+0700\n"
 "Last-Translator: None None <ducdat147@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,824 +19,677 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Translated-Using: django-rosetta 0.10.2\n"
 
-#: common/contexttranslate.py:4
 msgid "Search apps and models..."
 msgstr "Tìm tên app và model..."
 
-#: common/contexttranslate.py:5
 msgid "No results found"
 msgstr "Không tìm thấy dữ liệu"
 
-#: common/contexttranslate.py:6
-msgid ""
-"This page yielded into no results. Create a new item or reset your filters."
-msgstr ""
-"Trang này không tìm thấy kết quả nào. Tạo một mục mới hoặc đặt lại bộ lọc "
-"của bạn."
+msgid "This page yielded into no results. Create a new item or reset your filters."
+msgstr "Trang này không tìm thấy kết quả nào. Tạo một mục mới hoặc đặt lại bộ lọc của bạn."
 
-#: common/contexttranslate.py:7
 msgid "Reset filters"
 msgstr "Đặt lại bộ lọc"
 
-#: common/contexttranslate.py:8
 msgid "Hide counts"
 msgstr "Ẩn số lượng"
 
-#: common/contexttranslate.py:9
 msgid "Show counts"
 msgstr "Hiển thị số lượng"
 
-#: common/exceptions.py:37
-msgid "A server error occurred."
-msgstr ""
+#, python-format
+msgid "Choose %s by selecting them and then select the \"Choose\" arrow button."
+msgstr "Chọn %s bằng cách chọn chúng và sau đó chọn nút mũi tên \"Chọn\"."
 
-#: configurations/settings/base.py:189 core/user/enums.py:6
+#, python-format
+msgid "Remove %s by selecting them and then select the \"Remove\" arrow button."
+msgstr "Xóa %s bằng cách chọn chúng rồi chọn nút mũi tên \"Xóa\"."
+
+msgid "Raw passwords are not stored, so there is no way to see the user’s password."
+msgstr "Mật khẩu thô không được lưu trữ, vì vậy không có cách nào để xem mật khẩu của người dùng."
+
+#, python-brace-format
+msgid "Raw passwords are not stored, so there is no way to see this user’s password, but you can change the password using <a href=\"{}\" class=\"text-primary-600 dark:text-primary-500\">this form</a>."
+msgstr "Mật khẩu thô không được lưu trữ, vì vậy không có cách nào để xem mật khẩu của người dùng này, nhưng bạn có thể thay đổi mật khẩu bằng cách sử dụng <a href=\"{}\" class=\"text-primary-600 dark:text-primary-500\">form này</a>."
+
+msgid "A server error occurred."
+msgstr "Đã xảy ra lỗi máy chủ."
+
 msgid "English"
 msgstr "Tiếng Anh"
 
-#: configurations/settings/base.py:190 core/user/enums.py:7
 msgid "Vietnamese"
 msgstr "Tiếng Việt"
 
-#: configurations/settings/packages/constance.py:43
 msgid "Website URL"
-msgstr ""
+msgstr "Website URL"
 
-#: configurations/settings/packages/constance.py:44
 msgid "Website title"
-msgstr ""
+msgstr "Website title"
 
-#: configurations/settings/packages/constance.py:45
 msgid "Website header"
-msgstr ""
+msgstr "Website header"
 
-#: configurations/settings/packages/constance.py:46
 msgid "Website subheader"
-msgstr ""
+msgstr "Subheader trang web"
 
-#: configurations/settings/packages/constance.py:47
 msgid "Login page background image URL"
-msgstr ""
+msgstr "URL hình nền trang đăng nhập"
 
-#: configurations/settings/packages/constance.py:48
 msgid "Website symbol"
-msgstr ""
+msgstr "Biểu tượng trang web"
 
-#: configurations/settings/packages/constance.py:49
 msgid "Border radius"
-msgstr ""
+msgstr "Bo viền"
 
-#: configurations/settings/packages/constance.py:50
 msgid "Website logo"
-msgstr ""
+msgstr "Logo trang web"
 
-#: configurations/settings/packages/constance.py:51
 msgid "Website logo for light mode"
-msgstr ""
+msgstr "Logo trang web sáng"
 
-#: configurations/settings/packages/constance.py:52
 msgid "Website logo for dark mode"
-msgstr ""
+msgstr "Logo trang web tối"
 
-#: configurations/settings/packages/constance.py:53
 msgid "Website icon"
-msgstr ""
+msgstr "Biểu tượng trang web"
 
-#: configurations/settings/packages/constance.py:54
 msgid "Website icon for light mode"
-msgstr ""
+msgstr "Biểu tượng trang web cho chế độ sáng"
 
-#: configurations/settings/packages/constance.py:55
 msgid "Website icon for dark mode"
-msgstr ""
+msgstr "Biểu tượng trang web cho chế độ tối"
 
-#: configurations/settings/packages/constance.py:56
 msgid "Website theme"
-msgstr ""
+msgstr "Chủ đề giao diện trang web"
 
-#: configurations/settings/packages/constance.py:57
 msgid "Expiration time in minutes"
-msgstr ""
+msgstr "Thời gian hết hạn tính bằng phút"
 
-#: configurations/settings/packages/constance.py:58
 msgid "OTP code length"
-msgstr ""
+msgstr "Độ dài mã OTP"
 
-#: configurations/settings/packages/constance.py:61
 msgid "Password reset token expiration time in minutes"
-msgstr ""
+msgstr "Thời gian hết hạn token đặt lại mật khẩu tính bằng phút"
 
-#: configurations/settings/packages/constance.py:65
 msgid "Base colors"
-msgstr ""
+msgstr "Base colors"
 
-#: configurations/settings/packages/constance.py:70
 msgid "Primary colors"
-msgstr ""
+msgstr "Primary colors"
 
-#: configurations/settings/packages/constance.py:75
 msgid "Font colors"
-msgstr ""
+msgstr "Font colors"
 
-#: configurations/settings/packages/constance.py:78
 msgid "Sticky header"
-msgstr ""
+msgstr "Header cố định"
 
-#: configurations/settings/packages/constance.py:79
 msgid "Header dark"
-msgstr ""
+msgstr "Header tối"
 
-#: configurations/settings/packages/constance.py:80
 msgid "Sidebar dark"
-msgstr ""
+msgstr "Sidebar tối"
 
-#: configurations/settings/packages/constance.py:81
 msgid "Boxed layout"
-msgstr ""
+msgstr "Bố cục Box"
 
-#: configurations/settings/packages/unfold.py:55 core/sites.py:207
 msgid "Constance"
-msgstr ""
+msgstr "Constance"
 
-#: configurations/settings/packages/unfold.py:64
 msgid "Translations"
-msgstr ""
+msgstr "Dịch ngôn ngữ"
 
-#: configurations/settings/packages/unfold.py:73
 msgid "Navigation"
-msgstr ""
+msgstr "Điều hướng"
 
-#: configurations/settings/packages/unfold.py:76 core/user/views/admin.py:21
-#: templates/admin/index.html:10
 msgid "Dashboard"
-msgstr ""
+msgstr "Dashboard"
 
-#: configurations/settings/packages/unfold.py:84
 msgid "Accounts & Authentication"
-msgstr ""
+msgstr "Tài khoản & Xác thực"
 
-#: configurations/settings/packages/unfold.py:89
 msgid "Users"
-msgstr ""
+msgstr "Người dùng"
 
-#: configurations/settings/packages/unfold.py:95
 msgid "OTP Codes"
-msgstr ""
+msgstr "Mã OTP"
 
-#: configurations/settings/packages/unfold.py:103
 msgid "Groups"
-msgstr ""
+msgstr "Nhóm"
 
-#: configurations/settings/packages/unfold.py:111
 msgid "System Settings"
-msgstr ""
+msgstr "Cài đặt hệ thống"
 
-#: configurations/settings/packages/unfold.py:117
 msgid "Celery Tasks"
-msgstr ""
+msgstr "Celery Tasks"
 
-#: configurations/settings/packages/unfold.py:121
 msgid "Clocked"
-msgstr ""
+msgstr "Clocked"
 
-#: configurations/settings/packages/unfold.py:129
 msgid "Crontabs"
-msgstr ""
+msgstr "Crontabs"
 
-#: configurations/settings/packages/unfold.py:137
 msgid "Intervals"
-msgstr ""
+msgstr "Intervals"
 
-#: configurations/settings/packages/unfold.py:145
 msgid "Periodic tasks"
-msgstr ""
+msgstr "Periodic tasks"
 
-#: configurations/settings/packages/unfold.py:153
 msgid "Solar events"
-msgstr ""
+msgstr "Solar events"
 
-#: core/sites.py:37
-msgid ""
-"The server could not understand the request due to invalid syntax. Please do "
-"not repeat this request without modification."
-msgstr ""
+msgid "The server could not understand the request due to invalid syntax. Please do not repeat this request without modification."
+msgstr "Máy chủ không thể hiểu yêu cầu do cú pháp không hợp lệ. Vui lòng không lặp lại yêu cầu này mà không sửa đổi."
 
-#: core/sites.py:41
-msgid ""
-"You do not have permission to access this resource. Please contact the "
-"administrator if you believe this is an error."
-msgstr ""
+msgid "You do not have permission to access this resource. Please contact the administrator if you believe this is an error."
+msgstr "Bạn không có quyền truy cập vào tài nguyên này. Vui lòng liên hệ với quản trị viên nếu bạn cho rằng đây là lỗi."
 
-#: core/sites.py:44
 msgid "Sorry, we can't find that path. Please try again."
-msgstr ""
+msgstr "Xin lỗi, chúng tôi không thể tìm thấy đường dẫn đó. Vui lòng thử lại."
 
-#: core/sites.py:46
-msgid ""
-"The server encountered an internal error or misconfiguration and was unable "
-"to complete your request."
-msgstr ""
+msgid "The server encountered an internal error or misconfiguration and was unable to complete your request."
+msgstr "Máy chủ gặp lỗi nội bộ hoặc cấu hình sai và không thể hoàn thành yêu cầu của bạn."
 
-#: core/sites.py:50
 msgid "Bad request"
-msgstr ""
+msgstr "Request lỗi"
 
-#: core/sites.py:51
 msgid "Permission denied"
-msgstr ""
+msgstr "Quyền truy cập bị từ chối"
 
-#: core/sites.py:52
 msgid "Something's missing"
-msgstr ""
+msgstr "Thiếu một cái gì đó"
 
-#: core/sites.py:53
 msgid "Server error"
-msgstr ""
+msgstr "Lỗi hệ thống"
 
-#: core/sites.py:210
 msgid "Change password"
-msgstr ""
+msgstr "Thay đổi mật khẩu"
 
-#: core/sites.py:278
 msgid "Back to homepage"
-msgstr ""
+msgstr "Trở về trang chủ"
 
-#: core/third_party/views/admin.py:15
 msgid "Translation File List"
-msgstr ""
+msgstr "Danh sách file dịch ngôn ngữ"
 
-#: core/third_party/views/admin.py:21
 msgid "Application"
-msgstr ""
+msgstr "App"
 
-#: core/third_party/views/admin.py:22
 msgid "Progress"
-msgstr ""
+msgstr "Tiến độ"
 
-#: core/third_party/views/admin.py:23
 msgid "Messages"
-msgstr ""
+msgstr "Nội dung"
 
-#: core/third_party/views/admin.py:24
 msgid "Translated"
-msgstr ""
+msgstr "Đã dịch"
 
-#: core/third_party/views/admin.py:25
-#: templates/rosetta/includes/results-list.html:13
 msgid "Fuzzy"
-msgstr ""
+msgstr "Fuzzy"
 
-#: core/third_party/views/admin.py:26
 msgid "Obsolete"
-msgstr ""
+msgstr "Obsolete"
 
-#: core/third_party/views/admin.py:27
 msgid "File"
-msgstr ""
+msgstr "File"
 
-#: core/third_party/views/admin.py:62
 msgid "Project"
-msgstr ""
+msgstr "Project"
 
-#: core/third_party/views/admin.py:69
 msgid "Third-Party"
-msgstr ""
+msgstr "Bên thứ ba"
 
-#: core/third_party/views/admin.py:76
 msgid "Django"
-msgstr ""
+msgstr "Django"
 
-#: core/third_party/views/admin.py:83 core/third_party/views/admin.py:100
-#: core/user/views/admin.py:164
 msgid "All"
-msgstr ""
+msgstr "Tất cả"
 
-#: core/third_party/views/admin.py:105
 msgid "Untranslated only"
-msgstr ""
+msgstr "Chỉ chưa dịch"
 
-#: core/third_party/views/admin.py:110
 msgid "Translated only"
-msgstr ""
+msgstr "Chỉ đã dịch"
 
-#: core/third_party/views/admin.py:115
 msgid "Fuzzy only"
-msgstr ""
+msgstr "Chỉ Fuzzy"
 
-#: core/user/admin.py:29
 msgid "Two Factor Authentication OTP"
-msgstr ""
+msgstr "OTP xác thực 2 yếu tố"
 
-#: core/user/admin.py:38
 msgid "Two Step QR Code"
-msgstr ""
+msgstr "Mã QR 2 bước"
 
-#: core/user/admin.py:58
 msgid "User Setting"
-msgstr ""
+msgstr "Cài đặt người dùng"
 
-#: core/user/admin.py:67
 msgid "User Profile"
-msgstr ""
+msgstr "Thông tin người dùng"
 
-#: core/user/admin.py:108
 msgid "Important dates"
-msgstr ""
+msgstr "Ngày quan trọng"
 
-#: core/user/admin.py:115
 msgid "Permissions"
-msgstr ""
+msgstr "Phân quyền"
 
-#: core/user/enums.py:11
 msgid "Male"
-msgstr ""
+msgstr "Nam"
 
-#: core/user/enums.py:12
 msgid "Female"
-msgstr ""
+msgstr "Nữ"
 
-#: core/user/enums.py:13
 msgid "Other"
-msgstr ""
+msgstr "Khác"
 
-#: core/user/enums.py:17 core/user/forms.py:37
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
-#: core/user/enums.py:18
 msgid "Phone Number"
-msgstr ""
+msgstr "Số điện thoại"
 
-#: core/user/enums.py:22 core/user/enums.py:33
-#: templates/emails/verify_email.html:6
 msgid "Email Verification"
-msgstr ""
+msgstr "Xác thực email"
 
-#: core/user/enums.py:23 core/user/enums.py:34
 msgid "Phone Number Verification"
-msgstr ""
+msgstr "Xác thực số điện thoại"
 
-#: core/user/enums.py:24 core/user/enums.py:36
 msgid "Two Factor Authentication"
-msgstr ""
+msgstr "Xác thực hai yếu tố"
 
-#: core/user/enums.py:28 core/user/enums.py:35
-#: templates/admin/password_reset/email.html:6
 msgid "Password Reset"
-msgstr ""
+msgstr "Đặt lại mật khẩu"
 
-#: core/user/enums.py:29 core/user/enums.py:37
 msgid "Verify OTP"
-msgstr ""
+msgstr "Xác minh OTP"
 
-#: core/user/enums.py:41
 msgid "Verified"
-msgstr ""
+msgstr "Đã xác minh"
 
-#: core/user/enums.py:42
 msgid "Expired"
-msgstr ""
+msgstr "Hết hạn"
 
-#: core/user/enums.py:43
 msgid "Invalid"
-msgstr ""
+msgstr "Không hợp lệ"
 
-#: core/user/enums.py:44
 msgid "Used"
-msgstr ""
+msgstr "Đã dùng"
 
-#: core/user/forms.py:31
 msgid "Enter your username"
-msgstr ""
+msgstr "Nhập tên đăng nhập của bạn"
 
-#: core/user/forms.py:32
 msgid "Enter your password"
-msgstr ""
+msgstr "Nhập mật khẩu của bạn"
 
-#: core/user/forms.py:43
 msgid "Enter your email"
-msgstr ""
+msgstr "Nhập email của bạn"
 
-#: core/user/forms.py:74
 msgid "Password"
 msgstr "Mật khẩu"
 
-#: core/user/forms.py:81
 msgid "Enter your new password"
-msgstr ""
+msgstr "Nhập mật khẩu mới của bạn"
 
-#: core/user/forms.py:86
 msgid "Password confirmation"
-msgstr ""
+msgstr "Xác nhận mật khẩu"
 
-#: core/user/forms.py:89
 msgid "Enter the same password as before, for verification."
-msgstr ""
+msgstr "Nhập mật khẩu giống như trước để xác minh."
 
-#: core/user/forms.py:93
 msgid "Confirm your new password"
-msgstr ""
+msgstr "Xác nhận mật khẩu mới của bạn"
 
-#: core/user/models.py:37
 msgid "email address"
-msgstr ""
+msgstr "địa chỉ email"
 
-#: core/user/models.py:38
-msgid "phone_number"
-msgstr ""
+msgid "phone number"
+msgstr "số điện thoại"
 
-#: core/user/models.py:40
 msgid "email verified"
-msgstr ""
+msgstr "email đã xác minh"
 
-#: core/user/models.py:42
 msgid "If the email is verified, the user can login with the email."
-msgstr ""
+msgstr "Nếu email được xác minh, người dùng có thể đăng nhập bằng email."
 
-#: core/user/models.py:45
 msgid "phone number verified"
-msgstr ""
+msgstr "số điện thoại đã xác minh"
 
-#: core/user/models.py:47
-msgid ""
-"If the phone number is verified, the user can login with the phone number."
-msgstr ""
+msgid "If the phone number is verified, the user can login with the phone number."
+msgstr "Nếu số điện thoại được xác minh, người dùng có thể đăng nhập bằng số điện thoại."
 
-#: core/user/models.py:80
 msgid "first name"
-msgstr ""
+msgstr "Tên"
 
-#: core/user/models.py:81
 msgid "last name"
 msgstr "họ"
 
-#: core/user/models.py:82
 msgid "date of birth"
 msgstr "ngày sinh"
 
-#: core/user/models.py:83
 msgid "gender"
 msgstr "giới tính"
 
-#: core/user/models.py:84
 msgid "avatar"
 msgstr "ảnh đại diện"
 
-#: core/user/models.py:85
 msgid "address"
 msgstr "địa chỉ"
 
-#: core/user/models.py:102
 msgid "Language"
 msgstr "Ngôn ngữ"
 
-#: core/user/models.py:103
 msgid "Config"
 msgstr "Cấu hình"
 
-#: core/user/models.py:111
 msgid "To"
 msgstr "Đến"
 
-#: core/user/models.py:112
 msgid "Target"
 msgstr "Mục tiêu"
 
-#: core/user/models.py:113
 msgid "OTP Code"
 msgstr "Mã OTP"
 
-#: core/user/models.py:114
 msgid "OTP Type"
 msgstr "Loại OTP"
 
-#: core/user/models.py:115
 msgid "Expires At"
 msgstr "Hết hạn lúc"
 
-#: core/user/models.py:116
 msgid "Is Used"
 msgstr "Đã sử dụng"
 
-#: core/user/serializers/auth.py:100 core/user/serializers/user.py:158
 msgid "No OTP code found"
 msgstr "Không tìm thấy mã OTP"
 
-#: core/user/serializers/auth.py:104 core/user/serializers/user.py:163
-#: core/user/serializers/user.py:193
 msgid "Invalid OTP code"
 msgstr "Mã OTP không đúng"
 
-#: core/user/serializers/auth.py:106 core/user/serializers/user.py:165
 msgid "OTP code has already been used"
 msgstr "Mã OTP tồn tại đã được sử dụng"
 
-#: core/user/serializers/auth.py:108 core/user/serializers/user.py:167
 msgid "OTP code has expired"
 msgstr "Mã OTP đã hết hạn"
 
-#: core/user/serializers/auth.py:139 core/user/serializers/auth.py:168
 msgid "User account is inactive"
 msgstr "Tài khoản người dùng không được kích hoạt"
 
-#: core/user/serializers/auth.py:142
 msgid "User is not verified"
 msgstr "Người dùng chưa được xác thực"
 
-#: core/user/serializers/auth.py:144
 msgid "User not found."
 msgstr "Người dùng không tìm thấy"
 
-#: core/user/serializers/auth.py:165
 msgid "Invalid or expired token"
 msgstr "Token không đúng hoặc đã hết hạn"
 
-#: core/user/serializers/auth.py:174
 msgid "User not found"
 msgstr "Không tìm thấy người dùng"
 
-#: core/user/serializers/auth.py:208
 msgid "Username may contain only letters, digits and @/./+/-/_ characters."
 msgstr "Tên đăng nhập chỉ cho phép chuỗi, số và ký tự đặc biệt @/./+/-/_"
 
-#: core/user/serializers/auth.py:211
 msgid "Username must be between 3 and 150 characters."
 msgstr "Tên đăng nhập phải có từ 3 đến 150 ký tự."
 
-#: core/user/serializers/auth.py:217
-#, fuzzy
-#| msgid "Either email or phone must be provided"
 msgid "Either email or phone number must be provided"
 msgstr "Phải cung cấp email hoặc số điện thoại"
 
-#: core/user/serializers/auth.py:222
 msgid "Email or phone number is already registered."
 msgstr "Email hoặc số điện thoại đã được đăng ký."
 
-#: core/user/serializers/auth.py:232
 msgid "Username is already taken."
 msgstr "Tên người dùng đã được sử dụng."
 
-#: core/user/serializers/user.py:86
 msgid "New password must be different from old password."
-msgstr ""
+msgstr "Mật khẩu mới phải khác với mật khẩu cũ."
 
-#: core/user/serializers/user.py:191
 msgid "Two-factor authentication is not enabled."
-msgstr ""
+msgstr "Xác thực hai yếu tố không được bật."
 
-#: core/user/views/admin.py:25
 msgid "Analytics"
-msgstr ""
+msgstr "Phân tích"
 
-#: core/user/views/admin.py:26
 msgid "Settings"
-msgstr ""
+msgstr "Cài đặt"
 
-#: core/user/views/admin.py:166
+#, python-brace-format
+msgid "Group #{}"
+msgstr "Nhóm #{}"
+
+#, python-brace-format
+msgid "Total {}"
+msgstr "Tổng {}"
+
+msgid "Mon"
+msgstr "Th2"
+
+msgid "Tue"
+msgstr "Th3"
+
+msgid "Wed"
+msgstr "Th4"
+
+msgid "Thu"
+msgstr "Th5"
+
+msgid "Fri"
+msgstr "Th6"
+
+msgid "Sat"
+msgstr "Th7"
+
+msgid "Sun"
+msgstr "CN"
+
 msgid "New"
-msgstr ""
+msgstr "Mới"
 
-#: core/user/views/admin.py:281
+msgid "Product A Performance"
+msgstr "Hiệu suất sản phẩm A"
+
+msgid "Product B Performance"
+msgstr "Hiệu suất sản phẩm B"
+
+msgid "Product C Performance"
+msgstr "Hiệu suất sản phẩm C"
+
+msgid "Social marketing e-book"
+msgstr "Sách điện tử tiếp thị xã hội"
+
+msgid "Freelancing tasks"
+msgstr "Task tự do"
+
+msgid "Development coaching"
+msgstr "Huấn luyện phát triển"
+
+msgid "Product consulting"
+msgstr "Tư vấn sản phẩm"
+
+msgid "Other income"
+msgstr "Thu nhập khác"
+
+msgid "Course sales"
+msgstr "Bán khóa học"
+
+msgid "Ads revenue"
+msgstr "Doanh thu quảng cáo"
+
+msgid "Customer Retention Rate"
+msgstr "Tỷ lệ giữ chân khách hàng"
+
+msgid "Example 1"
+msgstr "Ví dụ 1"
+
+msgid "Example 2"
+msgstr "Ví dụ 2"
+
+msgid "Example 3"
+msgstr "Ví dụ 3"
+
 msgid "Last week revenue"
-msgstr ""
+msgstr "Doanh thu tuần trước"
 
-#: core/user/views/admin.py:299
+msgid "<strong class=\"text-green-600 font-medium\">+3.14%</strong>&nbsp;progress from last week"
+msgstr "<strong class=\"text-green-600 font-medium\">+3,14%</strong> tiến độ so với tuần trước"
+
 msgid "Last week expenses"
-msgstr ""
+msgstr "Chi phí tuần trước"
 
-#: core/user/views/admin.py:318
 msgid "Day"
-msgstr ""
+msgstr "Ngày"
 
-#: core/user/views/admin.py:318
 msgid "Income"
-msgstr ""
+msgstr "Thu nhập"
 
-#: core/user/views/admin.py:318
 msgid "Expenses"
-msgstr ""
+msgstr "Phí"
 
-#: templates/admin/index.html:10 templates/rosetta/file-list.html:10
-#: templates/rosetta/form.html:10
 msgid "Django site admin"
-msgstr ""
+msgstr "Trang web quản trị viên Django"
 
-#: templates/admin/index.html:43
 msgid "Last 7 days"
-msgstr ""
+msgstr "7 ngày qua"
 
-#: templates/admin/index.html:62
 msgid "Product performance in last 28 days"
-msgstr ""
+msgstr "Hiệu suất sản phẩm trong 28 ngày qua"
 
-#: templates/admin/index.html:68
 msgid "Top earnings"
-msgstr ""
+msgstr "Thu nhập hàng đầu"
 
-#: templates/admin/index.html:75
 msgid "The most trending products in last 2 weeks"
-msgstr ""
+msgstr "Các sản phẩm thịnh hành nhất trong 2 tuần qua"
 
-#: templates/admin/index.html:79
 #, python-format
-msgid ""
-"Total revenue between <strong class=\"font-semibold text-font-important-"
-"light dark:text-font-important-dark dark:text-white\">1 - 31 October</"
-"strong>. Increase <span class=\"text-green-700 font-semibold dark:text-"
-"green-400\">+3.14%%</span> comparing to previous month <strong class=\"font-"
-"semibold text-font-important-light dark:text-font-important-dark dark:text-"
-"white\">1 - 30 September</strong>."
-msgstr ""
+msgid "Total revenue between <strong class=\"font-semibold text-font-important-light dark:text-font-important-dark dark:text-white\">1 - 31 October</strong>. Increase <span class=\"text-green-700 font-semibold dark:text-green-400\">+3.14%%</span> comparing to previous month <strong class=\"font-semibold text-font-important-light dark:text-font-important-dark dark:text-white\">1 - 30 September</strong>."
+msgstr "Tổng doanh thu giữa <strong class=\"font-semibold text-font-important-light dark:text-font-important-dark dark:text-white\">1 - 31 tháng 10</strong>. Tăng <span class=\"text-green-700 font-semibold dark:text-green-400\">+3,14%%</span> so với tháng trước <strong class=\"font-semibold text-font-important-light dark:text-font-important-dark:text-white\">1 - 30 tháng 9</strong>."
 
-#: templates/admin/index.html:97
 msgid "View detailed analytics"
-msgstr ""
+msgstr "Xem số liệu phân tích chi tiết"
 
-#: templates/admin/index.html:105
 msgid "Current system health"
-msgstr ""
+msgstr "Tình trạng hệ thống hiện tại"
 
-#: templates/admin/password_reset/complete.html:7
 msgid "Password reset complete"
-msgstr ""
+msgstr "Đặt lại mật khẩu hoàn tất"
 
-#: templates/admin/password_reset/complete.html:8
 msgid "Your password has been set.  You may go ahead and log in now."
-msgstr ""
+msgstr "Mật khẩu của bạn đã được đặt. Bạn có thể tiếp tục và đăng nhập ngay bây giờ."
 
-#: templates/admin/password_reset/complete.html:13
 msgid "Log in"
-msgstr ""
+msgstr "Đăng nhập"
 
-#: templates/admin/password_reset/confirm.html:8
-#: templates/admin/password_reset/confirm.html:28
-#: templates/admin/password_reset/form.html:7
 msgid "Forgotten password"
-msgstr ""
+msgstr "Quên mật khẩu"
 
-#: templates/admin/password_reset/confirm.html:9
-#: templates/admin/password_reset/form.html:8
 msgid "Forgotten your password?"
-msgstr ""
+msgstr "Quên mật khẩu của bạn?"
 
-#: templates/admin/password_reset/confirm.html:10
-#: templates/admin/password_reset/form.html:9
-msgid ""
-"Enter your email address below, and we’ll email instructions for setting a "
-"new one."
-msgstr ""
+msgid "Enter your email address below, and we’ll email instructions for setting a new one."
+msgstr "Nhập địa chỉ email của bạn bên dưới và chúng tôi sẽ gửi email hướng dẫn thiết lập địa chỉ mới."
 
-#: templates/admin/password_reset/confirm.html:22
 msgid "Change my password"
-msgstr ""
+msgstr "Thay đổi mật khẩu của tôi"
 
-#: templates/admin/password_reset/confirm.html:29
-msgid ""
-"The password reset link was invalid, possibly because it has already been "
-"used. Please request a new password reset."
-msgstr ""
+msgid "The password reset link was invalid, possibly because it has already been used. Please request a new password reset."
+msgstr "Liên kết đặt lại mật khẩu không hợp lệ, có thể vì nó đã được sử dụng. Vui lòng yêu cầu đặt lại mật khẩu mới."
 
-#: templates/admin/password_reset/confirm.html:34
-#: templates/admin/password_reset/form.html:19
 msgid "Reset my password"
-msgstr ""
+msgstr "Đặt lại mật khẩu của tôi"
 
-#: templates/admin/password_reset/done.html:6
 msgid "Success!"
-msgstr ""
+msgstr "Thành công!"
 
-#: templates/admin/password_reset/done.html:8
-msgid ""
-"We’ve emailed you instructions for setting your password, if an account "
-"exists with the email you entered. You should receive them shortly."
-msgstr ""
+msgid "We’ve emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly."
+msgstr "Chúng tôi đã gửi email cho bạn hướng dẫn đặt mật khẩu của bạn, nếu có tài khoản tồn tại với email bạn đã nhập. Bạn sẽ nhận được chúng trong thời gian ngắn."
 
-#: templates/admin/password_reset/done.html:9
-msgid ""
-"If you don’t receive an email, please make sure you’ve entered the address "
-"you registered with, and check your spam folder."
-msgstr ""
+msgid "If you don’t receive an email, please make sure you’ve entered the address you registered with, and check your spam folder."
+msgstr "Nếu bạn không nhận được email, hãy đảm bảo rằng bạn đã nhập địa chỉ bạn đã đăng ký và kiểm tra thư mục thư rác của bạn."
 
-#: templates/admin/password_reset/email.html:11
-msgid ""
-"You’re receiving this email because you requested a password reset for your "
-"user account at "
-msgstr ""
+msgid "You’re receiving this email because you requested a password reset for your user account at "
+msgstr "Bạn nhận được email này vì bạn đã yêu cầu đặt lại mật khẩu cho tài khoản người dùng của mình tại"
 
-#: templates/admin/password_reset/email.html:14
 msgid "Please go to the following page and choose a new password:"
-msgstr ""
+msgstr "Vui lòng truy cập trang sau và chọn mật khẩu mới:"
 
-#: templates/admin/password_reset/email.html:15
 msgid "Reset Password"
 msgstr "Đặt lại mật khẩu"
 
-#: templates/admin/password_reset/email.html:18
 msgid "Your username, in case you’ve forgotten:"
 msgstr "Tên đăng nhập của bạn, trong trường hợp bạn quên:"
 
-#: templates/admin/password_reset/email.html:21
 msgid "Thanks for using our site!"
 msgstr "Cảm ơn bạn đã sử dụng trang web của chúng tôi!"
 
-#: templates/admin/password_reset/subject.html:3
 #, python-format
 msgid "Password reset on %(site_name)s"
 msgstr "Đặt lại mật khẩu trên %(site_name)s"
 
-#: templates/admin/qrcode.html:6
-msgid ""
-"Scan the following barcode with your phone’s OTP app (e.g. Google "
-"Authenticator)."
-msgstr ""
-"Quét mã vạch sau bằng ứng dụng OTP trên điện thoại của bạn (ví dụ: Google "
-"Authenticator)."
+msgid "Scan the following barcode with your phone’s OTP app (e.g. Google Authenticator)."
+msgstr "Quét mã vạch sau bằng ứng dụng OTP trên điện thoại của bạn (ví dụ: Google Authenticator)."
 
-#: templates/admin/qrcode.html:7
 msgid "Install Google Authenticator?"
 msgstr "Cài đặt Google Authenticator?"
 
-#: templates/emails/base.html:58
 msgid "Dear"
 msgstr "Gửi"
 
-#: templates/emails/verify_email.html:11
 msgid "Your verification code is:"
 msgstr "Mã xác thực của bạn là:"
 
-#: templates/emails/verify_email.html:17
 msgid "Please do not share this code with anyone."
-msgstr ""
+msgstr "Vui lòng không chia sẻ mã này với bất kỳ ai."
 
-#: templates/emails/verify_email.html:20
 #, python-format
 msgid "Note: This code will expire in <b>%(expiration_time)s</b> minutes."
 msgstr "Ghi chú: Mã này sẽ hết hạn trong <b>%(expiration_time)s</b> phút."
 
-#: templates/rosetta/file-list.html:44
 msgid "Nothing to translate!"
 msgstr "Không có gì để dịch!"
 
-#: templates/rosetta/file-list.html:46
-msgid ""
-"You haven't specified any languages in your settings file, or haven't yet "
-"generated a batch of translation catalogs."
-msgstr ""
-"Bạn chưa chỉ định bất kỳ ngôn ngữ nào trong tệp cài đặt của mình hoặc chưa "
-"tạo một loạt danh mục bản dịch."
+msgid "You haven't specified any languages in your settings file, or haven't yet generated a batch of translation catalogs."
+msgstr "Bạn chưa chỉ định bất kỳ ngôn ngữ nào trong tệp cài đặt của mình hoặc chưa tạo một loạt danh mục bản dịch."
 
-#: templates/rosetta/file-list.html:49
 #, python-format
-msgid ""
-"Please refer to <a href=\"%(i18n_doc_link)s\">Django's I18N documentation</"
-"a> for a guide on how to set up internationalization for your project."
-msgstr ""
-"Vui lòng tham khảo <a href=\"%(i18n_doc_link)s\">tài liệu I18N của Django</"
-"a> để biết hướng dẫn về cách thiết lập đa ngôn ngữ cho dự án của bạn."
+msgid "Please refer to <a href=\"%(i18n_doc_link)s\">Django's I18N documentation</a> for a guide on how to set up internationalization for your project."
+msgstr "Vui lòng tham khảo <a href=\"%(i18n_doc_link)s\">tài liệu I18N của Django</a> để biết hướng dẫn về cách thiết lập đa ngôn ngữ cho dự án của bạn."
 
-#: templates/rosetta/form.html:40
+msgid "search"
+msgstr "Tìm kiếm"
+
 msgid "Type to search"
 msgstr "Nhập để tìm kiếm"
 
-#: templates/rosetta/form.html:77
 #, python-format
 msgid "%(hits)s/%(message_number)s message"
 msgid_plural "%(hits)s/%(message_number)s messages"
-msgstr[0] ""
+msgstr[0] "%(hits)s/%(message_number)s message %(hits)s/%(message_number)s messages"
 
-#: templates/rosetta/form.html:83
 msgid "Save and translate next block"
 msgstr "Lưu và dịch khối tiếp theo"
 
-#: templates/rosetta/includes/results-list.html:6
 msgid "Original"
-msgstr ""
+msgstr "Gốc"
 
-#: templates/rosetta/includes/results-list.html:17
 msgid "Occurrences(s)"
-msgstr ""
+msgstr "Nơi xuất hiện"
 
-#: templates/rosetta/includes/results-list.html:34
-#: templates/rosetta/includes/results-list.html:54
 msgid "Unmatched variables"
-msgstr ""
+msgstr "Các biến chưa khớp"
 
-#: templates/rosetta/includes/results-list.html:38
-#: templates/rosetta/includes/results-list.html:57
 msgid "suggest"
 msgstr "gợi ý"
 
-#: templates/rosetta/includes/results-list.html:86
 msgid "Show less"
 msgstr "Hiển thị còn lại"
 
-#: templates/rosetta/includes/results-list.html:86
 #, python-format
 msgid "%(more_count)s more"
 msgid_plural "%(more_count)s more"
-msgstr[0] ""
+msgstr[0] "%(more_count)s more %(more_count)s more"
 
-#: templates/rosetta/includes/results-list.html:90
 msgid "Context hint"
 msgstr "Gợi ý nội dung"
+
+#, fuzzy, python-brace-format
+#~| msgid "<strong class=\"text-green-600 font-medium\">+3.14%</strong>&nbsp;progress from last week"
+#~ msgid "<strong class=\"text-green-700 font-semibold dark:text-green-400\">+{}%</strong>&nbsp;progress from last week"
+#~ msgstr "<strong class=\"text-green-600 font-medium\">+3,14%</strong> tiến độ so với tuần trước"
