@@ -47,12 +47,22 @@ class User(AbstractUser):
 
     @property
     def full_name(self):
-        userprofile = getattr(self, "userprofile", None)
+        userprofile: UserProfile = getattr(self, "userprofile", None)
         if userprofile:
             full_name = userprofile.full_name
             if bool(full_name):
                 return full_name
         return self.username
+
+    def get_full_name(self):
+        return self.full_name
+
+    @property
+    def avatar_url(self):
+        userprofile = getattr(self, "userprofile", None)
+        if userprofile and userprofile.avatar:
+            return userprofile.avatar
+        return ""
 
     @property
     def is_anonymous(self):
@@ -85,7 +95,7 @@ class UserProfile(models.Model):
     @property
     def full_name(self):
         language = get_language()
-        if language == "vi":
+        if language == settings.LANGUAGE_CODE:
             return f"{self.last_name} {self.first_name}".strip()
         return f"{self.first_name} {self.last_name}".strip()
 
@@ -129,7 +139,7 @@ class OtpCode(BaseModel):
         if self.is_expired:
             return OTPVerificationStatusEnum.EXPIRED
         self.is_used = True
-        self.save(update_fields=["is_used"])
+        self.save(update_fields=["is_used", "updated_at"])
         return OTPVerificationStatusEnum.VERIFIED
 
 
@@ -176,6 +186,6 @@ class TwoFactorAuthenticationOTP(BaseModel):
     def reset_secret_key(self):
         if self.is_active:
             self.secret_key = pyotp.random_base32()
-            self.save()
+            self.save(update_fields=["secret_key", "updated_at"])
             return True
         return False

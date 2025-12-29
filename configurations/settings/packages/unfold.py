@@ -31,6 +31,10 @@ UNFOLD = {
         },
     ],
     "DASHBOARD_CALLBACK": "core.user.views.admin.dashboard_callback",
+    "LANGUAGE_FLAGS": {
+        "en": "🇬🇧",
+        "vi": "🇻🇳",
+    },
     "EXTENSIONS": {
         "modeltranslation": {
             "flags": {
