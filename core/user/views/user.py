@@ -1,5 +1,6 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
+from rest_framework.exceptions import NotAuthenticated
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 
@@ -17,7 +18,7 @@ class UserMyProfileView(RetrieveUpdateAPIView):
 
     def get_object(self):
         if self.request.user.is_anonymous:
-            raise Exception("Anonymous user does not have profile")
+            raise NotAuthenticated("Anonymous user does not have profile")
         return self.request.user.userprofile
 
 
@@ -56,5 +57,5 @@ class UserSettingView(RetrieveUpdateAPIView):
 
     def get_object(self):
         if self.request.user.is_anonymous:
-            raise Exception("Anonymous user does not have settings")
+            raise NotAuthenticated("Anonymous user does not have settings")
         return self.request.user.usersetting

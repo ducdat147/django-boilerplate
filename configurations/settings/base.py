@@ -44,8 +44,9 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 # CORS
 # https://pypi.org/project/django-cors-headers/
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])
 
 # Application definition
 
@@ -55,6 +56,7 @@ UNFOLD_APPS = [
     "unfold.contrib.forms",
     "unfold.contrib.inlines",
     "unfold.contrib.import_export",
+    "unfold.contrib.hijack",
     "unfold.contrib.guardian",
     "unfold.contrib.simple_history",
     "unfold.contrib.constance",
@@ -73,6 +75,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "corsheaders",
     "django_celery_beat",
+    "django_json_widget",
     "drf_spectacular",
     "rest_framework",
     "rest_framework.authtoken",
@@ -80,6 +83,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "simple_history",
     "constance",
+    "djangoql",
     "djmoney",
     "guardian",
     "import_export",

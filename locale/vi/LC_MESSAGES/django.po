@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-05 10:25+0700\n"
+"POT-Creation-Date: 2026-07-12 09:33+0700\n"
 "PO-Revision-Date: 2025-12-05 10:12+0700\n"
 "Last-Translator: None None <ducdat147@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,6 +51,73 @@ msgstr "Mật khẩu thô không được lưu trữ, vì vậy không có cách
 #, python-brace-format
 msgid "Raw passwords are not stored, so there is no way to see this user’s password, but you can change the password using <a href=\"{}\" class=\"text-primary-600 dark:text-primary-500\">this form</a>."
 msgstr "Mật khẩu thô không được lưu trữ, vì vậy không có cách nào để xem mật khẩu của người dùng này, nhưng bạn có thể thay đổi mật khẩu bằng cách sử dụng <a href=\"{}\" class=\"text-primary-600 dark:text-primary-500\">form này</a>."
+
+#, python-format
+msgid "Default value type must be equal to declared config parameter type. Please fix the default value of '%(name)s'."
+msgstr ""
+
+#, python-format
+msgid "Constance doesn't support config values of the type %(config_type)s. Please fix the value of '%(name)s'."
+msgstr ""
+
+msgid "The settings have been modified by someone else. Please reload the form and resubmit your changes."
+msgstr ""
+
+msgid "CONSTANCE_CONFIG_FIELDSETS does not contain fields that exist in CONSTANCE_CONFIG."
+msgstr ""
+
+msgid "Live settings updated successfully."
+msgstr ""
+
+msgid "Failed to update live settings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Config"
+msgid "config"
+msgstr "Cấu hình"
+
+msgid "Constance"
+msgstr "Constance"
+
+#, fuzzy
+#| msgid "Constance"
+msgid "constance"
+msgstr "Constance"
+
+#, fuzzy
+#| msgid "Constance"
+msgid "constances"
+msgstr "Constance"
+
+msgid "Get/Set In-database config settings handled by Constance"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Is modified"
+msgstr ""
+
+#, fuzzy
+#| msgid "Navigation"
+msgid "Toggle navigation"
+msgstr "Điều hướng"
+
+msgid "Filter navigation items"
+msgstr ""
 
 msgid "A server error occurred."
 msgstr "Đã xảy ra lỗi máy chủ."
@@ -132,9 +199,6 @@ msgstr "Sidebar tối"
 
 msgid "Boxed layout"
 msgstr "Bố cục Box"
-
-msgid "Constance"
-msgstr "Constance"
 
 msgid "Translations"
 msgstr "Dịch ngôn ngữ"
@@ -652,9 +716,6 @@ msgstr "Bạn chưa chỉ định bất kỳ ngôn ngữ nào trong tệp cài �
 msgid "Please refer to <a href=\"%(i18n_doc_link)s\">Django's I18N documentation</a> for a guide on how to set up internationalization for your project."
 msgstr "Vui lòng tham khảo <a href=\"%(i18n_doc_link)s\">tài liệu I18N của Django</a> để biết hướng dẫn về cách thiết lập đa ngôn ngữ cho dự án của bạn."
 
-msgid "search"
-msgstr "Tìm kiếm"
-
 msgid "Type to search"
 msgstr "Nhập để tìm kiếm"
 
@@ -688,6 +749,9 @@ msgstr[0] "%(more_count)s more %(more_count)s more"
 
 msgid "Context hint"
 msgstr "Gợi ý nội dung"
+
+#~ msgid "search"
+#~ msgstr "Tìm kiếm"
 
 #, fuzzy, python-brace-format
 #~| msgid "<strong class=\"text-green-600 font-medium\">+3.14%</strong>&nbsp;progress from last week"

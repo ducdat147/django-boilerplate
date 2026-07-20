@@ -9,7 +9,7 @@ from rest_framework.exceptions import (
     ValidationError,
 )
 
-from core.user.enums import OtpTypeUserEnum, OTPVerificationStatusEnum, TargetOtpEnum
+from core.user.enums import OtpTypeEnum, OTPVerificationStatusEnum, TargetOtpEnum
 from core.user.models import OtpCode, User, UserProfile, UserSetting
 from utils import generate_otp, send_verification_email, send_verification_phone
 
@@ -92,7 +92,7 @@ class UserResetPasswordSerializer(serializers.Serializer):
 
 class OTPBaseSerializer(serializers.Serializer):
     verification_type = serializers.ChoiceField(
-        choices=OtpTypeUserEnum.choices,
+        choices=OtpTypeEnum.choices,
         write_only=True,
         required=True,
     )
@@ -103,12 +103,12 @@ class OTPBaseSerializer(serializers.Serializer):
         user = request.user
         verification_type = attrs.get("verification_type")
 
-        if verification_type == OtpTypeUserEnum.EMAIL:
+        if verification_type == OtpTypeEnum.EMAIL:
             target = TargetOtpEnum.EMAIL
             to = user.email
             if not to:
                 raise ValidationError({"email": "Email not found."})
-        elif verification_type == OtpTypeUserEnum.PHONE:
+        elif verification_type == OtpTypeEnum.PHONE:
             target = TargetOtpEnum.PHONE
             to = user.phone
             if not to:
@@ -132,7 +132,7 @@ class OTPBaseSerializer(serializers.Serializer):
         self,
         to: str,
         target: TargetOtpEnum,
-        verification_type: OtpTypeUserEnum,
+        verification_type: OtpTypeEnum,
     ):
         self.otp_code = generate_otp()
         OtpCode.objects.create(
@@ -146,17 +146,20 @@ class OTPBaseSerializer(serializers.Serializer):
     def verify_otp(
         to: str,
         target: TargetOtpEnum,
-        verification_type: OtpTypeUserEnum,
+        verification_type: OtpTypeEnum,
         code: str,
     ) -> OTPVerificationStatusEnum:
-        otp_queryset = OtpCode.objects.filter(
-            to=to,
-            target=target,
-            type_otp=verification_type,
+        otp_instance = (
+            OtpCode.objects.filter(
+                to=to,
+                target=target,
+                type_otp=verification_type,
+            )
+            .order_by("-created_at")
+            .first()
         )
-        if not otp_queryset.exists():
+        if not otp_instance:
             raise NotFound(_("No OTP code found"))
-        otp_instance = otp_queryset.latest("created_at")
 
         status_otp = otp_instance.verify(code)
         if status_otp == OTPVerificationStatusEnum.INVALID:
@@ -186,7 +189,7 @@ class UserVerifyOTPSerializer(OTPBaseSerializer):
         user: User = request.user
         code = attrs.get("code")
         verification_type = attrs.get("verification_type")
-        if verification_type == OtpTypeUserEnum.TWO_FACTOR:
+        if verification_type == OtpTypeEnum.TWO_FACTOR:
             if not getattr(user, "twofactorauthenticationotp", None) or not user.twofactorauthenticationotp.is_active:
                 raise ParseError(_("Two-factor authentication is not enabled."))
             if not user.twofactorauthenticationotp.verify_code(code):

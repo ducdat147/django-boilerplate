@@ -90,6 +90,7 @@ migrate: migrations
 	uv run python manage.py migrate
 
 user:
+	${MAKE} migrate
 	uv run python manage.py createsuperuser --username admin --email admin@admin.com
 
 pyc:

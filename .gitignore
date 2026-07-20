@@ -215,6 +215,7 @@ __marimo__/
 # IDEs
 .idea/
 .cursor/
+.agent/
 
 ### VisualStudioCode template
 .vscode/*

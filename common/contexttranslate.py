@@ -36,10 +36,4 @@ CONTEXT = (
     _("Is modified"),
     _("Toggle navigation"),
     _("Filter navigation items"),
-    _(""),
-    _(""),
-    _(""),
-    _(""),
-    _(""),
-    _(""),
 )

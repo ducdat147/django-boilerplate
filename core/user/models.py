@@ -29,8 +29,8 @@ class User(AbstractUser):
     uid = models.UUIDField("uid", unique=True, editable=False, default=uuid.uuid4)
     first_name = None
     last_name = None
-    email = models.EmailField(_("email address"), blank=True)
-    phone = PhoneNumberField(_("phone number"), blank=True)
+    email = models.EmailField(_("email address"), blank=True, db_index=True)
+    phone = PhoneNumberField(_("phone number"), blank=True, db_index=True)
     is_email_verified = models.BooleanField(
         _("email verified"),
         default=False,
@@ -110,13 +110,43 @@ class UserSetting(models.Model):
 
 
 class OtpCode(BaseModel):
-    uid = models.UUIDField("uid", unique=True, editable=False, default=uuid.uuid4)
-    to = models.CharField(verbose_name=_("To"), max_length=255)
-    target = models.CharField(verbose_name=_("Target"), max_length=255, choices=TargetOtpEnum.choices)
-    code = models.CharField(verbose_name=_("OTP Code"), max_length=50)
-    type_otp = models.CharField(verbose_name=_("OTP Type"), max_length=20, choices=OtpTypeEnum.choices)
-    expires_at = models.DateTimeField(verbose_name=_("Expires At"))
-    is_used = models.BooleanField(verbose_name=_("Is Used"), default=False)
+    uid = models.UUIDField(
+        "uid",
+        unique=True,
+        editable=False,
+        default=uuid.uuid4,
+    )
+    to = models.CharField(
+        verbose_name=_("To"),
+        max_length=255,
+        db_index=True,
+    )
+    target = models.CharField(
+        verbose_name=_("Target"),
+        max_length=255,
+        choices=TargetOtpEnum.choices,
+    )
+    code = models.CharField(
+        verbose_name=_("OTP Code"),
+        max_length=50,
+    )
+    type_otp = models.CharField(
+        verbose_name=_("OTP Type"),
+        max_length=20,
+        choices=OtpTypeEnum.choices,
+    )
+    expires_at = models.DateTimeField(
+        verbose_name=_("Expires At"),
+    )
+    is_used = models.BooleanField(
+        verbose_name=_("Is Used"),
+        default=False,
+    )
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["to", "target", "type_otp"], name="otp_lookup_idx"),
+        ]
 
     def __str__(self):
         return f"{self.to} - ({self.type_otp})"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-05 10:25+0700\n"
+"POT-Creation-Date: 2026-07-12 09:33+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,6 +49,65 @@ msgstr ""
 
 #, python-brace-format
 msgid "Raw passwords are not stored, so there is no way to see this user’s password, but you can change the password using <a href=\"{}\" class=\"text-primary-600 dark:text-primary-500\">this form</a>."
+msgstr ""
+
+#, python-format
+msgid "Default value type must be equal to declared config parameter type. Please fix the default value of '%(name)s'."
+msgstr ""
+
+#, python-format
+msgid "Constance doesn't support config values of the type %(config_type)s. Please fix the value of '%(name)s'."
+msgstr ""
+
+msgid "The settings have been modified by someone else. Please reload the form and resubmit your changes."
+msgstr ""
+
+msgid "CONSTANCE_CONFIG_FIELDSETS does not contain fields that exist in CONSTANCE_CONFIG."
+msgstr ""
+
+msgid "Live settings updated successfully."
+msgstr ""
+
+msgid "Failed to update live settings."
+msgstr ""
+
+msgid "config"
+msgstr ""
+
+msgid "Constance"
+msgstr ""
+
+msgid "constance"
+msgstr ""
+
+msgid "constances"
+msgstr ""
+
+msgid "Get/Set In-database config settings handled by Constance"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Is modified"
+msgstr ""
+
+msgid "Toggle navigation"
+msgstr ""
+
+msgid "Filter navigation items"
 msgstr ""
 
 msgid "A server error occurred."
@@ -130,9 +189,6 @@ msgid "Sidebar dark"
 msgstr ""
 
 msgid "Boxed layout"
-msgstr ""
-
-msgid "Constance"
 msgstr ""
 
 msgid "Translations"
@@ -649,9 +705,6 @@ msgstr ""
 
 #, python-format
 msgid "Please refer to <a href=\"%(i18n_doc_link)s\">Django's I18N documentation</a> for a guide on how to set up internationalization for your project."
-msgstr ""
-
-msgid "search"
 msgstr ""
 
 msgid "Type to search"

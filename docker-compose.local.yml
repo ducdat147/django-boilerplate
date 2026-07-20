@@ -11,7 +11,7 @@ x-logging:
 services:
   database:
     container_name: database
-    image: postgres
+    image: postgres:16
     volumes:
       - database_data:/var/lib/postgresql/data
     ports:

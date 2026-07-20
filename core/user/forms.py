@@ -10,7 +10,7 @@ from django.template import loader
 from django.utils.translation import gettext_lazy as _
 from unfold.forms import AuthenticationForm as BaseAuthenticationForm
 from unfold.widgets import (
-    UnfoldAdminPasswordInput,
+    UnfoldAdminPasswordWidget,
     UnfoldAdminTextInputWidget,
 )
 
@@ -75,7 +75,7 @@ class SetPasswordForm(BaseSetPasswordForm):
         required=False,
         strip=False,
         help_text=password_validators_help_text_html(),
-        widget=UnfoldAdminPasswordInput(
+        widget=UnfoldAdminPasswordWidget(
             attrs={
                 "autocomplete": "current-password",
                 "placeholder": _("Enter your new password"),
@@ -87,7 +87,7 @@ class SetPasswordForm(BaseSetPasswordForm):
         required=False,
         strip=False,
         help_text=_("Enter the same password as before, for verification."),
-        widget=UnfoldAdminPasswordInput(
+        widget=UnfoldAdminPasswordWidget(
             attrs={
                 "autocomplete": "current-password",
                 "placeholder": _("Confirm your new password"),

@@ -1,13 +1,6 @@
 # Django Boilerplate
 
-[![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
-[![Django 5.2+](https://img.shields.io/badge/django-5.2+-green.svg)](https://www.djangoproject.com/)
-[![Tests](https://img.shields.io/badge/tests-12%20passed-success.svg)](https://github.com/ducdat147/django-boilerplate)
-[![Coverage](https://img.shields.io/badge/coverage-52.20%25-yellow.svg)](https://github.com/ducdat147/django-boilerplate)
-[![Code style: Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-## Introduction
+![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)![Django 5.2+](https://img.shields.io/badge/django-5.2+-green.svg)![Tests](https://img.shields.io/badge/tests-12%20passed-success.svg)![Coverage](https://img.shields.io/badge/coverage-52.20%25-yellow.svg)![Code style: Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)## Introduction
 
 A modern Django boilerplate project with best practices, pre-configured packages, and observability tools for rapid development and production-ready applications.
 
@@ -72,71 +65,72 @@ A modern Django boilerplate project with best practices, pre-configured packages
 
 ### Local Development Setup
 
-1. **Clone the repository:**
+ 1. **Clone the repository:**
 
-   ```bash
-   git clone https://github.com/ducdat147/django-boilerplate.git .
-   ```
+    ```bash
+    git clone https://github.com/ducdat147/django-boilerplate.git .
+    ```
 
-2. **Install uv (if not already installed):**
+ 2. **Install uv (if not already installed):**
 
-   ```bash
-   curl -LsSf https://astral.sh/uv/install.sh | sh
-   ```
+    ```bash
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    ```
 
-3. **Initialize the project:**
+ 3. **Initialize the project:**
 
-   ```bash
-   make init
-   ```
+    ```bash
+    make init
+    ```
 
-4. **Install dependencies:**
+ 4. **Install dependencies:**
 
-   For development (includes dev dependencies):
+    For development (includes dev dependencies):
 
-   ```bash
-   make install.dev
-   ```
+    ```bash
+    make install.dev
+    ```
 
-   For production:
+    For production:
 
-   ```bash
-   make install
-   ```
+    ```bash
+    make install
+    ```
 
-5. **Set up environment variables:**
+ 5. **Set up environment variables:**
 
-   ```bash
-   cp .example.env .env
-   # Edit .env file with your configuration
-   ```
+    ```bash
+    cp .example.env .env
+    # Edit .env file with your configuration
+    ```
 
-6. **Apply database migrations:**
+ 6. **Apply database migrations:**
 
-   ```bash
-   make migrate
-   ```
+    ```bash
+    make migrate
+    ```
 
-7. **Create a superuser:**
+ 7. **Create a superuser:**
 
-   ```bash
-   make user
-   # Default: username=admin, email=admin@admin.com
-   ```
+    ```bash
+    make user
+    # Default: username=admin, email=admin@admin.com
+    ```
 
-8. **Seed initial data (optional):**
+ 8. **Seed initial data (optional):**
 
-   ```bash
-   make seed_data
-   ```
+    ```bash
+    make seed_data
+    ```
 
-9. **Compile static files:**
+ 9. **Compile static files:**
 
-   ```bash
-   make collectstatic
-   ```
+    ```bash
+    make collectstatic
+    ```
 
 10. **Start the development server:**
+
     ```bash
     make run
     # Server will be available at http://localhost:80
@@ -160,6 +154,7 @@ A modern Django boilerplate project with best practices, pre-configured packages
    - Tempo (distributed tracing)
 
 2. **Stop all services:**
+
    ```bash
    make docker.down.local
    ```
@@ -185,7 +180,7 @@ A modern Django boilerplate project with best practices, pre-configured packages
 - `make init`: Initialize the project (create logs directory)
 - `make install.dev`: Install all dependencies including dev dependencies and setup pre-commit hooks
 - `make install`: Install production dependencies and setup pre-commit hooks
-- `make update-package`: Update all Python and Node.js packages to latest versions
+- `` ` ``: Update all Python and Node.js packages to latest versions
 
 ### Development
 
@@ -521,12 +516,12 @@ class TestAuthenticationFlow:
 
 Defined in `tests/conftest.py`:
 
-- **`api_client`**: Unauthenticated DRF APIClient
-- **`user`**: Basic test user (username: testuser, password: testpass123)
-- **`verified_user`**: User with profile created
-- **`admin_user`**: Admin user with superuser privileges
-- **`authenticated_client`**: APIClient with JWT authentication (uses `verified_user`)
-- **`admin_client`**: APIClient authenticated as admin
+- `api_client`: Unauthenticated DRF APIClient
+- `user`: Basic test user (username: testuser, password: testpass123)
+- `verified_user`: User with profile created
+- `admin_user`: Admin user with superuser privileges
+- `authenticated_client`: APIClient with JWT authentication (uses `verified_user`)
+- `admin_client`: APIClient authenticated as admin
 
 ### Testing Best Practices
 
@@ -537,16 +532,16 @@ Defined in `tests/conftest.py`:
 5. **Mark Tests Properly**:
    - `@pytest.mark.unit` - Fast, isolated unit tests
    - `@pytest.mark.integration` - Multi-component integration tests
-   - `@pytest.mark.slow` - Tests that take >1 second
+   - `@pytest.mark.slow` - Tests that take &gt;1 second
    - `@pytest.mark.e2e` - End-to-end tests
 
 ### Documentation
 
 For detailed testing guidelines, see:
 
-- **`tests/TESTING_STANDARDS.md`**: Comprehensive 60+ page testing guide
-- **`tests/QUICK_START.md`**: Quick start guide for writing tests
-- **`tests/ANALYSIS_REPORT.md`**: Analysis of current testing approach
+- `tests/TESTING_STANDARDS.md`: Comprehensive 60+ page testing guide
+- `tests/QUICK_START.md`: Quick start guide for writing tests
+- `tests/ANALYSIS_REPORT.md`: Analysis of current testing approach
 
 ### Migration from Legacy Tests
 
@@ -568,16 +563,19 @@ Contributions are welcome! Please follow these steps:
 
 1. Fork the repository
 2. Create a feature branch from `develop`:
+
    ```bash
    make git.createbranch your-feature-name
    ```
 3. Make your changes and commit them
 4. Run code quality checks:
+
    ```bash
    make lint
    make pre-commit
    ```
 5. Run tests to ensure everything works:
+
    ```bash
    make test
    ```
