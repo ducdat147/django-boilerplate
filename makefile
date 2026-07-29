@@ -1,3 +1,5 @@
+export UV_ENV_FILE := .env.host
+
 init:
 	mkdir -p logs
 
@@ -141,19 +143,30 @@ docker.build:
 docker.login:
 	docker login
 
-docker.push: docker.build docker.login
+docker.push:
+	${MAKE} docker.build
+	${MAKE} docker.login
 	docker push ducdat147/dj.base.project
 
-deploy:
-	docker-compose -f docker-compose.prod.yml up -d
-	open http://localhost/
-	open http://localhost:3000/
+docker.devops.up:
+	docker-compose -f docker-compose.devops.yml up -d
 
 docker.up:
+	${MAKE} docker.devops.up
 	docker-compose -f docker-compose.local.yml up -d
+
+docker.webserver.up:
+	docker-compose -f docker-compose.webserver.yml up -d
 
 docker.down.%:
 	docker-compose -f docker-compose.$*.yml down -v
+
+deploy:
+	${MAKE} docker.devops.up
+	docker-compose -f docker-compose.prod.yml up -d
+	${MAKE} docker.webserver.up
+	open http://localhost/
+	open http://localhost:3000/
 
 clean: css message pyc pre-commit
 
@@ -162,10 +175,12 @@ git.develop:
 	git checkout develop
 	git pull origin develop
 
-git.clean: git.develop
+git.clean:
+	${MAKE} git.develop
 	git for-each-ref --format '%(refname:short)' refs/heads | grep -v "develop" | xargs git branch -D
 
-git.createbranch: git.develop
+git.createbranch:
+	${MAKE} git.develop
 	git checkout -b feature/$(filter-out $@,$(MAKECMDGOALS))
 
 %:

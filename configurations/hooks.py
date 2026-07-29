@@ -64,10 +64,10 @@ def django_response_hook(span: Span, request: WSGIRequest, response: Response):
         user = getattr(request, "user", None)
         if user and request.user.is_authenticated:
             tags_span["user.id"] = user.id
-            phone = getattr(user, "phone", None)
+            # phone = getattr(user, "phone", None)
             email = getattr(user, "email", None)
-            if not span.attributes.get("phone") and phone:
-                tags_span["user.phone"] = phone
+            # if not span.attributes.get("phone") and phone:
+            #     tags_span["user.phone"] = str(phone)
             if not span.attributes.get("email") and email:
                 tags_span["user.email"] = email
             span.set_attributes(tags_span)

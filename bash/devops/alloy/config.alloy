@@ -1,0 +1,111 @@
+// OTLP receiver: server/celery push both traces and metrics here instead of tempo/prometheus directly.
+otelcol.receiver.otlp "default" {
+  grpc {
+    endpoint = "0.0.0.0:4317"
+  }
+  http {
+    endpoint = "0.0.0.0:4318"
+  }
+  output {
+    traces  = [otelcol.exporter.otlp.tempo.input]
+    metrics = [otelcol.exporter.otlphttp.prometheus.input]
+  }
+}
+
+otelcol.exporter.otlp "tempo" {
+  client {
+    endpoint = "tempo:4317"
+    tls {
+      insecure = true
+    }
+  }
+}
+
+// Prometheus' native OTLP receiver lives at <base>/v1/metrics (--web.enable-otlp-receiver).
+otelcol.exporter.otlphttp "prometheus" {
+  client {
+    endpoint = "http://prometheus:9090/api/v1/otlp"
+    tls {
+      insecure = true
+    }
+  }
+}
+
+// Log collection: replaces promtail-config.yaml, same discovery + pipeline.
+discovery.docker "containers" {
+  host             = "unix:///var/run/docker.sock"
+  refresh_interval = "5s"
+
+  filter {
+    name   = "label"
+    values = ["logging=promtail"]
+  }
+}
+
+discovery.relabel "containers" {
+  targets = discovery.docker.containers.targets
+
+  rule {
+    source_labels = ["__meta_docker_container_name"]
+    regex         = "/(.*)"
+    target_label  = "container"
+  }
+
+  rule {
+    source_labels = ["__meta_docker_container_log_stream"]
+    target_label  = "logstream"
+  }
+
+  rule {
+    source_labels = ["__meta_docker_container_label_logging_jobname"]
+    target_label  = "job"
+  }
+}
+
+loki.source.docker "default" {
+  host          = "unix:///var/run/docker.sock"
+  targets       = discovery.docker.containers.targets
+  relabel_rules = discovery.relabel.containers.rules
+  forward_to    = [loki.process.pipeline.receiver]
+}
+
+loki.process "pipeline" {
+  stage.cri {}
+
+  stage.multiline {
+    firstline     = "^\\d{4}-\\d{2}-\\d{2} \\d{1,2}:\\d{2}:\\d{2},\\d{3}"
+    max_wait_time = "3s"
+  }
+
+  // https://grafana.com/docs/loki/latest/clients/promtail/stages/json/
+  stage.json {
+    expressions = {
+      trace_id = "otelTraceID",
+      message  = "message",
+      level    = "levelname",
+      span_id  = "otelSpanID",
+    }
+  }
+
+  stage.labels {
+    values = {
+      level = "level",
+    }
+  }
+
+  stage.structured_metadata {
+    values = {
+      trace_id = "trace_id",
+      span_id  = "span_id",
+      message  = "message",
+    }
+  }
+
+  forward_to = [loki.write.default.receiver]
+}
+
+loki.write "default" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}

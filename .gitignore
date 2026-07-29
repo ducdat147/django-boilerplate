@@ -62,7 +62,7 @@ local.py
 db.sqlite3-journal
 .DS_Store
 *.env*
-!.example.env
+!.env.example
 !environments/.docker.env
 media/
 logs/
@@ -134,7 +134,7 @@ ipython_config.py
 __pypackages__/
 
 # Celery stuff
-celerybeat-schedule
+celerybeat-schedule*
 celerybeat.pid
 
 # SageMath parsed files
@@ -142,6 +142,7 @@ celerybeat.pid
 
 # Environments
 .env
+.env.host
 .envrc
 .venv
 env/

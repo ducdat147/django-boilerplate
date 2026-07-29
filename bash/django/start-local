@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+echo "Running migrations..."
+python manage.py migrate
+echo "Compiling message files..."
+python manage.py compilemessages --ignore=venv --ignore=.venv
+echo "Creating seed data..."
+python manage.py seed_data
+
+python manage.py runserver 0.0.0.0:80

@@ -26,3 +26,13 @@ datasources:
     version: 1
     editable: false
     apiVersion: 1
+  - name: Prometheus
+    type: prometheus
+    uid: prometheus
+    access: proxy
+    orgId: 1
+    url: http://prometheus:9090
+    basicAuth: false
+    isDefault: false
+    version: 1
+    editable: false

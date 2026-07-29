@@ -100,8 +100,8 @@ A modern Django boilerplate project with best practices, pre-configured packages
  5. **Set up environment variables:**
 
     ```bash
-    cp .example.env .env
-    # Edit .env file with your configuration
+    cp .example.env.host .env.host
+    # Edit .env.host file with your configuration (used by host commands: make run, make test, make migrate...)
     ```
 
  6. **Apply database migrations:**
@@ -266,10 +266,12 @@ A modern Django boilerplate project with best practices, pre-configured packages
 ```
 ├── bash/                     # Shell scripts for development and deployment
 │   ├── devops/               # DevOps configuration files
-│   │   ├── grafana/          # Grafana datasources configuration
+│   │   ├── alloy/            # Grafana Alloy configuration (log shipping + OTel collector)
+│   │   ├── grafana/          # Grafana datasources + alerting provisioning
 │   │   ├── loki/             # Loki logging configuration
 │   │   ├── nginx/            # Nginx configuration
-│   │   ├── promtail/         # Promtail configuration
+│   │   ├── prometheus/       # Prometheus scrape configuration
+│   │   ├── rabbitmq/         # RabbitMQ enabled_plugins (management + prometheus)
 │   │   └── tempo/            # Tempo tracing configuration
 │   └── django/               # Django entrypoint and startup scripts
 │       ├── celery/           # Celery worker, beat, and flower scripts
@@ -372,7 +374,7 @@ A modern Django boilerplate project with best practices, pre-configured packages
 
 ### Environment Variables
 
-Create a `.env` file based on `.example.env` with the following key variables:
+Create a `.env.host` file based on `.example.env.host` with the following key variables (used when running commands directly on the host, e.g. `make run`, `make test`, `make migrate`; containers use their own `.env`, not tracked in git):
 
 - **Django Settings**: `DJANGO_SETTINGS_MODULE`, `SECRET_KEY`, `DEBUG`
 - **Database**: `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST`, `POSTGRES_PORT`

@@ -1,14 +1,51 @@
 name: "django-boilerplate-local"
 
-x-logging:
-  &default-logging
-  driver: "json-file"
-  options:
-    max-size: "1m"
-    max-file: "1"
-    tag: "{{.Name}}"
-
 services:
+  server: &service
+    container_name: server
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    command: /start-local
+    environment:
+      - DEBUG=1
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /app/.venv
+      - /app/flower_db
+      - ./media:/app/media
+      - ./logs:/app/logs
+    ports:
+      - 80:80
+    depends_on:
+      - database
+      - redis
+      - rabbitmq
+    networks:
+      - local-networks
+      - devops-network
+
+  celery_worker:
+    <<: *service
+    container_name: celery_worker
+    command: /start-celeryworker
+    ports: []
+
+  celery_beat:
+    <<: *service
+    container_name: celery_beat
+    command: /start-celerybeat
+    ports: []
+
+  celery_flower:
+    <<: *service
+    container_name: celery_flower
+    command: /start-celeryflower
+    ports:
+      - 5555:5555
+
   database:
     container_name: database
     image: postgres:16
@@ -25,9 +62,10 @@ services:
       retries: 5
     networks:
       - local-networks
+      - devops-network
 
   redis:
-    image: redis:latest
+    image: redis:7.4-alpine
     container_name: redis
     volumes:
       - redis_data:/data
@@ -40,12 +78,14 @@ services:
       retries: 5
     networks:
       - local-networks
+      - devops-network
 
   rabbitmq:
-    image: rabbitmq
+    image: rabbitmq:3.13
     container_name: rabbitmq
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+      - ./bash/devops/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
     ports:
       - 5672:5672
       - 15672:15672
@@ -59,42 +99,13 @@ services:
       retries: 5
     networks:
       - local-networks
-
-  tempo:
-    container_name: tempo
-    image: grafana/tempo
-    volumes:
-      - ./bash/devops/tempo/tempo-local.yaml:/etc/tempo-local.yaml
-    ports:
-      - 3200:3200
-      - 9095:9095
-      - 14268:14268
-      - 4318:4318
-      - 4317:4317
-    command: ["-config.file=/etc/tempo-local.yaml"]
-    networks:
-      - local-networks
-    logging: *default-logging
-
-  grafana:
-    container_name: grafana
-    image: grafana/grafana
-    volumes:
-      - ./bash/devops/grafana/datasources/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
-    ports:
-      - 3000:3000
-    environment:
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-    networks:
-      - local-networks
-    depends_on:
-      - tempo
-    logging: *default-logging
+      - devops-network
 
 networks:
   local-networks:
+  devops-network:
+    name: devops-network
+    external: true
 
 volumes:
   server_data:

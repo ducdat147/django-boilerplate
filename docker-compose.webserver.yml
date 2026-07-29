@@ -1,0 +1,33 @@
+name: "django-boilerplate-webserver"
+
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "1m"
+    max-file: "1"
+    tag: "{{.Name}}"
+
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:1.27-alpine
+    ports:
+      - 80:80 # Nginx
+      - 5555:5555 # Flower
+      - 15672:15672 # RabbitMQ Management
+      - 3000:3000 # Grafana
+    volumes:
+      - ./bash/devops/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./media:/app/media
+    networks:
+      - local-networks
+      - devops-network
+    logging: *default-logging
+
+networks:
+  local-networks:
+    name: local-networks
+    external: true
+  devops-network:
+    name: devops-network
+    external: true
