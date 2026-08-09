@@ -19,9 +19,11 @@ UNFOLD = {
     "STYLES": [
         lambda request: static("css/style.css"),
     ],
-    "SCRIPTS": [
-        lambda request: static("js/script.js"),
-    ],
+    # Extension point: uncomment once staticfiles/js/script.js has content,
+    # otherwise every admin page pays for a request that returns nothing.
+    # "SCRIPTS": [
+    #     lambda request: static("js/script.js"),
+    # ],
     "SITE_FAVICONS": [
         {
             "rel": "icon",

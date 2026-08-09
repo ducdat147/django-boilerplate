@@ -2,9 +2,12 @@ from django.contrib import admin
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
+from django.db.models import JSONField
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
+from django_json_widget.widgets import JSONEditorWidget
 from unfold.admin import ModelAdmin, StackedInline
+from unfold.decorators import display
 from unfold.forms import (
     AdminPasswordChangeForm,
     UserChangeForm,
@@ -57,7 +60,9 @@ class UserSettingInline(StackedInline):
     can_delete = False
     verbose_name = _("User Setting")
     extra = 0
-    readonly_fields = ["config"]
+    formfield_overrides = {
+        JSONField: {"widget": JSONEditorWidget},
+    }
     tab = True
 
 
@@ -165,10 +170,9 @@ class OtpCodeAdmin(ModelAdmin):
     ordering = ("-created_at",)
     list_filter_sheet = False
 
+    @display(description=_("Expired"), boolean=True)
     def is_expired(self, obj: OtpCode):
         return obj.is_expired
-
-    is_expired.boolean = True
 
     def has_add_permission(self, request, obj=None):
         return False

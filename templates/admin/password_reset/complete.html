@@ -9,7 +9,7 @@
   </h1>
   {% url 'admin:index' as login_url %}
   {% component 'unfold/components/button.html' with submit=0 href=login_url class='flex flex-row font-semibold group items-center justify-center py-2 rounded text-sm text-white w-full' %}
-  <i class="material-symbols-outlined mr-2 relative left-0-0 text-lg transition-all group-hover:right-1">arrow_back</i>
+  <i class="material-symbols-outlined mr-2 relative left-0 text-lg transition-all group-hover:-left-1">arrow_back</i>
   {% translate 'Log in' %}
   {% endcomponent %}
 {% endblock %}

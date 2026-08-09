@@ -41,9 +41,9 @@ CONSTANCE_DEFAULT_VALUE = "-"
 
 CONSTANCE_CONFIG = {
     "SITE_URL": [CONSTANCE_DEFAULT_VALUE, _("Website URL")],
-    "SITE_TITLE": ["Dashboard Site Title", _("Website title")],
-    "SITE_HEADER": ["Appears in sidebar at the top", _("Website header")],
-    "SITE_SUBHEADER": ["Appears under SITE_HEADER", _("Website subheader")],
+    "SITE_TITLE": ["Django Boilerplate", _("Website title")],
+    "SITE_HEADER": ["Django Boilerplate", _("Website header")],
+    "SITE_SUBHEADER": ["Administration", _("Website subheader")],
     "LOGIN_IMAGE": [CONSTANCE_DEFAULT_VALUE, _("Login page background image URL")],
     "SITE_SYMBOL": ["home", _("Website symbol")],
     "BORDER_RADIUS": ["6px", _("Border radius")],

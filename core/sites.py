@@ -142,6 +142,8 @@ def get_element_classes() -> dict:
     navigation_inner = []
     pagination = []
 
+    # Each toggle is applied independently so enabling one never silently
+    # cancels another out in the admin.
     if config.EC_STICKY_HEADER:
         header.extend(
             [
@@ -174,20 +176,25 @@ def get_element_classes() -> dict:
             ]
         )
         navigation.extend(["lg:border-r-0"])
-    elif config.EC_SIDEBAR_DARK:
+    if config.EC_SIDEBAR_DARK:
         navigation.extend(["dark"])
-    elif config.EC_HEADER_DARK:
+    if config.EC_HEADER_DARK:
+        header.extend(["dark"])
         navigation_header.extend(
             [
                 "dark",
-                "-mx-px",
-                "border-r",
-                "dark:border-base-800",
                 "dark:bg-base-900",
             ]
         )
-    if config.EC_HEADER_DARK:
-        header.extend(["dark"])
+        if not config.EC_BOXED_LAYOUT:
+            # The boxed layout draws its own separator around the header.
+            navigation_header.extend(
+                [
+                    "-mx-px",
+                    "border-r",
+                    "dark:border-base-800",
+                ]
+            )
 
     return {
         "element_classes": {
@@ -211,8 +218,8 @@ def account_links(request: HttpRequest) -> List[Dict[str, str]]:
     return links
 
 
-def each_context(request: HttpRequest) -> dict[str, Any]:
-    context = UnfoldAdminSite().each_context(request)
+def apply_constance_context(context: dict[str, Any], request: HttpRequest) -> dict[str, Any]:
+    """Layer the Constance-backed Unfold settings on top of an existing admin context."""
     update_context = convert_config(settings.CONSTANCE_CONFIG_FOR_UNFOLD)
     update_context_callback = callback_constance()
     update_context_element_classes = get_element_classes()
@@ -226,6 +233,11 @@ def each_context(request: HttpRequest) -> dict[str, Any]:
     if bool(update_context_element_classes):
         context = {**context, **update_context_element_classes}
     return context
+
+
+def each_context(request: HttpRequest) -> dict[str, Any]:
+    """Admin context for views rendered outside of ``AdminSite`` (e.g. the rosetta views)."""
+    return admin_site.each_context(request)
 
 
 class AdminSite(UnfoldAdminSite):
@@ -242,8 +254,7 @@ class AdminSite(UnfoldAdminSite):
         super().__init__(name)
 
     def each_context(self, request: HttpRequest) -> dict[str, Any]:
-        context = each_context(request)
-        return context
+        return apply_constance_context(super().each_context(request), request)
 
     def get_urls(self) -> List[URLPattern]:
         urlpatterns = []

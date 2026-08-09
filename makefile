@@ -138,7 +138,7 @@ prune:
 	docker system prune -a --volumes -f
 
 docker.build:
-	docker build -t ducdat147/dj.base.project .
+	docker build -f Dockerfile --no-cache -t ducdat147/dj.base.project:latest .
 
 docker.login:
 	docker login
@@ -146,7 +146,7 @@ docker.login:
 docker.push:
 	${MAKE} docker.build
 	${MAKE} docker.login
-	docker push ducdat147/dj.base.project
+	docker push ducdat147/dj.base.project:latest
 
 docker.devops.up:
 	docker-compose -f docker-compose.devops.yml up -d

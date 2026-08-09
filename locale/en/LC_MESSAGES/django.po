@@ -78,7 +78,7 @@ msgid "Constance"
 msgstr ""
 
 msgid "constance"
-msgstr ""
+msgstr "constance"
 
 msgid "constances"
 msgstr ""
@@ -141,22 +141,22 @@ msgid "Border radius"
 msgstr ""
 
 msgid "Website logo"
-msgstr ""
+msgstr "Website logo"
 
 msgid "Website logo for light mode"
-msgstr ""
+msgstr "Website logo for light mode"
 
 msgid "Website logo for dark mode"
-msgstr ""
+msgstr "Website logo for dark mode"
 
 msgid "Website icon"
-msgstr ""
+msgstr "Website icon"
 
 msgid "Website icon for light mode"
-msgstr ""
+msgstr "Website icon for light mode"
 
 msgid "Website icon for dark mode"
-msgstr ""
+msgstr "Website icon for dark mode"
 
 msgid "Website theme"
 msgstr ""
@@ -204,7 +204,7 @@ msgid "Accounts & Authentication"
 msgstr ""
 
 msgid "Users"
-msgstr ""
+msgstr "Users"
 
 msgid "OTP Codes"
 msgstr ""
@@ -627,7 +627,7 @@ msgid "Password reset complete"
 msgstr ""
 
 msgid "Your password has been set.  You may go ahead and log in now."
-msgstr ""
+msgstr "Your password has been set. You may go ahead and log in now."
 
 msgid "Log in"
 msgstr ""
@@ -639,6 +639,12 @@ msgid "Forgotten your password?"
 msgstr ""
 
 msgid "Enter your email address below, and we’ll email instructions for setting a new one."
+msgstr ""
+
+msgid "Set new password"
+msgstr ""
+
+msgid "Please enter your new password twice so we can verify you typed it in correctly."
 msgstr ""
 
 msgid "Change my password"
@@ -669,13 +675,16 @@ msgid "Reset Password"
 msgstr ""
 
 msgid "Your username, in case you’ve forgotten:"
-msgstr ""
+msgstr "Your username, in case you've forgotten:"
 
 msgid "Thanks for using our site!"
 msgstr ""
 
 #, python-format
 msgid "Password reset on %(site_name)s"
+msgstr ""
+
+msgid "Two step verification QR code"
 msgstr ""
 
 msgid "Scan the following barcode with your phone’s OTP app (e.g. Google Authenticator)."
@@ -688,7 +697,7 @@ msgid "Dear"
 msgstr ""
 
 msgid "Your verification code is:"
-msgstr ""
+msgstr "Your verification code is:"
 
 msgid "Please do not share this code with anyone."
 msgstr ""

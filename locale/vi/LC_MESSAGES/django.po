@@ -72,23 +72,17 @@ msgstr ""
 msgid "Failed to update live settings."
 msgstr ""
 
-#, fuzzy
-#| msgid "Config"
 msgid "config"
-msgstr "Cấu hình"
+msgstr "cấu hình"
 
 msgid "Constance"
 msgstr "Constance"
 
-#, fuzzy
-#| msgid "Constance"
 msgid "constance"
-msgstr "Constance"
+msgstr "constance"
 
-#, fuzzy
-#| msgid "Constance"
 msgid "constances"
-msgstr "Constance"
+msgstr "constance"
 
 msgid "Get/Set In-database config settings handled by Constance"
 msgstr ""
@@ -111,8 +105,6 @@ msgstr ""
 msgid "Is modified"
 msgstr ""
 
-#, fuzzy
-#| msgid "Navigation"
 msgid "Toggle navigation"
 msgstr "Điều hướng"
 
@@ -650,6 +642,12 @@ msgstr "Quên mật khẩu của bạn?"
 msgid "Enter your email address below, and we’ll email instructions for setting a new one."
 msgstr "Nhập địa chỉ email của bạn bên dưới và chúng tôi sẽ gửi email hướng dẫn thiết lập địa chỉ mới."
 
+msgid "Set new password"
+msgstr "Đặt mật khẩu mới"
+
+msgid "Please enter your new password twice so we can verify you typed it in correctly."
+msgstr "Vui lòng nhập mật khẩu mới hai lần để chúng tôi có thể xác minh bạn đã nhập đúng."
+
 msgid "Change my password"
 msgstr "Thay đổi mật khẩu của tôi"
 
@@ -686,6 +684,9 @@ msgstr "Cảm ơn bạn đã sử dụng trang web của chúng tôi!"
 #, python-format
 msgid "Password reset on %(site_name)s"
 msgstr "Đặt lại mật khẩu trên %(site_name)s"
+
+msgid "Two step verification QR code"
+msgstr "Mã QR xác thực hai bước"
 
 msgid "Scan the following barcode with your phone’s OTP app (e.g. Google Authenticator)."
 msgstr "Quét mã vạch sau bằng ứng dụng OTP trên điện thoại của bạn (ví dụ: Google Authenticator)."

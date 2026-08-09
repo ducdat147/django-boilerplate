@@ -72,24 +72,22 @@ class PasswordResetForm(BasePasswordResetForm):
 class SetPasswordForm(BaseSetPasswordForm):
     new_password1 = forms.CharField(
         label=_("Password"),
-        required=False,
         strip=False,
         help_text=password_validators_help_text_html(),
         widget=UnfoldAdminPasswordWidget(
             attrs={
-                "autocomplete": "current-password",
+                "autocomplete": "new-password",
                 "placeholder": _("Enter your new password"),
             }
         ),
     )
     new_password2 = forms.CharField(
         label=_("Password confirmation"),
-        required=False,
         strip=False,
         help_text=_("Enter the same password as before, for verification."),
         widget=UnfoldAdminPasswordWidget(
             attrs={
-                "autocomplete": "current-password",
+                "autocomplete": "new-password",
                 "placeholder": _("Confirm your new password"),
             }
         ),

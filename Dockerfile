@@ -68,8 +68,14 @@ RUN chown -R django:django /app
 
 ENV PATH="/app/.venv/bin:$PATH"
 
+# uv's managed Python interpreters default to $HOME (/root at this point in the
+# build), which the non-root `django` user can't read at runtime. Install them
+# somewhere world-readable instead.
+ENV UV_PYTHON_INSTALL_DIR=/opt/uv/python
+
 # Install Python dependencies
 RUN uv sync --no-dev
+RUN chmod -R a+rX /opt/uv/python
 
 # Compile Python files
 RUN python -m compileall -b . && find . -type f -name "*.py" -delete
