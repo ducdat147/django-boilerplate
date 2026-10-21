@@ -13,8 +13,8 @@ install: update-package
 
 update-package:
 	uv lock --upgrade
-	pnpm install
 	pnpm update --latest
+	pnpm install
 
 lint:
 	uv run ruff check --select I --fix .
@@ -28,6 +28,17 @@ shell:
 
 seed_data:
 	uv run python manage.py seed_data
+
+# Maintenance switches, see utils/maintenance.py. Pass extra flags with ARGS,
+# e.g. `make maintenance.on ARGS="--scopes /api/v1/user/ --read-only"`.
+maintenance.status:
+	uv run python manage.py maintenance status
+
+maintenance.on:
+	uv run python manage.py maintenance on ${ARGS}
+
+maintenance.off:
+	uv run python manage.py maintenance off
 
 # Testing commands
 test:
@@ -160,6 +171,23 @@ docker.webserver.up:
 
 docker.down.%:
 	docker-compose -f docker-compose.$*.yml down -v
+
+# Stop/start/restart a single container without touching the rest of the stack,
+# e.g. `make docker.stop.celery_worker`. Point COMPOSE at another file for prod:
+# `make docker.stop.server COMPOSE=docker-compose.prod.yml`.
+COMPOSE ?= docker-compose.local.yml
+
+docker.stop.%:
+	docker-compose -f ${COMPOSE} stop $*
+
+docker.start.%:
+	docker-compose -f ${COMPOSE} start $*
+
+docker.restart.%:
+	docker-compose -f ${COMPOSE} restart $*
+
+docker.logs.%:
+	docker-compose -f ${COMPOSE} logs -f --tail=200 $*
 
 deploy:
 	${MAKE} docker.devops.up

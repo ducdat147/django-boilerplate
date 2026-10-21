@@ -51,7 +51,9 @@ services:
     env_file:
       - .env
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER $POSTGRES_DB"]
+      # $$ so compose leaves the expansion to the container's shell, where
+      # env_file has actually been applied.
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 5

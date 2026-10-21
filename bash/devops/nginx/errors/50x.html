@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <!-- The upstream is down, so the page retries on its own instead of asking
+         the visitor to keep hitting reload. -->
+    <meta http-equiv="refresh" content="30" />
+    <title><!--# echo var="error_code" default="502" --> | Django Boilerplate</title>
+    <style>
+      /* Unfold's default palette (resources/unfold_color.json), inlined: this
+         page is served by nginx while Django — and with it every collected
+         static asset and the Constance driven theme — is unreachable. */
+      :root {
+        --base-50: oklch(98.5% 0.002 247.839);
+        --base-100: oklch(96.7% 0.003 264.542);
+        --base-200: oklch(92.8% 0.006 264.531);
+        --base-300: oklch(87.2% 0.01 258.338);
+        --base-600: oklch(44.6% 0.03 256.802);
+        --base-700: oklch(37.3% 0.034 259.733);
+        --base-800: oklch(27.8% 0.033 256.848);
+        --base-900: oklch(21% 0.034 264.665);
+        --primary-500: oklch(62.7% 0.265 303.9);
+        --primary-600: oklch(55.8% 0.288 302.321);
+        --primary-700: oklch(49.6% 0.265 301.924);
+
+        --bg: var(--base-50);
+        --surface: #fff;
+        --border: var(--base-200);
+        --accent: var(--primary-600);
+        --accent-hover: var(--primary-700);
+        --font-important: var(--base-900);
+        --font-default: var(--base-600);
+        --radius: 6px;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: var(--base-900);
+          --surface: var(--base-800);
+          --border: var(--base-700);
+          --accent: var(--primary-500);
+          --accent-hover: var(--primary-600);
+          --font-important: var(--base-100);
+          --font-default: var(--base-300);
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background-color: var(--bg);
+        color: var(--font-default);
+        /* Unfold ships Inter as a static asset, which is not reachable from here. */
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 40rem;
+        text-align: center;
+      }
+
+      .code {
+        margin: 0;
+        font-size: clamp(4.5rem, 18vw, 8rem);
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.025em;
+        color: var(--accent);
+      }
+
+      .title {
+        margin: 1rem 0 0;
+        font-size: clamp(1.5rem, 5vw, 2.25rem);
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        color: var(--font-important);
+      }
+
+      .title-alt {
+        margin: 0.375rem 0 0;
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--font-default);
+      }
+
+      .message {
+        margin: 1rem auto 0;
+        max-width: 32rem;
+        font-size: 1.125rem;
+        font-weight: 300;
+        line-height: 1.6;
+      }
+
+      .message-alt {
+        margin: 0.5rem auto 0;
+        max-width: 32rem;
+        font-size: 0.9375rem;
+        font-weight: 300;
+        line-height: 1.6;
+        opacity: 0.75;
+      }
+
+      .actions {
+        margin-top: 2rem;
+      }
+
+      .button {
+        display: inline-block;
+        padding: 0.625rem 1.25rem;
+        border-radius: var(--radius);
+        background-color: var(--accent);
+        color: #fff;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background-color 0.15s ease-in-out;
+      }
+
+      .button:hover {
+        background-color: var(--accent-hover);
+      }
+
+      .button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .note {
+        margin: 2rem auto 0;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--border);
+        max-width: 32rem;
+        font-size: 0.8125rem;
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <p class="code"><!--# echo var="error_code" default="502" --></p>
+
+      <!--# if expr="$error_code = 504" -->
+      <h1 class="title">Máy chủ phản hồi quá lâu</h1>
+      <p class="title-alt">The server took too long to respond</p>
+      <p class="message">Yêu cầu đã được gửi đi nhưng máy chủ chưa kịp trả lời. Vui lòng thử lại sau ít phút.</p>
+      <p class="message-alt">The request reached the server but it did not answer in time. Please try again in a few minutes.</p>
+      <!--# elif expr="$error_code = 503" -->
+      <h1 class="title">Dịch vụ tạm thời không khả dụng</h1>
+      <p class="title-alt">The service is temporarily unavailable</p>
+      <p class="message">Hệ thống đang tạm dừng để bảo trì. Vui lòng quay lại sau ít phút.</p>
+      <p class="message-alt">The system is paused for maintenance. Please come back in a few minutes.</p>
+      <!--# else -->
+      <h1 class="title">Máy chủ không phản hồi</h1>
+      <p class="title-alt">The server is not responding</p>
+      <p class="message">Dịch vụ đang khởi động lại hoặc tạm dừng để kiểm tra. Vui lòng thử lại sau ít phút.</p>
+      <p class="message-alt">The service is restarting or has been stopped for inspection. Please try again in a few minutes.</p>
+      <!--# endif -->
+
+      <div class="actions">
+        <a class="button" href="/">Thử lại · Try again</a>
+      </div>
+
+      <p class="note">Trang này tự động tải lại sau mỗi 30 giây · This page reloads itself every 30 seconds</p>
+    </main>
+  </body>
+</html>

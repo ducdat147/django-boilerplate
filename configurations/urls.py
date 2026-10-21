@@ -26,6 +26,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
+from core.common.views import health
 from core.sites import admin_site
 
 
@@ -35,6 +36,8 @@ def index(request):
 
 urlpatterns = [
     path("", index),
+    # Outside i18n_patterns on purpose: the healthcheck URL must stay stable.
+    path("health/", health, name="health"),
     path("api/", include("core.urls")),
     path("i18n/", include("django.conf.urls.i18n")),
 ]

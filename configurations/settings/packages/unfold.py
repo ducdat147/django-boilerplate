@@ -33,6 +33,8 @@ UNFOLD = {
         },
     ],
     "DASHBOARD_CALLBACK": "core.user.views.admin.dashboard_callback",
+    # Red "Maintenance" label in the admin header while the flag is on.
+    "ENVIRONMENT": "utils.maintenance.environment_callback",
     "LANGUAGE_FLAGS": {
         "en": "🇬🇧",
         "vi": "🇻🇳",

@@ -1,5 +1,7 @@
 import json
 from collections import OrderedDict
+from datetime import datetime
+from datetime import timezone as dt_timezone
 
 from django.utils.translation import gettext_lazy as _
 from unfold.contrib.constance.settings import UNFOLD_CONSTANCE_ADDITIONAL_FIELDS
@@ -39,6 +41,10 @@ CONSTANCE_REDIS_CONNECTION = env.str("CACHE_URL")
 
 CONSTANCE_DEFAULT_VALUE = "-"
 
+# Sentinel for MAINTENANCE_UNTIL: Constance requires the default to match the
+# declared type, so "not scheduled" is expressed as a timestamp in the past.
+MAINTENANCE_NOT_SCHEDULED = datetime(1970, 1, 1, tzinfo=dt_timezone.utc)
+
 CONSTANCE_CONFIG = {
     "SITE_URL": [CONSTANCE_DEFAULT_VALUE, _("Website URL")],
     "SITE_TITLE": ["Django Boilerplate", _("Website title")],
@@ -75,6 +81,27 @@ CONSTANCE_CONFIG = {
         _("Font colors"),
         "choise_color_font",
     ],
+    "MAINTENANCE_MODE": [False, _("Maintenance mode")],
+    "MAINTENANCE_MESSAGE": [
+        "",
+        _("Message shown while maintenance mode is on"),
+    ],
+    "MAINTENANCE_UNTIL": [
+        MAINTENANCE_NOT_SCHEDULED,
+        _("Estimated end of maintenance (a past value means not scheduled)"),
+    ],
+    "MAINTENANCE_SCOPES": [
+        "",
+        _("Comma separated path prefixes under maintenance, e.g. /api/v1/user/. Empty means the whole site"),
+    ],
+    "MAINTENANCE_READ_ONLY": [
+        False,
+        _("Read-only mode: allow GET/HEAD/OPTIONS, block every write"),
+    ],
+    "MAINTENANCE_CELERY_PAUSED": [
+        False,
+        _("Pause Celery: workers defer tasks instead of running them"),
+    ],
     "EC_STICKY_HEADER": [False, _("Sticky header")],
     "EC_HEADER_DARK": [False, _("Header dark")],
     "EC_SIDEBAR_DARK": [False, _("Sidebar dark")],
@@ -88,6 +115,17 @@ CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
                 "OTP_CODE_EXPIRATION_TIME",
                 "OTP_CODE_LENGTH",
                 "PASSWORD_RESET_TIMEOUT",
+            ),
+            "collapse": False,
+        },
+        "Maintenance": {
+            "fields": (
+                "MAINTENANCE_MODE",
+                "MAINTENANCE_MESSAGE",
+                "MAINTENANCE_UNTIL",
+                "MAINTENANCE_SCOPES",
+                "MAINTENANCE_READ_ONLY",
+                "MAINTENANCE_CELERY_PAUSED",
             ),
             "collapse": False,
         },
@@ -137,6 +175,15 @@ CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
 
 CONSTANCE_ADDITIONAL_FIELDS = {
     **UNFOLD_CONSTANCE_ADDITIONAL_FIELDS,
+    # Unfold's field map has no datetime entry, so MAINTENANCE_UNTIL would fall
+    # back to Django's unstyled admin widget without this.
+    datetime: [
+        "django.forms.SplitDateTimeField",
+        {
+            "widget": "unfold.widgets.UnfoldAdminSplitDateTimeWidget",
+            "required": False,
+        },
+    ],
     # Example field configuration for select with choices. Not needed.
     "theme_choice_field": [
         "django.forms.fields.ChoiceField",

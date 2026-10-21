@@ -6,11 +6,12 @@
   ],
   "files.exclude": {
     "**/.git": true,
-    "**/.vscode": true,
+    // "**/.vscode": true,
     "**/.venv": true,
     "**/.github": true,
     "**/.ruff_cache": true,
     "**/__pycache__": true,
     "**/node_modules": true
-  }
+  },
+  "i18n-ally.localesPaths": ["locale"]
 }

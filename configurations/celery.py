@@ -7,8 +7,12 @@ from django.conf import settings
 # Set default Django settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "configurations.settings")
 
-# Create celery app
-app = Celery(settings.CELERY_SERVICE_NAME)
+# Create celery app. task_cls makes every task — including the @shared_task ones
+# — inherit the maintenance gate in utils/celery.py.
+app = Celery(
+    settings.CELERY_SERVICE_NAME,
+    task_cls="utils.celery:MaintenanceAwareTask",
+)
 
 
 # Initialize telemetry

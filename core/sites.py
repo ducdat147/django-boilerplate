@@ -24,7 +24,11 @@ from rest_framework import status
 from rest_framework.exceptions import NotFound, ParseError, PermissionDenied
 from unfold.sites import UnfoldAdminSite
 
-from common.exceptions import DefaultException, exception_handler
+from common.exceptions import (
+    DefaultException,
+    ServiceUnavailableException,
+    exception_handler,
+)
 from core.user.forms import (
     AdminAuthenticationForm,
     PasswordResetForm,
@@ -45,17 +49,24 @@ MESSAGE_ERROR = {
     status.HTTP_500_INTERNAL_SERVER_ERROR: _(
         "The server encountered an internal error or misconfiguration and was unable to complete your request."
     ),
+    status.HTTP_503_SERVICE_UNAVAILABLE: _(
+        "The service is temporarily unavailable for maintenance. Please try again later."
+    ),
 }
 TITLE_ERROR = {
     status.HTTP_400_BAD_REQUEST: _("Bad request"),
     status.HTTP_403_FORBIDDEN: _("Permission denied"),
     status.HTTP_404_NOT_FOUND: _("Something's missing"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: _("Server error"),
+    status.HTTP_503_SERVICE_UNAVAILABLE: _("Under maintenance"),
 }
+# Exception *classes*, instantiated with the matching MESSAGE_ERROR entry so the
+# JSON branch of _render_handler returns the same localized text as the HTML one.
 EXCEPTION_CLASS = {
-    status.HTTP_400_BAD_REQUEST: ParseError(),
-    status.HTTP_403_FORBIDDEN: PermissionDenied(),
-    status.HTTP_404_NOT_FOUND: NotFound(),
+    status.HTTP_400_BAD_REQUEST: ParseError,
+    status.HTTP_403_FORBIDDEN: PermissionDenied,
+    status.HTTP_404_NOT_FOUND: NotFound,
+    status.HTTP_503_SERVICE_UNAVAILABLE: ServiceUnavailableException,
 }
 
 
@@ -268,20 +279,21 @@ class AdminSite(UnfoldAdminSite):
         ] + super().get_urls()
         return urlpatterns
 
-    def _render_handler(self, request, status_code, *args, **kwargs):
+    def _render_handler(self, request, status_code, *args, message=None, title=None, **kwargs):
         content_type = request.META.get("CONTENT_TYPE")
         path = request.META.get("PATH_INFO", "")
-        message = MESSAGE_ERROR.get(status_code, "")
+        message = message or MESSAGE_ERROR.get(status_code, "")
+        title = title or TITLE_ERROR.get(status_code, "")
         if content_type == "application/json" or path.startswith("/api/"):
-            exc = EXCEPTION_CLASS.get(status_code, DefaultException(message))
+            exc = EXCEPTION_CLASS.get(status_code, DefaultException)(message)
             return exception_handler(exc, None)
         context = self.each_context(request)
         context.update(
             {
-                "title": TITLE_ERROR.get(status_code, ""),
+                "title": title,
                 "content": {
-                    "title": TITLE_ERROR.get(status_code, ""),
-                    "message": MESSAGE_ERROR.get(status_code, ""),
+                    "title": title,
+                    "message": message,
                     "status_code": status_code,
                 },
                 "cta": {
@@ -320,6 +332,13 @@ class AdminSite(UnfoldAdminSite):
     def server_error(self, request, exception=None):
         status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return self._render_handler(request, status_code, exception)
+
+    @method_decorator(never_cache)
+    @login_not_required
+    def service_unavailable(self, request, message=None):
+        """Maintenance response. Rendered as JSON for API callers, HTML otherwise."""
+        status_code = status.HTTP_503_SERVICE_UNAVAILABLE
+        return self._render_handler(request, status_code, message=message)
 
     @method_decorator(never_cache)
     @login_not_required

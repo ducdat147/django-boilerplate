@@ -42,6 +42,22 @@ DEBUG = env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
+# Maintenance mode
+# Hard override that does not depend on Redis. When false, the Redis backed
+# constance.config.MAINTENANCE_MODE decides. See utils/maintenance.py.
+MAINTENANCE_MODE = env.bool("MAINTENANCE_MODE", default=False)
+# Clients that keep full access while maintenance mode is on. Operational
+# convenience only — the source IP is taken from proxy headers and is spoofable.
+MAINTENANCE_ALLOWED_IPS = env.list("MAINTENANCE_ALLOWED_IPS", default=[])
+# Path prefixes to take out of service on their own, e.g. "/api/v1/user/".
+# Empty means the whole site is the target area. Merged with the Constance value.
+MAINTENANCE_SCOPES = env.list("MAINTENANCE_SCOPES", default=[])
+# Downgrade the block to write methods only: reads keep working.
+MAINTENANCE_READ_ONLY = env.bool("MAINTENANCE_READ_ONLY", default=False)
+# Celery workers defer every task instead of running it. Independent of the
+# HTTP switches above, so background jobs can be paused on their own.
+MAINTENANCE_CELERY_PAUSED = env.bool("MAINTENANCE_CELERY_PAUSED", default=False)
+
 # CORS
 # https://pypi.org/project/django-cors-headers/
 CORS_ALLOW_ALL_ORIGINS = False
@@ -111,6 +127,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "configurations.middleware.TracingMiddleware",
+    # Innermost, so LocaleMiddleware has already picked the language and
+    # TracingMiddleware still stamps X-Trace-ID on the 503 responses.
+    "configurations.middleware.MaintenanceModeMiddleware",
 ]
 
 ROOT_URLCONF = "configurations.urls"

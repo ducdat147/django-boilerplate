@@ -1,0 +1,1 @@
+<!--# if expr="$error_code = 504" -->{"detail": "Máy chủ phản hồi quá lâu. Vui lòng thử lại sau ít phút.", "status_code": 504}<!--# elif expr="$error_code = 503" -->{"detail": "Dịch vụ tạm thời không khả dụng. Vui lòng thử lại sau ít phút.", "status_code": 503}<!--# else -->{"detail": "Máy chủ không phản hồi. Vui lòng thử lại sau ít phút.", "status_code": 502}<!--# endif -->

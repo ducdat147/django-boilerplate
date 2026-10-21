@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-12 09:33+0700\n"
+"POT-Creation-Date: 2026-10-21 13:25+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -113,6 +113,9 @@ msgstr ""
 msgid "A server error occurred."
 msgstr ""
 
+msgid "The service is temporarily unavailable for maintenance. Please try again later."
+msgstr ""
+
 msgid "English"
 msgstr ""
 
@@ -177,6 +180,24 @@ msgid "Primary colors"
 msgstr ""
 
 msgid "Font colors"
+msgstr ""
+
+msgid "Maintenance mode"
+msgstr ""
+
+msgid "Message shown while maintenance mode is on"
+msgstr ""
+
+msgid "Estimated end of maintenance (a past value means not scheduled)"
+msgstr ""
+
+msgid "Comma separated path prefixes under maintenance, e.g. /api/v1/user/. Empty means the whole site"
+msgstr ""
+
+msgid "Read-only mode: allow GET/HEAD/OPTIONS, block every write"
+msgstr ""
+
+msgid "Pause Celery: workers defer tasks instead of running them"
 msgstr ""
 
 msgid "Sticky header"
@@ -257,6 +278,9 @@ msgstr ""
 msgid "Server error"
 msgstr ""
 
+msgid "Under maintenance"
+msgstr ""
+
 msgid "Change password"
 msgstr ""
 
@@ -326,6 +350,9 @@ msgstr ""
 msgid "Permissions"
 msgstr ""
 
+msgid "Expired"
+msgstr ""
+
 msgid "Male"
 msgstr ""
 
@@ -357,9 +384,6 @@ msgid "Verify OTP"
 msgstr ""
 
 msgid "Verified"
-msgstr ""
-
-msgid "Expired"
 msgstr ""
 
 msgid "Invalid"
@@ -632,15 +656,6 @@ msgstr "Your password has been set. You may go ahead and log in now."
 msgid "Log in"
 msgstr ""
 
-msgid "Forgotten password"
-msgstr ""
-
-msgid "Forgotten your password?"
-msgstr ""
-
-msgid "Enter your email address below, and we’ll email instructions for setting a new one."
-msgstr ""
-
 msgid "Set new password"
 msgstr ""
 
@@ -648,6 +663,9 @@ msgid "Please enter your new password twice so we can verify you typed it in cor
 msgstr ""
 
 msgid "Change my password"
+msgstr ""
+
+msgid "Forgotten password"
 msgstr ""
 
 msgid "The password reset link was invalid, possibly because it has already been used. Please request a new password reset."
@@ -678,6 +696,12 @@ msgid "Your username, in case you’ve forgotten:"
 msgstr "Your username, in case you've forgotten:"
 
 msgid "Thanks for using our site!"
+msgstr ""
+
+msgid "Forgotten your password?"
+msgstr ""
+
+msgid "Enter your email address below, and we’ll email instructions for setting a new one."
 msgstr ""
 
 #, python-format
@@ -750,4 +774,19 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Context hint"
+msgstr ""
+
+msgid "The service is temporarily read-only for maintenance. Please try again later."
+msgstr ""
+
+msgid "Maintenance"
+msgstr ""
+
+msgid "Partial maintenance"
+msgstr ""
+
+msgid "Read-only"
+msgstr ""
+
+msgid "Celery paused"
 msgstr ""
